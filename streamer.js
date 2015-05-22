@@ -5,11 +5,15 @@ var ready = false;
 var boundURL = "not ready";
 var ID;
 function startStreamer(url, torrentID) {
-	ID = torrentID
+	ID = torrentID;
+	var streamBuffer = 10 * 1024 * 1024;
+	if (url.indexOf("youtube") >= 0){
+		streamBuffer = 100;
+	}
 	torrent = new Streamer(url, 
 	{
 		progressInterval: 200,
-		buffer: 10 * 1024 * 1024,
+		buffer: streamBuffer,
 		port: 9999,
 		writeDir: '',
 		index: torrentID + '.mp4'

@@ -20,6 +20,29 @@ function generatePlayXML(url, title, desc, image) {
 }
 
 function generateMoviesHomeXML(){
+	console.log(xml(
+	[{atv: 
+		[{body: 
+			[{listWithPreview: 
+				[{ _attr: 
+					{ id: 'Library_List'}
+				}, {header: [
+					{simpleHeader: [{title: 'Movies Library'}]}
+				]}, {menu: [{
+					sections: [{
+						menuSection: [{
+							items: [
+							{oneLineMenuItem: [{ _attr: {id: 'main'}},
+								{label: 'Popular Movies'}
+								]}
+							]
+						}]
+					}]
+				}]
+				}]
+			}]
+		}]
+	}], { declaration: { encoding: 'UTF-8'}}));
 	return xml(
 	[{atv: 
 		[{body: 
@@ -45,7 +68,7 @@ function generateMoviesHomeXML(){
 	}], { declaration: { encoding: 'UTF-8'}});
 }
 
-function generatePopularMoviesXML(callback){
+function generateMoviesXML(title, sort_by, callback){
 	var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
     xw.startDocument(version='1.0', encoding='UTF-8');
@@ -54,7 +77,7 @@ function generatePopularMoviesXML(callback){
     		.startElement('scroller').writeAttribute('id', 'com.sample.movie-grid')
     			.startElement('header')
     				.startElement('simpleHeader')
-    					.writeElement('title', 'Popular Movies')
+    					.writeElement('title', title)
     				.endElement()
     			.endElement()
     			.startElement('items')
@@ -62,7 +85,7 @@ function generatePopularMoviesXML(callback){
     					.writeAttribute('columnCount', '7').writeAttribute('id', 'grid_0')
     						.startElement('items');
     var API = require('./MoviesAPI');
-    var movies = API.getMovies("seeds", "50", function(movies){
+    var movies = API.getMovies(sort_by, "50", function(movies){
     	//console.log(movies);
     	for(var i = 0; i <= movies.length-1; i++)
 		{
@@ -85,6 +108,45 @@ function generatePopularMoviesXML(callback){
     });
 }
 
+function generateSearchResults(query, callback){
+	var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+    xw.startDocument(version='1.0', encoding='UTF-8');
+    xw.startElement('atv')
+    	.startElement('body')
+    		.startElement('searchResults').writeAttribute('id', 'searchResults')
+    			.startElement('menu')
+    				.startElement('sections')
+    					.startElement('menuSection')
+    						.startElement('header')
+    							.startElement('horizontalDivider')
+    							.writeAttribute('alignment', 'left')
+    							.writeElement('title', 'Movies')
+    							.endElement()
+    						.endElement()
+    						.startElement('items')
+    var API = require('./MoviesAPI');
+    var movies = API.searchMovies(query, function(movies){
+    	//console.log(movies);
+    	for(var i = 0; i <= movies.length-1; i++)
+		{
+			var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
+	  		xw.startElement('twoLineEnhancedMenuItem')
+	  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
+	  			.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  		.writeElement('label', movies[i].title)
+	  		.writeElement('image', movies[i].small_cover_image)
+	  		.writeElement('defaultImage', 'resource://Poster.png')
+	  		.endElement();
+		}
+    	xw.endDocument();
+
+    	//console.log(xw.toString());
+    	callback(xw.toString());
+    });
+}
+
 function generateMoviePrePlayXML(torrentID, callback){
 	var API = require('./MoviesAPI');
     var movies = API.getMovie(torrentID, function(movie){
@@ -97,7 +159,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  				.writeElement('title', movie.title)
 	  				.writeElement('subtitle', movie.year)
 	  				.writeElement('rating', movie.mpa_rating)
-	  				.writeElement('summary', movie.description_intro)
+	  				.writeElement('summary', movie.description_full)
 	  				.startElement('image')
 	  				.writeAttribute('style', 'moviePoster')
 	  				.text(movie.images.large_cover_image)
@@ -120,7 +182,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  							.endElement()
 	  							.startElement('actionButton')
 	  								.writeAttribute('id', 'trailer')
-	  								.writeAttribute('onSelect', 'atv.loadURL("http://trailers.apple.com/Movies/MoviePlay.xml?torrent=' + movie.torrents[0].url + "&id=" + torrentID + '")')
+	  								.writeAttribute('onSelect', 'atv.loadURL("http://trailers.apple.com/Movies/MoviePlay.xml?torrent=https://www.youtube.com/watch?v=' + movie.yt_trailer_code + "&id=" + torrentID + 'yt")')
 	  								.writeElement('title', 'Trailer')
 	  								.writeElement('image', 'resource://Preview.png')
 	  								.writeElement('focusedImage', 'resource://PreviewFocused.png')
@@ -138,5 +200,6 @@ function generateMoviePrePlayXML(torrentID, callback){
 
 exports.generatePlayXML = generatePlayXML;
 exports.generateMoviesHomeXML = generateMoviesHomeXML;
-exports.generatePopularMoviesXML = generatePopularMoviesXML;
+exports.generateMoviesXML = generateMoviesXML;
 exports.generateMoviePrePlayXML = generateMoviePrePlayXML;
+exports.generateSearchResults = generateSearchResults;

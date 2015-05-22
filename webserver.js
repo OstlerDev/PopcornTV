@@ -69,7 +69,7 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("MoviesGrid.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
-			xml.generatePopularMoviesXML(function(xmlstring){
+			xml.generateMoviesXML(query.title, query.sort_by, function(xmlstring){
 				response.write(xmlstring);
 				response.end();
 			})
@@ -83,6 +83,14 @@ function startWebServer(localIp) {
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			xml.generateMoviePrePlayXML(query.torrentID, function(xmlstring){
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
+		} else if(pathname.indexOf("results.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			xml.generateSearchResults(query.query, function(xmlstring){
 				response.write(xmlstring);
 				response.end();
 			})

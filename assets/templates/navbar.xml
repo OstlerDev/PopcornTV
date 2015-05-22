@@ -16,7 +16,7 @@
         </navigationItem>
         <navigationItem id="Search">
           <title>Search</title>
-          <url>http://trailers.apple.com/search.xml</url>
+          <url>http://trailers.apple.com/Search/search.xml</url>
         </navigationItem>
         <navigationItem id="Settings">
           <title>Settings</title>

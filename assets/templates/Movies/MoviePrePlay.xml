@@ -2,122 +2,33 @@
 <atv>
   <body>
     <itemDetail id="com.apple.trailers">
-		<title>Big Hero 6 (1080p)</title>
-		<subtitle>Walt Disney Pictures</subtitle>
-		<rating>PG</rating>
-		<summary>From Walt Disney Animation Studios, the team behind "Frozen" and "Wreck-It Ralph," comes "Big Hero 6," an action-packed comedy-adventure about the special bond that develops between Baymax, a plus-sized inflatable robot, and prodigy Hiro Hamada. When a devastating event befalls the city of San Fransokyo and catapults Hiro into the midst of danger, he turns to Baymax and his close friends adrenaline junkie Go Go Tomago, neatnik Wasabi, chemistry whiz Honey Lemon and fanboy Fred. Determined to uncover the mystery, Hiro transforms his friends into a band of high-tech heroes called "Big Hero 6."</summary>
-		<image style="moviePoster">https://s.ynet.io/assets/images/movies/big_hero_6_2014/large-cover.jpg</image>
-		<defaultImage>resource://Poster.png</defaultImage>
-      
-		<table>
-			<columnDefinitions>
-				<columnDefinition width="25" alignment="left">
-					<title>Details</title>
-				</columnDefinition>
-				<columnDefinition width="25" alignment="left">
-					<title>Actors</title>
-				</columnDefinition>
-				<columnDefinition width="25" alignment="left">
-					<title>Director</title>
-				</columnDefinition>
-			</columnDefinitions>
-			<rows>
-				<row>
-					<label>Animation / Action</label>
-					<label>Garrett Hedlund</label>
-					<label>Don Hall</label>
-				</row>
-				<row>
-					<label>1080p HD</label>
-					<label>Jeff Bridges</label>
-					<label />
-				</row>
-				<row>
-					<label />
-					<label>Olivia Wilde</label>
-					<label />
-				</row>
-				<row>
-					<label />
-					<label>Bruce Boxleitner</label>
-					<label />
-				</row>
-    
-			</rows>
-		</table>
-		
-		<centerShelf>
+      <title>Big Hero 6</title>
+      <subtitle>2014</subtitle>
+      <rating>PG</rating>
+      <summary>The special bond that develops between plus-sized inflatable robot Baymax, and prodigy Hiro Hamada, who team up with a group of friends to form a band of high-tech heroes.</summary>
+      <image style="moviePoster">https://s.ynet.io/assets/images/movies/big_hero_6_2014/medium-cover.jpg</image>
+      <defaultImage>resource://Poster.png</defaultImage>
+      <centerShelf>
         <shelf id="centerShelf" columnCount="4" center="true">
-			<sections>
-				<shelfSection>
-					<items>
-						<actionButton id="play" onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
-							<title>Play</title>
-							<image>resource://Play.png</image>
-							<focusedImage>resource://PlayFocused.png</focusedImage>
-							<badge>HD</badge>
-						</actionButton>
-					</items>
-				</shelfSection>
-			</sections>
-		</shelf>
-		
-		</centerShelf><divider>
-		
-		<smallCollectionDivider alignment="left">
-			<title>Actors</title>
-		</smallCollectionDivider>
-		
-		</divider>
-			<bottomShelf>
-				<shelf id="bottomShelf" columnCount="7">
-					<sections>
-						<shelfSection>
-							<items>
-								<moviePoster id="shelf_item_1"
-									 accessibilityLabel="actor1"
-									 related="true"
-									 onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
-									 onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
-									<title>Garrett Hedlund</title>
-									<image>http://trailers.apple.com/Movies/Actors/actor1.jpg</image>
-									<defaultImage>resource://Poster.png</defaultImage>
-								</moviePoster>
-
-								<moviePoster id="shelf_item_1"
-									 accessibilityLabel="actor2"
-									 related="true"
-									 onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
-									 onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
-									 <title>Jeff Bridges</title>
-									<image>http://trailers.apple.com/Movies/Actors/actor2.jpg</image>
-									<defaultImage>resource://Poster.png</defaultImage>
-								</moviePoster>
-		
-								<moviePoster id="shelf_item_1"
-									 accessibilityLabel="actor3"
-									 related="true"
-									 onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
-									 onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
-									<title>Olivia Wilde</title>
-									<image>http://trailers.apple.com/Movies/Actors/actor3.jpg</image>
-									<defaultImage>resource://Poster.png</defaultImage>
-								</moviePoster>
-
-								<moviePoster id="shelf_item_1"
-									 accessibilityLabel="actor4"
-									 related="true"
-									 onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
-									 onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
-									<title>Bruce Boxleitner</title>
-									<image>http://trailers.apple.com/Movies/Actors/actor4.jpg</image>
-									<defaultImage>resource://Poster.png</defaultImage>
-								</moviePoster>
-							</items>
-						</shelfSection>
-					</sections>
-				</shelf>
-			</bottomShelf>
-		</itemDetail>
-	</body>
+          <sections>
+            <shelfSection>
+              <items>
+                <actionButton id="play" onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+                  <title>Play</title>
+                  <image>resource://Play.png</image>
+                  <focusedImage>resource://PlayFocused.png</focusedImage>
+                  <badge>HD</badge>
+                </actionButton>
+                <actionButton id="trailer" onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+                  <title>Trailer</title>
+                  <image>resource://Preview.png</image>
+                  <focusedImage>resource://PreviewFocused.png</focusedImage>
+                </actionButton>
+              </items>
+            </shelfSection>
+          </sections>
+        </shelf>
+      </centerShelf>
+    </itemDetail>
+  </body>
 </atv>

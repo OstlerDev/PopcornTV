@@ -11,7 +11,7 @@
         <sections>
           <menuSection>
             <items>
-              <oneLineMenuItem id="popular" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml');">
+              <oneLineMenuItem id="popular" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Popular%20Movies&amp;sort_by=seeds');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Popular%20Movies&amp;sort_by=seeds');">
                 <label>Popular Movies</label>
                 <preview>
                   <link>https://s.ynet.io/assets/images/movies/The_Lego_Movie_2014/large-cover.jpg</link>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atv>
+  <body>
+    <searchResults id="searchResults">
+      <menu>
+        <sections>
+
+        <menuSection>
+            <header>
+              <horizontalDivider alignment="left">
+                <title>Movies</title>
+              </horizontalDivider>
+            </header>
+            <items>
+              <twoLineEnhancedMenuItem id="123"
+                             onPlay="atv.loadURL('')"
+                             onSelect="atv.loadURL('')">
+                <label>American Sniper</label>
+                <image>https://s.ynet.io/assets/images/movies/american_sniper_2014/medium-cover.jpg</image>
+                <defaultImage>resource://Poster.png</defaultImage>
+              </twoLineEnhancedMenuItem>
+              <twoLineEnhancedMenuItem id="123"
+                             onPlay="atv.loadURL('')"
+                             onSelect="atv.loadURL('')">
+                <label>American Sniper</label>
+                <image>https://s.ynet.io/assets/images/movies/american_sniper_2014/medium-cover.jpg</image>
+                <defaultImage>resource://Poster.png</defaultImage>
+              </twoLineEnhancedMenuItem>
+              <twoLineEnhancedMenuItem id="123"
+                             onPlay="atv.loadURL('')"
+                             onSelect="atv.loadURL('')">
+                <label>American Sniper</label>
+                <image>https://s.ynet.io/assets/images/movies/american_sniper_2014/medium-cover.jpg</image>
+                <defaultImage>resource://Poster.png</defaultImage>
+              </twoLineEnhancedMenuItem>
+            </items>
+          </menuSection>
+
+          <menuSection>
+            <header>
+              <horizontalDivider alignment="left">
+                <title>TV Shows</title>
+              </horizontalDivider>
+            </header>
+            <items>
+              <twoLineEnhancedMenuItem id="123"
+                             onPlay="atv.loadURL('')"
+                             onSelect="atv.loadURL('')">
+                <label>American Sniper</label>
+                <image>https://s.ynet.io/assets/images/movies/american_sniper_2014/medium-cover.jpg</image>
+                <defaultImage>resource://Poster.png</defaultImage>
+              </twoLineEnhancedMenuItem>
+              <twoLineEnhancedMenuItem id="123"
+                             onPlay="atv.loadURL('')"
+                             onSelect="atv.loadURL('')">
+                <label>American Sniper</label>
+                <image>https://s.ynet.io/assets/images/movies/american_sniper_2014/medium-cover.jpg</image>
+                <defaultImage>resource://Poster.png</defaultImage>
+              </twoLineEnhancedMenuItem>
+              <twoLineEnhancedMenuItem id="123"
+                             onPlay="atv.loadURL('')"
+                             onSelect="atv.loadURL('')">
+                <label>American Sniper</label>
+                <image>https://s.ynet.io/assets/images/movies/american_sniper_2014/medium-cover.jpg</image>
+                <defaultImage>resource://Poster.png</defaultImage>
+              </twoLineEnhancedMenuItem>
+            </items>
+          </menuSection>
+
+        </sections>
+      </menu>
+    </searchResults>
+  </body>
+</atv>
