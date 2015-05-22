@@ -42,8 +42,19 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("MoviePlay.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
-			response.write(xml.generatePlayXML("http://skylarostler.com/50th-final.mp4", "Tron Legacy", "Sam Flynn and poops", "http://trailers.apple.com/Movies/TronLegacy.jpg"));
-			response.end();
+			var torrent = require('./streamer');
+			torrent.startStreamer('https://yts.to/torrent/download/17BC0989C415736BD5748A276233E56BB37C30AF.torrent');
+			console.log('waiting on streamer to be ready');
+			torrent.getStreamer().on('ready', function (data) {
+				response.write(xml.generatePlayXML(torrent.getURL(), "Tron Legacy", "Sam Flynn and poops", "http://trailers.apple.com/Movies/TronLegacy.jpg"));
+				response.end();
+			});
+			torrent.getStreamer().on('close', function () {
+				console.log('Streaming Closed');
+			});
+			torrent.getStreamer().on('progress', function (progress) {
+				console.log(progress);
+			});
 			staticFile = false;
 		} else if(pathname.indexOf(".xml") >= 0){
 			pathname = "templates" + pathname;

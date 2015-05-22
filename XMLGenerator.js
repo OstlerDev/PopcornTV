@@ -1,6 +1,3 @@
-const DOMAIN_ATV = "trailers.apple.com";
-const IP_DNS     = "8.8.8.8"; // *********** Googles Default DNS ***********
-
 function generatePlayXML(url, title, desc, image) {
 	var xml = require('xml');
 	return xml(
