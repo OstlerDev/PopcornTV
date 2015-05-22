@@ -1,0 +1,13 @@
+<html>
+  <body>
+<pre><code>My name is Marvin, not that you would care.
+
+You've reached {{host}} on port {{port}}. Meh... Congratulations, I guess."</code></pre>
+    <script>
+      document.body.innerHTML = document.body.innerHTML
+        .replace(/{{(\s+)?host(\s+)?}}/, location.hostname)
+        .replace(/{{(\s+)?port(\s+)?}}/, location.host.replace(/.*:/, ''))
+        ;
+    </script>
+  </body>
+</html>

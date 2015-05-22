@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atv>
+	<body>
+		<listWithPreview id="com.sample.menu-items-with-sections">
+			<header>
+				<simpleHeader>
+					<title>The Big Bang Theory</title>
+					<subtitle>Season 1</subtitle>
+				</simpleHeader>
+			</header>
+		
+			<menu>
+				<sections>
+				<menuSection>
+					<items>
+						<twoLineEnhancedMenuItem id="list_1" 
+						onSelect="atv.loadURL('http://trailers.apple.com/TVShows/episodePlay.xml');" 
+						onPlay="atv.loadURL('http://trailers.apple.com/TVShows/episodePlay.xml');">
+							<label>Pilot</label>
+							<rightLabel>HD</rightLabel>
+							<ordinal>1</ordinal>
+							<maxOrdinalDigits>2</maxOrdinalDigits>
+							<image>http://trailers.apple.com/TVShows/s01e01.jpg</image>
+							<defaultImage>resource://16x9.png</defaultImage>
+							<preview>
+								<keyedPreview>
+									<title>Pilot</title>
+									<summary>Brilliant physicist roommates Leonard and Sheldon meet their new neighbor Penny, who begins showing them that as much as they know about science, they know little about actual living.</summary>
+									<image>http://trailers.apple.com/TVShows/s01e01.jpg</image>
+									<metadataKeys>
+										<label>Resolution</label>
+									</metadataKeys>
+									<metadataValues>
+										<label>1080p</label>
+									</metadataValues>
+								</keyedPreview>
+							</preview>
+						</twoLineEnhancedMenuItem>
+
+						<twoLineEnhancedMenuItem id="list_1" 
+						onSelect="atv.loadURL('http://trailers.apple.com/TVShows/episodePlay.xml');" 
+						onPlay="atv.loadURL('http://trailers.apple.com/TVShows/episodePlay.xml');">
+							<label>The Big Bran Hypothesis</label>
+							<rightLabel>HD</rightLabel>
+							<ordinal>2</ordinal>
+							<maxOrdinalDigits>2</maxOrdinalDigits>
+							<image>http://trailers.apple.com/TVShows/s01e02.jpg</image>
+							<defaultImage>resource://16x9.png</defaultImage>
+							<preview>
+								<keyedPreview>
+									<title>The Big Bran Hypothesis</title>
+									<summary>Leonard volunteers to sign for a package in an attempt to make a good impression on Penny, but when he enlists Sheldon for help, his attempt at chivalry goes terribly awry.</summary>
+									<image>http://trailers.apple.com/TVShows/s01e02.jpg</image>
+									<metadataKeys>
+										<label>Resolution</label>
+									</metadataKeys>
+									<metadataValues>
+										<label>1080p</label>
+									</metadataValues>
+								</keyedPreview>
+							</preview>
+						</twoLineEnhancedMenuItem>						
+						
+						<twoLineEnhancedMenuItem id="list_1" 
+						onSelect="atv.loadURL('http://trailers.apple.com/TVShows/episodePlay.xml');" 
+						onPlay="atv.loadURL('http://trailers.apple.com/TVShows/episodePlay.xml');">
+							<label>The Fuzzy Boots Corollary</label>
+							<rightLabel>HD</rightLabel>
+							<ordinal>3</ordinal>
+							<maxOrdinalDigits>2</maxOrdinalDigits>
+							<image>http://trailers.apple.com/TVShows/s01e03.jpg</image>
+							<defaultImage>resource://16x9.png</defaultImage>
+							<preview>
+								<keyedPreview>
+									<title>The Fuzzy Boots Corollary</title>
+									<summary>Leonard asks a woman out after he finds out that Penny is seeing someone.</summary>
+									<image>http://trailers.apple.com/TVShows/s01e03.jpg</image>
+									<metadataKeys>
+										<label>Resolution</label>
+									</metadataKeys>
+									<metadataValues>
+										<label>1080p</label>
+									</metadataValues>
+								</keyedPreview>
+							</preview>
+						</twoLineEnhancedMenuItem>		
+					</items>
+				</menuSection>
+				</sections>
+			</menu>
+		</listWithPreview>
+	</body>
+</atv>

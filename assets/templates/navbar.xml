@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atv>
+  <head>
+    <script src="utils.js"/>
+  </head>
+  <body>
+    <viewWithNavigationBar id="nav">
+      <navigation currentIndex="0">
+        <navigationItem id="Movies">
+          <title>Movies</title>
+          <url>http://trailers.apple.com/Movies.xml</url>
+        </navigationItem>
+        <navigationItem id="TVShows">
+          <title>TV Shows</title>
+          <url>http://trailers.apple.com/tvshows.xml</url>
+        </navigationItem>
+        <navigationItem id="Search">
+          <title>Search</title>
+          <url>http://trailers.apple.com/search.xml</url>
+        </navigationItem>
+        <navigationItem id="Settings">
+          <title>Settings</title>
+          <url>http://trailers.apple.com/settings.xml</url>
+        </navigationItem>
+      </navigation>
+    </viewWithNavigationBar>
+  </body>
+</atv>

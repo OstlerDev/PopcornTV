@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<atv>	  
+	<body>	    
+		<listScrollerSplit id="com.sample.list-scroller-split">	      
+			<header>	        
+				<simpleHeader>	          
+					<title>Movies by Genre</title>	        
+				</simpleHeader>	      
+			</header>	      
+			
+			<menu>	        
+				<sections>	          
+					<menuSection>	            
+						<header>	              
+							<textDivider alignment="center">	                
+								<title>Genres</title>	              
+							</textDivider>	            
+						</header>	            
+						
+						<items>	              
+							<oneLineMenuItem id="list_1">	                
+								<label>Action</label>	                
+								<preview>
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml</link>
+								</preview>
+							</oneLineMenuItem>	              
+							<oneLineMenuItem id="list_2">	                
+								<label>Romance</label>	                
+								<preview>	                  
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml</link>	               
+								</preview>	              
+							</oneLineMenuItem>	              
+							<oneLineMenuItem id="list_3">	                
+								<label>Science Fiction</label>	                
+								<preview>	                  
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml</link>	                
+								</preview>	              
+							</oneLineMenuItem>	              
+						</items>	          
+					</menuSection>	        
+				</sections>	      
+			</menu>	    
+		</listScrollerSplit>	  
+	</body>	
+</atv>

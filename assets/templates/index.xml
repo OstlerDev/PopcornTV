@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atv>	  
+	<body>	
+		<scroller id="com.sample.movie-shelf">	      
+			<items>
+				<shelf id="shelf_1" columnCount="2">	 
+					<sections>
+						<shelfSection>	      
+							<items>
+								<moviePoster id="shelf_item_1"
+								accessibilityLabel="Movies"
+								featured="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies.xml');">
+									<image>http://trailers.apple.com/Movies.jpg</image>
+									<defaultImage>resource://16X9.png</defaultImage>
+								</moviePoster>
+
+								<moviePoster id="shelf_item_2"
+								accessibilityLabel="TVShows"
+								featured="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/TVShows.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/TVShows.xml');">
+									<image>http://trailers.apple.com/TVShows.jpg</image>
+									<defaultImage>resource://16X9.png</defaultImage>
+								</moviePoster>
+								
+							</items>	    
+						</shelfSection>	  
+					</sections>
+				</shelf>
+
+			</items>	    
+		</scroller>	 
+	</body>	
+</atv>

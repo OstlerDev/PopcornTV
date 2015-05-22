@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atv>	  
+	<body>	
+		<scroller id="com.sample.movie-shelf">	
+			<header>	        
+				<simpleHeader>	          
+					<title>Movies A-Z</title>	        
+				</simpleHeader>	      
+			</header>	 
+			
+			<items>
+				
+				<collectionDivider alignment="left" accessibilityLabel="A">
+					<title>A</title>
+				</collectionDivider>
+
+				<shelf id="shelf_2" columnCount="7">
+					<sections>
+						<shelfSection>
+							<items>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>								
+							</items>
+						</shelfSection>
+					</sections>
+				</shelf>
+
+				<collectionDivider alignment="left" accessibilityLabel="B">
+					<title>B</title>
+				</collectionDivider>
+
+				<shelf id="shelf_2" columnCount="7">
+					<sections>
+						<shelfSection>
+							<items>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>
+								<moviePoster id="shelf_item_2-1"
+								accessibilityLabel="TronLegacy"
+								related="true"
+								onSelect="atv.loadURL('http://trailers.apple.com/Movies/MoviePrePlay.xml');"
+								onPlay="atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml');">
+									<title>Tron: Legacy</title>
+									<subtitle>2010</subtitle>
+									<image>http://trailers.apple.com/Movies/TronLegacy.jpg</image>
+									<defaultImage>resource://Poster.png</defaultImage>
+								</moviePoster>								
+							</items>
+						</shelfSection>
+					</sections>
+				</shelf>
+
+			</items>	    
+		</scroller>	 
+	</body>	
+</atv>

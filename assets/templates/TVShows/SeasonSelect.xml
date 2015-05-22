@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atv>
+	<body>
+		<listWithPreview id="com.sample.menu-items-with-sections">
+			<header>
+				<simpleHeader>
+					<title>The Big Bang Theory</title>
+				</simpleHeader>
+			</header>
+			<preview>
+			<crossFadePreview> 
+				<image>http://trailers.apple.com/trailers/independent/thehost/images/poster-xlarge.jpg</image>
+			</crossFadePreview> 
+		</preview>
+			<menu>
+				<sections>
+					<menuSection>
+						<items>
+							<oneLineMenuItem id="list_4" onSelect="atv.loadURL('http://trailers.apple.com/TVShows/season1episodes.xml');">
+								<label>Season 1</label>
+	                            <preview>
+									<crossFadePreview>
+										<image>http://trailers.apple.com/TVShows/season1.jpg</image>
+									</crossFadePreview>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_4" onSelect="atv.loadURL('http://trailers.apple.com/TVShows/season1episodes.xml');">
+								<label>Season 2</label>
+	                            <preview>
+									<crossFadePreview>
+										<image>http://trailers.apple.com/TVShows/season2.jpg</image>
+									</crossFadePreview>
+								</preview>
+							</oneLineMenuItem>
+						</items>
+					</menuSection>
+				</sections>
+			</menu>
+		</listWithPreview>
+	</body>
+</atv>

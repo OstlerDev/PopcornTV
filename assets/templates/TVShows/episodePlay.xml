@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atv>
+  <body>
+    <videoPlayer id="com.sample.video-player">
+		<httpFileVideoAsset id="TronLegacy">
+			<mediaURL>http://trailers.apple.com/test.m4v</mediaURL>
+			<title>The Big Bang Theory</title>
+			<description>Episode description goes here.</description>
+			<image>http://trailers.apple.com/TVShows/BigBang.jpg</image>
+		</httpFileVideoAsset>
+	</videoPlayer>
+  </body>
+</atv>
