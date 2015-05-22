@@ -31,10 +31,13 @@ function startWebServer(localIp) {
 	var http   = require("http");
 	var path   = require("path");
 	var fs     = require("fs");
+	var querystring = require("querystring");
 
 	var mime   = require("./mime").types;
 	var server = http.createServer(function(request, response) {
 		var pathname = url.parse(request.url).pathname;
+		var query = querystring.parse(url.parse(request.url).query);
+		console.log(query);
 		console.log(request.url);
 		var staticFile = true;
 		if (pathname.charAt(pathname.length - 1) == "/") {
@@ -43,7 +46,7 @@ function startWebServer(localIp) {
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			var torrent = require('./streamer');
-			torrent.startStreamer('https://yts.to/torrent/download/17BC0989C415736BD5748A276233E56BB37C30AF.torrent');
+			torrent.startStreamer(query.torrent);
 			console.log('waiting on streamer to be ready');
 			torrent.getStreamer().on('ready', function (data) {
 				response.write(xml.generatePlayXML(torrent.getURL(), "Tron Legacy", "Sam Flynn and poops", "http://trailers.apple.com/Movies/TronLegacy.jpg"));
@@ -60,6 +63,14 @@ function startWebServer(localIp) {
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			xml.generatePopularMoviesXML(function(xmlstring){
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
+		} else if(pathname.indexOf("MoviePrePlay.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			xml.generateMoviePrePlayXML(query.torrentID, function(xmlstring){
 				response.write(xmlstring);
 				response.end();
 			})
