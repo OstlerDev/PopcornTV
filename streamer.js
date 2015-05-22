@@ -3,14 +3,16 @@ var Streamer = require('popcorn-streamer-server');
 var torrent;
 var ready = false;
 var boundURL = "not ready";
-function startStreamer(url) {
+var ID;
+function startStreamer(url, torrentID) {
+	ID = torrentID
 	torrent = new Streamer(url, 
 	{
 		progressInterval: 200,
 		buffer: 10 * 1024 * 1024,
 		port: 9999,
 		writeDir: '',
-		index: 'video.mp4'
+		index: torrentID + '.mp4'
 	});
 	console.log('Starting downloader');
 	torrent.on('ready', function (data) {
@@ -35,7 +37,7 @@ function isReady(){
 }
 
 function getURL(){
-	return "http://10.0.1.2:9999/video.mp4";
+	return "http://10.0.1.2:9999/" + ID + ".mp4";
 }
 
 function getStreamer(){

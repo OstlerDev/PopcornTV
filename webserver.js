@@ -32,6 +32,8 @@ function startWebServer(localIp) {
 	var path   = require("path");
 	var fs     = require("fs");
 	var querystring = require("querystring");
+	var torrent = require('./streamer');
+	var PreviousID = "0";
 
 	var mime   = require("./mime").types;
 	var server = http.createServer(function(request, response) {
@@ -45,8 +47,13 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("MoviePlay.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
-			var torrent = require('./streamer');
-			torrent.startStreamer(query.torrent);
+			if (PreviousID == query.id){
+				response.write(xml.generatePlayXML(torrent.getURL(), "Tron Legacy", "Sam Flynn and poops", "http://trailers.apple.com/Movies/TronLegacy.jpg"));
+				response.end();
+			} else {
+				PreviousID = query.id;
+				torrent.startStreamer(query.torrent, query.id);
+			}
 			console.log('waiting on streamer to be ready');
 			torrent.getStreamer().on('ready', function (data) {
 				response.write(xml.generatePlayXML(torrent.getURL(), "Tron Legacy", "Sam Flynn and poops", "http://trailers.apple.com/Movies/TronLegacy.jpg"));
@@ -68,6 +75,11 @@ function startWebServer(localIp) {
 			})
 			staticFile = false;
 		} else if(pathname.indexOf("MoviePrePlay.xml") >= 0){
+			try{
+				torrent.getStreamer().close();
+			} catch(e) {
+				console.log('No Stream Running');
+			}
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			xml.generateMoviePrePlayXML(query.torrentID, function(xmlstring){
