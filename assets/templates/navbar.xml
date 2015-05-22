@@ -8,7 +8,7 @@
       <navigation currentIndex="0">
         <navigationItem id="Movies">
           <title>Movies</title>
-          <url>http://trailers.apple.com/Movies.xml</url>
+          <url>http://trailers.apple.com/MoviesIndex.xml</url>
         </navigationItem>
         <navigationItem id="TVShows">
           <title>TV Shows</title>

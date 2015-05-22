@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atv>
+  <body>
+    <listWithPreview id="Library_List">
+      <header>
+        <simpleHeader>
+          <title>Movie Libraries</title>
+        </simpleHeader>
+      </header>
+      <menu>
+        <sections>
+          <menuSection>
+            <items>
+              <oneLineMenuItem id="popular" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml');">
+                <label>Popular Movies</label>
+                <preview>
+                  <link>https://s.ynet.io/assets/images/movies/The_Lego_Movie_2014/large-cover.jpg</link>
+                </preview>
+              </oneLineMenuItem>
+            </items>
+          </menuSection>
+        </sections>
+      </menu>
+    </listWithPreview>
+  </body>
+</atv>

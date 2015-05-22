@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atv>
+  <body>
+    <scroller id="com.sample.movie-grid">
+      <header>
+        <simpleHeader>
+          <title>Popular Movies</title>
+        </simpleHeader>
+      </header>
+      <items>
+        <grid columnCount="7" id="grid_0">
+          <items>
+            <moviePoster id="LegoMovie" alwaysShowTitles="true" onPlay="atv.loadURL('')" onSelect="atv.loadURL('')">
+              <title>The Lego Movie</title>
+              <subtitle>2014</subtitle>
+              <image>https://s.ynet.io/assets/images/movies/The_Lego_Movie_2014/large-cover.jpg</image>
+              <defaultImage>resource://Poster.png</defaultImage>
+            </moviePoster>
+          </items>
+        </grid>
+      </items>
+    </scroller>
+  </body>
+</atv>
