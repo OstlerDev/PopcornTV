@@ -53,14 +53,16 @@ function startWebServer(localIp) {
 				console.log('Streaming Closed');
 			});
 			torrent.getStreamer().on('progress', function (progress) {
-				console.log(progress);
+				//console.log(progress);
 			});
 			staticFile = false;
 		} else if(pathname.indexOf("MoviesGrid.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
-			response.write(xml.generatePopularMoviesXML());
-			response.end();
+			xml.generatePopularMoviesXML(function(xmlstring){
+				response.write(xmlstring);
+				response.end();
+			})
 			staticFile = false;
 		} else if(pathname.indexOf(".xml") >= 0){
 			pathname = "templates" + pathname;
