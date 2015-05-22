@@ -56,7 +56,7 @@ function startWebServer(localIp) {
 			}
 			console.log('waiting on streamer to be ready');
 			torrent.getStreamer().on('ready', function (data) {
-				response.write(xml.generatePlayXML(torrent.getURL(), "Tron Legacy", "Sam Flynn and poops", "http://trailers.apple.com/Movies/TronLegacy.jpg"));
+				response.write(xml.generatePlayXML(torrent.getURL(), query.title, query.desc, query.poster));
 				response.end();
 			});
 			torrent.getStreamer().on('close', function () {

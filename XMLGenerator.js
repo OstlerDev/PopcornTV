@@ -150,7 +150,7 @@ function generateSearchResults(query, callback){
 function generateMoviePrePlayXML(torrentID, callback){
 	var API = require('./MoviesAPI');
     var movies = API.getMovie(torrentID, function(movie, fanart){
-    	console.log(fanart);
+    	console.log(movie.rt_audience_score);
     	var XMLWriter = require('xml-writer');
 		var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movie.id;
     	xw = new XMLWriter;
@@ -160,7 +160,7 @@ function generateMoviePrePlayXML(torrentID, callback){
     			.startElement('itemDetailWithImageHeader')
     				.writeAttribute('id', 'com.apple.trailer')
     				.writeAttribute('layout', 'compact')
-    				.writeAttribute('onVolatileReload', "atv.loadAndSwapURL('')")
+    				.writeAttribute('onVolatileReload', "atv.loadAndSwapURL('" + url + "')")
     				.writeAttribute('volatile', 'true')
     				.startElement('styles')
     					.startElement('color')
@@ -187,7 +187,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  				.writeElement('summary', movie.description_full)
 	  				.startElement('userRatings')
 	  					.startElement('starRating')
-	  					.writeElement('percentage', '69.0')
+	  					.writeElement('percentage', movie.rt_audience_score)
 	  					.endElement()
 	  				.endElement()
 	  				.startElement('image')
@@ -233,7 +233,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  								.startElement('items')
 	  									.startElement('actionButton')
 	  										.writeAttribute('id', 'play')
-	  										.writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=" + movie.torrents[0].url + "&id=" + torrentID + "')")
+	  										.writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=" + movie.torrents[0].url + "&id=" + torrentID + "&title=" + movie.title.replace(/ /g,"%20") + "&desc=" + movie.description_full.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + movie.images.medium_cover_image + "')")
 	  										.writeElement('title', 'Play')
 	  										.writeElement('image', 'resource://Play.png')
 	  										.writeElement('focusedImage', 'resource://PlayFocused.png')
