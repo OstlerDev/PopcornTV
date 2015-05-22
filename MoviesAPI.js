@@ -30,7 +30,10 @@ function getMovie(torrentID, callback) {
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        var movie = body.data;
-	        callback(movie);
+	        var Fan = require('./fanartGenerator')
+	        Fan.generateFanart(movie.imdb_code, function(url){
+				callback(movie, url);
+			});
 	    } else {
 			console.log("Error connecting to yts.to and grabbing json: " + url);
 			return;
@@ -55,7 +58,32 @@ function searchMovies(query, callback) {
 	    }
 	})
 }
+function getFanart(imdb, callback){
+	var request = require('request');
+
+	var url = 'https://api-v2launch.trakt.tv/movies/' + imdb + '?extended=images';
+	request({
+	    url: url,
+	    json: true,
+	    headers: {
+	    	'Content-Type': 'application/json',
+	    	'trakt-api-version': '2',
+	    	'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
+	    }
+	}, function (error, response, body) {
+		console.log('Status:', response.statusCode);
+ 	   if (!error && response.statusCode === 200) {
+	        var fanart = body.images.fanart.full;
+	        console.log(fanart);
+	        callback(fanart);
+	    } else {
+			console.log("Error connecting to yts.to and grabbing json: " + url);
+			return;
+	    }
+	})
+}
 
 exports.getMovies = getMovies;
 exports.getMovie = getMovie;
 exports.searchMovies = searchMovies;
+exports.getFanart = getFanart;
