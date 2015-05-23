@@ -39,31 +39,19 @@ function startWebServer(localIp) {
 	var server = http.createServer(function(request, response) {
 		var pathname = url.parse(request.url).pathname;
 		var query = querystring.parse(url.parse(request.url).query);
-		console.log(query);
-		console.log(request.url);
 		var staticFile = true;
 		if (pathname.charAt(pathname.length - 1) == "/") {
 			pathname += "index.html";
 		} else if(pathname.indexOf("MoviePlay.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
-			if (PreviousID == query.id){
-				response.write(xml.generatePlayXML(torrent.getURL(), "Tron Legacy", "Sam Flynn and poops", "http://trailers.apple.com/Movies/TronLegacy.jpg"));
-				response.end();
-			} else {
-				PreviousID = query.id;
-				torrent.startStreamer(query.torrent, query.id);
-			}
-			console.log('waiting on streamer to be ready');
+			console.log('Streamer: Starting Stream... Please wait for stream to be ready.');
 			torrent.getStreamer().on('ready', function (data) {
 				response.write(xml.generatePlayXML(torrent.getURL(), query.title, query.desc, query.poster));
 				response.end();
 			});
 			torrent.getStreamer().on('close', function () {
-				console.log('Streaming Closed');
-			});
-			torrent.getStreamer().on('progress', function (progress) {
-				//console.log(progress);
+				console.log('Streamer: Streaming Closed');
 			});
 			staticFile = false;
 		} else if(pathname.indexOf("MoviesGrid.xml") >= 0){
@@ -78,7 +66,7 @@ function startWebServer(localIp) {
 			try{
 				torrent.getStreamer().close();
 			} catch(e) {
-				console.log('No Stream Running');
+				console.log('Streamer: No Stream Running');
 			}
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
@@ -132,7 +120,6 @@ function startWebServer(localIp) {
 						}					
 					} else {
 						var raw = fs.createReadStream(realPath);
-						console.log('All good! Just served: ' + pathname)
 						response.writeHead(200, "OK");
 						raw.pipe(response);
 					}
@@ -141,7 +128,7 @@ function startWebServer(localIp) {
 		}
 	});
 	server.listen(80);
-	console.log("WebServer listening on " + localIp + ":80");
+	console.log("Web: listening on " + localIp + ":80");
 }
 
 function startSSLWebServer(localIp) {
@@ -167,7 +154,6 @@ function startSSLWebServer(localIp) {
 	server.listen(443);
 	server.on('request', function(request, response) {
 		var pathname = url.parse(request.url).pathname;
-		console.log(request.url);
 		var staticFile = true;
 		if (pathname.charAt(pathname.length - 1) == "/") {
 			pathname += "index.html";
@@ -182,7 +168,7 @@ function startSSLWebServer(localIp) {
 		if(staticFile){
 			fs.stat(realPath, function(err, stats) {
 				if (err) {
-					console.log('404: ' + pathname)
+					console.log('SSL 404: ' + pathname)
 					response.writeHead(404, {'Content-Type': 'text/plain'});
 					response.write("This request URL " + pathname + " was not found on this server.");
 					response.end();						
@@ -211,7 +197,6 @@ function startSSLWebServer(localIp) {
 						}					
 					} else {
 						var raw = fs.createReadStream(realPath);
-						console.log('All good! Just served: ' + pathname)
 						response.writeHead(200, "OK");
 						raw.pipe(response);
 					}
@@ -219,15 +204,7 @@ function startSSLWebServer(localIp) {
 			});
 		}
 	});
-	console.log("SSL WebServer listening on " + localIp + ":443");
-}
-
-function create(server, host, port, publicDir){
-	var express = require('express');
-	var app = express();
-	app.use(express.static(publicDir));
-
-	return app;
+	console.log("SSL Web: listening on " + localIp + ":443");
 }
 
 exports.startWebServer = startWebServer;

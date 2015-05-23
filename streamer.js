@@ -18,26 +18,20 @@ function startStreamer(url, torrentID) {
 		writeDir: '',
 		index: torrentID + '.mp4'
 	});
-	console.log('Starting downloader');
 	torrent.on('ready', function (data) {
-		console.log('Ready to Stream');
-		console.log('binding to ' + data.streamUrl);
+		console.log('Streamer: Ready to Stream, binding to ' + data.streamUrl);
 		boundURL = data.streamUrl;
 		ready = true;
 	});
 	torrent.on('close', function () {
-		console.log('im closed');
+		console.log('Streamer: Stream Closed');
 	});
 	torrent.on('progress', function (progress) {
-		console.log(progress);
+		//console.log(progress);
 	});
 	torrent.on('error', function (e) {
 		console.log(e);
 	});
-}
-
-function isReady(){
-	return ready;
 }
 
 function getURL(){
@@ -49,6 +43,5 @@ function getStreamer(){
 }
 
 exports.startStreamer = startStreamer;
-exports.isReady = isReady;
 exports.getURL = getURL;
 exports.getStreamer = getStreamer;
