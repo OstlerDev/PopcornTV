@@ -1,0 +1,8 @@
+{
+  "name": "PopcornTV",
+  "description": "Streaming movies and TV shows directly to an Apple TV from Torrents",
+  "version": "0.1.1",
+  "dependencies": {
+    "popcorn-streamer-server": "0.1.0"
+  }
+}
