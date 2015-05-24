@@ -17,19 +17,19 @@
                   <link>https://s.ynet.io/assets/images/movies/The_Lego_Movie_2014/large-cover.jpg</link>
                 </preview>
               </oneLineMenuItem>
-              <oneLineMenuItem id="popular" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Added&amp;sort_by=date_added');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Added&amp;sort_by=date_added');">
+              <oneLineMenuItem id="added" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Added&amp;sort_by=date_added');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Added&amp;sort_by=date_added');">
                 <label>Recently Added</label>
                 <preview>
                   <link>https://s.ynet.io/assets/images/movies/The_Lego_Movie_2014/large-cover.jpg</link>
                 </preview>
               </oneLineMenuItem>
-              <oneLineMenuItem id="popular" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%Released&amp;sort_by=year');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%Released&amp;sort_by=year');">
+              <oneLineMenuItem id="released" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Released&amp;sort_by=year');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Released&amp;sort_by=year');">
                 <label>Recently Released</label>
                 <preview>
                   <link>https://s.ynet.io/assets/images/movies/The_Lego_Movie_2014/large-cover.jpg</link>
                 </preview>
               </oneLineMenuItem>
-              <oneLineMenuItem id="popular" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Highest%Rated&amp;sort_by=rating');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Highest%Rated&amp;sort_by=rating');">
+              <oneLineMenuItem id="rated" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Highest%20Rated&amp;sort_by=rating');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Highest%20Rated&amp;sort_by=rating');">
                 <label>Highest Rated</label>
                 <preview>
                   <link>https://s.ynet.io/assets/images/movies/The_Lego_Movie_2014/large-cover.jpg</link>

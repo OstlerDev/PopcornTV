@@ -5,7 +5,7 @@ function getMovies(sort_by, amount, callback) {
 	var request = require("request")
 
 	var url = "https://yts.to/api/v2/list_movies.json?sort_by=" + sort_by + "&limit=" + amount;
-	console.log('Generating JSON, sort_by: ' + sort_by + '; amount: ' + amount);
+	console.log('Generating XML, sort_by: ' + sort_by + '; amount: ' + amount);
 	request({
 	    url: url,
 	    json: true
@@ -71,13 +71,13 @@ function getFanart(imdb, callback){
 	    	'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
 	    }
 	}, function (error, response, body) {
-		console.log('Status:', response.statusCode);
+		//console.log('Status:', response.statusCode);
  	   if (!error && response.statusCode === 200) {
 	        var fanart = body.images.fanart.full;
-	        console.log(fanart);
+	        //console.log(fanart);
 	        callback(fanart);
 	    } else {
-			console.log("Error connecting to yts.to and grabbing json: " + url);
+			console.log("Error connecting to trakt.tv and grabbing json: " + url);
 			return;
 	    }
 	})
