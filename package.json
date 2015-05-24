@@ -3,6 +3,10 @@
   "description": "Streaming movies and TV shows directly to an Apple TV from Torrents",
   "version": "0.1.1",
   "dependencies": {
-    "popcorn-streamer-server": "0.1.0"
+    "popcorn-streamer-server": "^0.1.0",
+    "xml": "^1.0.0",
+    "xml-writer": "^1.6.0",
+    "request": "2.55.0",
+    "images": "2.1.6"
   }
 }
