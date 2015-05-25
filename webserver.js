@@ -46,6 +46,7 @@ function startWebServer(localIp) {
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			console.log('Streamer: Starting Stream... Please wait for stream to be ready.');
+			torrent.startStreamer(query.torrent, query.id, localIp);
 			torrent.getStreamer().on('ready', function (data) {
 				response.write(xml.generatePlayXML(torrent.getURL(), query.title, query.desc, query.poster));
 				response.end();
