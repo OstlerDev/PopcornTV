@@ -218,6 +218,11 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  									.writeAttribute('required', 'true')
 	  									.writeAttribute('src', 'http://trailers.apple.com/thumbnails/MediaBadges/720.png')
 	  									.endElement()
+	  									.startElement('urlBadge')
+	  									.writeAttribute('insertIndex', '0')
+	  									.writeAttribute('required', 'true')
+	  									.writeAttribute('src', 'http://trailers.apple.com/thumbnails/MediaBadges/1080.png')
+	  									.endElement()
 	  								.endElement()
 	  							.endElement()
 	  						.endElement()
@@ -245,6 +250,13 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  										.writeElement('image', 'resource://Preview.png')
 	  										.writeElement('focusedImage', 'resource://PreviewFocused.png')
 	  									.endElement()
+	  									.startElement('actionButton')
+	  										.writeAttribute('id', 'select')
+	  										.writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=https://www.youtube.com/watch?v=" + movie.yt_trailer_code + "&id=" + torrentID + "yt')")
+	  										.writeElement('title', 'Select Quality')
+	  										.writeElement('image', 'resource://Queue.png')
+	  										.writeElement('focusedImage', 'resource://QueueFocused.png')
+	  									.endElement()
 	  								.endElement()
 	  							.endElement()
 	  						.endElement()
@@ -262,20 +274,28 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  					.writeAttribute('id', 'bottomShelf')
 	  					.startElement('sections')
 	  						.startElement('shelfSection')
-	  							.startElement('items')
-	  								.startElement('moviePoster')
-	  								.writeAttribute('id', movie.title.replace(/\s/g, ''))
-	  								.writeAttribute('alwaysShowTitles', 'true')
-	  								.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
-	  								.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
-	  								.writeElement('title', movie.title)
-	  								.writeElement('image', movie.images.medium_cover_image)
-	  								.writeElement('defaultImage', 'resource://Poster.png')
-	  							.endElement();
-    	xw.endDocument();
+	  							.startElement('items');
+	  								var API = require('./MoviesAPI');
+   							 		var movies = API.getRelatedMovies(torrentID, function(movies){
+    								for(var i = 0; i <= movies.length-1; i++)
+									{
+										var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
+								  		xw.startElement('moviePoster')
+								  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
+								  			.writeAttribute('alwaysShowTitles', 'true')
+								  			.writeAttribute('related', 'true')
+								  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+								  		.writeElement('title', movies[i].title)
+								  		.writeElement('subtitle', movies[i].year)
+								  		.writeElement('image', movies[i].medium_cover_image)
+								  		.writeElement('defaultImage', 'resource://Poster.png')
+								  		.endElement();
+									}
+									xw.endDocument();
+									callback(xw.toString());
+								});
 
     	//console.log(xw.toString());
-    	callback(xw.toString());
     });		
 }
 

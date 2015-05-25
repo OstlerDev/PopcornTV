@@ -1,5 +1,3 @@
-var EventEmitter = require("events").EventEmitter;
-
 function getMovies(sort_by, amount, callback) {
 	var page = 1;
 	var request = require("request")
@@ -82,8 +80,27 @@ function getFanart(imdb, callback){
 	    }
 	})
 }
+function getRelatedMovies(movie_id, callback) {
+	var page = 1;
+	var request = require("request")
+
+	var url = "https://yts.to/api/v2/movie_suggestions.json?movie_id=" + movie_id;
+	request({
+	    url: url,
+	    json: true
+	}, function (error, response, body) {
+ 	   if (!error && response.statusCode === 200) {
+	        var movies = body.data.movie_suggestions;
+	        callback(movies);
+	    } else {
+			console.log("Error connecting to yts.to and grabbing json: " + url);
+			return;
+	    }
+	})
+}
 
 exports.getMovies = getMovies;
 exports.getMovie = getMovie;
 exports.searchMovies = searchMovies;
 exports.getFanart = getFanart;
+exports.getRelatedMovies = getRelatedMovies;
