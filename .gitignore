@@ -1,5 +1,4 @@
 node_modules/*
 *.mp4
-assets/cache/
-assets/certificates/*
+assets/cache/*
 config.json
