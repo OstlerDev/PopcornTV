@@ -108,6 +108,26 @@ function generateMoviesXML(title, sort_by, callback){
     });
 }
 
+function generateMovieParadeXML(sort_by, callback){
+	var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+    xw.startDocument(version='1.0', encoding='UTF-8');
+    xw.startElement('atv')
+    	.startElement('body')
+    		.startElement('preview')
+    			.startElement('previewParade').writeAttribute('inOrder', 'true')
+    var API = require('./MoviesAPI');
+    var movies = API.getMovies(sort_by, "15", function(movies){
+    	//console.log(movies);
+    	for(var i = 0; i <= movies.length-1; i++)
+		{
+	  		xw.writeElement('image', movies[i].medium_cover_image)
+		}
+    	xw.endDocument();
+    	callback(xw.toString());
+    });
+}
+
 function generateSearchResults(query, callback){
 	var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
@@ -307,4 +327,5 @@ exports.generatePlayXML = generatePlayXML;
 exports.generateMoviesHomeXML = generateMoviesHomeXML;
 exports.generateMoviesXML = generateMoviesXML;
 exports.generateMoviePrePlayXML = generateMoviePrePlayXML;
+exports.generateMovieParadeXML = generateMovieParadeXML;
 exports.generateSearchResults = generateSearchResults;

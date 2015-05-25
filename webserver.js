@@ -63,6 +63,14 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
+		} else if(pathname.indexOf("Parade.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			xml.generateMovieParadeXML(query.sort_by, function(xmlstring){
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
 		} else if(pathname.indexOf("MoviePrePlay.xml") >= 0){
 			try{
 				torrent.getStreamer().close();
