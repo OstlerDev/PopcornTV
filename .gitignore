@@ -1,5 +1,7 @@
 node_modules/*
 *.mp4
-assets/cache/*
-assets/certificates/*
+assets/cache/*.jpg
+assets/certificates/*.cer
+assets/certificates/*.key
+assets/certificates/*.pem
 config.json
