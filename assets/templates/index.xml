@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atv>
+  <body>
+    <listWithPreview id="Library_List">
+      <header>
+        <simpleHeader>
+          <title>Libraries</title>
+        </simpleHeader>
+      </header>
+      <menu>
+        <sections>
+          <menuSection>
+            <items>
+              <oneLineMenuItem id="popular" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MovieNav.xml');" onSelect="atv.loadURL('http://trailers.apple.com/MovieNav.xml');">
+                <label>Movies</label>
+                <preview>
+                  <link>http://trailers.apple.com/Parade.xml?sort_by=seeds</link>
+                </preview>
+              </oneLineMenuItem>
+              <oneLineMenuItem id="added" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Added&amp;sort_by=date_added');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Added&amp;sort_by=date_added');">
+                <label>TV Shows</label>
+                <preview>
+                  <link>http://trailers.apple.com/Parade.xml?sort_by=date_added</link>
+                </preview>
+              </oneLineMenuItem>
+              <oneLineMenuItem id="released" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Released&amp;sort_by=year');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Released&amp;sort_by=year');">
+                <label>Anime</label>
+                <preview>
+                  <link>http://trailers.apple.com/Parade.xml?sort_by=year</link>
+                </preview>
+              </oneLineMenuItem>
+              <oneLineMenuItem id="rated" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Highest%20Rated&amp;sort_by=rating');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Highest%20Rated&amp;sort_by=rating');">
+                <label>Search</label>
+                <preview>
+                  <link>http://trailers.apple.com/Parade.xml?sort_by=rating</link>
+                </preview>
+              </oneLineMenuItem>
+            </items>
+          </menuSection>
+        </sections>
+      </menu>
+    </listWithPreview>
+  </body>
+</atv>
