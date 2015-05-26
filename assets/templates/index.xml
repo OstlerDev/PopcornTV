@@ -17,7 +17,7 @@
                   <link>http://trailers.apple.com/Parade.xml?sort_by=seeds</link>
                 </preview>
               </oneLineMenuItem>
-              <oneLineMenuItem id="added" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Added&amp;sort_by=date_added');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Added&amp;sort_by=date_added');">
+              <oneLineMenuItem id="added" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/TVNav.xml');" onSelect="atv.loadURL('http://trailers.apple.com/TVNav.xml');">
                 <label>TV Shows</label>
                 <preview>
                   <link>http://trailers.apple.com/Parade.xml?sort_by=date_added</link>

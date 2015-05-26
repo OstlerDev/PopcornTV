@@ -305,9 +305,107 @@ function generateMoviePrePlayXML(torrentID, callback){
     });		
 }
 
+function generateTVXML(title, sort_by, callback){
+	var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+    xw.startDocument(version='1.0', encoding='UTF-8');
+    xw.startElement('atv')
+    	.startElement('body')
+    		.startElement('scroller').writeAttribute('id', 'com.sample.movie-grid')
+    			.startElement('header')
+    				.startElement('simpleHeader')
+    					.writeElement('title', title)
+    				.endElement()
+    			.endElement()
+    			.startElement('items')
+    				.startElement('grid')
+    					.writeAttribute('columnCount', '7').writeAttribute('id', 'grid_0')
+    						.startElement('items');
+    var API = require('./TVAPI');
+    var tv = API.getTV(sort_by, "50", function(shows){
+    	//console.log(movies);
+    	for(var i = 0; i <= shows.length-1; i++)
+		{
+			//var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + shows[i]._id;
+			var url = 'http://trailers.apple.com/seasons.xml?imdb=' + shows[i].imdb_id;
+			//console.log(url);
+	  		xw.startElement('moviePoster')
+	  			.writeAttribute('id', shows[i].title.replace(/\s/g, ''))
+	  			.writeAttribute('alwaysShowTitles', 'true')
+	  			.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  		.writeElement('title', shows[i].title)
+	  		.writeElement('subtitle', shows[i].year + ' | ' + shows[i].num_seasons + ' Seasons')
+	  		.writeElement('image', shows[i].images.poster)
+	  		.writeElement('defaultImage', 'resource://Poster.png')
+	  		.endElement();
+		}
+    	xw.endDocument();
+
+    	//console.log(xw.toString());
+    	callback(xw.toString());
+    });
+}
+function generateTVSeasons(imdb, callback){
+	var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+    var API = require('./TVAPI');
+    var tv = API.getSeasons(imdb, function(seasons, seasonNumbers, fanart){
+    	xw.startDocument(version='1.0', encoding='UTF-8');
+    	xw.startElement('atv')
+    		.startElement('body')
+    			.startElement('scroller').writeAttribute('id', 'com.sample.menu-items-with-sections')
+    			.writeAttribute('volatile', 'true')
+    			.writeAttribute('onVolatileReload', 'atv.loadAndSwapURL("http://trailers.apple.com/seasons.xml?imdb=' + imdb + '")')
+    				.startElement('header')
+    					.startElement('imageHeader')
+    						.startElement('image')
+    						.writeAttribute('insets', '-434, 0, 900, 0')
+    						.writeAttribute('required', 'true')
+    						.text(fanart)
+    						.endElement()
+    					.endElement()
+    				.endElement()
+    				.startElement('items')
+    					.startElement('shelf')
+    					.writeAttribute('id', 'coverflow').writeAttribute('columnCount', seasonNumbers.length)
+    						.startElement('sections')
+    							.startElement('shelfSection')
+    								.startElement('items');
+    	//console.log(movies);
+    	for(var i = 0; i <= seasons.length-1; i++)
+		{
+			//var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + shows[i]._id;
+			if (seasonNumbers.indexOf(i) > -1){
+				if (i == 0){
+					title = "Specials"
+				} else {
+					var title = 'Season ' + i;
+				}
+				var url = 'http://trailers.apple.com/episodes.xml?imdb=' + imdb + '&season' + i+1;
+	  			xw.startElement('moviePoster')
+	  				.writeAttribute('id', i)
+	  				.writeAttribute('alwaysShowTitles', 'true')
+	  				.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
+	  				.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  			.writeElement('title', title)
+	  			.writeElement('image', seasons[i].images.poster.thumb)
+	  			.writeElement('defaultImage', 'resource://Poster.png')
+	  			.endElement();
+	  		}
+		}
+    	xw.endDocument();
+
+    	//console.log(xw.toString());
+    	callback(xw.toString());
+    });
+}
+
 exports.generatePlayXML = generatePlayXML;
 exports.generateMovieGenre = generateMovieGenre;
 exports.generateMoviesXML = generateMoviesXML;
 exports.generateMoviePrePlayXML = generateMoviePrePlayXML;
 exports.generateMovieParadeXML = generateMovieParadeXML;
 exports.generateSearchResults = generateSearchResults;
+exports.generateTVXML = generateTVXML;
+exports.generateTVSeasons = generateTVSeasons;

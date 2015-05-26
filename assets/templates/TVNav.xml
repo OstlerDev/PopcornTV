@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atv>
+  <head>
+    <script src="http://trailers.apple.com/js/utils.js"/>
+    <script src="http://trailers.apple.com/js/navbarHandler.js"/>
+  </head>
+  <body>
+    <viewWithNavigationBar id="nav" onNavigate="loadMenuPage(event)">
+      <navigation currentIndex="0">
+        <navigationItem id="Libraries">
+          <title>Popular</title>
+          <url>http://trailers.apple.com/TVGrid.xml?title=Popular%20Movies&amp;sort_by=seeds</url>
+        </navigationItem>
+        <navigationItem id="Added">
+          <title>Recently Updated</title>
+          <url>http://trailers.apple.com/TVGrid.xml?title=Recently%20Added&amp;sort_by=date_added</url>
+        </navigationItem>
+        <navigationItem id="released">
+          <title>Recently Released</title>
+          <url>http://trailers.apple.com/TVGrid.xml?title=Recently%20Released&amp;sort_by=year</url>
+        </navigationItem>
+        <navigationItem id="Rated">
+          <title>Highest Rated</title>
+          <url>http://trailers.apple.com/TVGrid.xml?title=Highest%20Rated&amp;sort_by=rating</url>
+        </navigationItem>
+        <navigationItem id="Genere">
+          <title>Genres</title>
+          <url>http://trailers.apple.com/TVGenre.xml</url>
+        </navigationItem>
+        <navigationItem id="Search">
+          <title>Search</title>
+          <url>http://trailers.apple.com/Search/tvsearch.xml</url>
+        </navigationItem>
+      </navigation>
+    </viewWithNavigationBar>
+  </body>
+</atv>
