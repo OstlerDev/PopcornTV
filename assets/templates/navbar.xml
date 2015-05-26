@@ -6,13 +6,9 @@
   <body>
     <viewWithNavigationBar id="nav">
       <navigation currentIndex="0">
-        <navigationItem id="Movies">
-          <title>Movies</title>
-          <url>http://trailers.apple.com/MoviesIndex.xml</url>
-        </navigationItem>
-        <navigationItem id="TVShows">
-          <title>TV Shows</title>
-          <url>http://trailers.apple.com/tvshows.xml</url>
+        <navigationItem id="Libraries">
+          <title>Libraries</title>
+          <url>http://trailers.apple.com/index.xml</url>
         </navigationItem>
         <navigationItem id="Search">
           <title>Search</title>

@@ -3,7 +3,27 @@ function getMovies(sort_by, amount, callback) {
 	var request = require("request")
 
 	var url = "https://yts.to/api/v2/list_movies.json?sort_by=" + sort_by + "&limit=" + amount;
+	console.log(url);
 	console.log('Generating XML, sort_by: ' + sort_by + '; amount: ' + amount);
+	request({
+	    url: url,
+	    json: true
+	}, function (error, response, body) {
+ 	   if (!error && response.statusCode === 200) {
+	        var movies = body.data.movies;
+	        callback(movies);
+	    } else {
+			console.log("Error connecting to yts.to and grabbing json: " + url);
+			return;
+	    }
+	})
+}
+function getMoviesGenre(genre, amount, callback) {
+	var page = 1;
+	var request = require("request")
+
+	var url = "https://yts.to/api/v2/list_movies.json?genre=" + genre + "&limit=" + amount + '&sort_by=seeds';
+	console.log('Generating XML, genre: ' + genre + '; amount: ' + amount);
 	request({
 	    url: url,
 	    json: true
@@ -29,9 +49,14 @@ function getMovie(torrentID, callback) {
  	   if (!error && response.statusCode === 200) {
 	        var movie = body.data;
 	        var Fan = require('./fanartGenerator')
-	        Fan.generateFanart(movie.imdb_code, function(url){
-				callback(movie, url);
-			});
+	        try {
+	        	Fan.generateFanart(movie.imdb_code, function(url){
+					callback(movie, url);
+				});
+	        } catch(e) {
+	        	movie['rt_audience_score'] = '50';
+	        	callback(movie, 'thumbnails/Background_blank_1080.jpg');
+	        }
 	    } else {
 			console.log("Error connecting to yts.to and grabbing json: " + url);
 			return;
@@ -104,3 +129,4 @@ exports.getMovie = getMovie;
 exports.searchMovies = searchMovies;
 exports.getFanart = getFanart;
 exports.getRelatedMovies = getRelatedMovies;
+exports.getMoviesGenre = getMoviesGenre;

@@ -71,6 +71,14 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
+		} else if(pathname.indexOf("MoviesGenreGrid.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			xml.generateMovieGenre(query.genre, function(xmlstring){
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
 		} else if(pathname.indexOf("MoviePrePlay.xml") >= 0){
 			try{
 				torrent.getStreamer().close();

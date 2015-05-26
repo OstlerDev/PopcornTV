@@ -80,6 +80,42 @@ function generateMovieParadeXML(sort_by, callback){
     });
 }
 
+function generateMovieGenre(genre, callback){
+	var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+    xw.startDocument(version='1.0', encoding='UTF-8');
+    xw.startElement('atv')
+    	.startElement('body')
+    		.startElement('preview')
+    			.startElement('scrollerPreview').writeAttribute('id', 'com.sample.scrollerPreview')
+    				.startElement('items')
+    					.startElement('grid')
+    						.writeAttribute('id', 'grid_1')
+    						.writeAttribute('columnCount', '5')
+    						.startElement('items')
+    var API = require('./MoviesAPI');
+    var movies = API.getMoviesGenre(genre, "50", function(movies){
+    	//console.log(movies);
+    	for(var i = 0; i <= movies.length-1; i++)
+		{
+	  		var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
+	  		xw.startElement('moviePoster')
+	  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
+	  			.writeAttribute('alwaysShowTitles', 'true')
+	  			.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  		.writeElement('title', movies[i].title)
+	  		.writeElement('subtitle', movies[i].year)
+	  		.writeElement('image', movies[i].medium_cover_image)
+	  		.writeElement('defaultImage', 'resource://Poster.png')
+	  		.endElement();
+		}
+    	xw.endDocument();
+    	//console.log(xw.toString());
+    	callback(xw.toString());
+    });
+}
+
 function generateSearchResults(query, callback){
 	var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
@@ -270,7 +306,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 }
 
 exports.generatePlayXML = generatePlayXML;
-exports.generateMoviesHomeXML = generateMoviesHomeXML;
+exports.generateMovieGenre = generateMovieGenre;
 exports.generateMoviesXML = generateMoviesXML;
 exports.generateMoviePrePlayXML = generateMoviePrePlayXML;
 exports.generateMovieParadeXML = generateMovieParadeXML;

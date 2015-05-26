@@ -12,28 +12,135 @@
 				<sections>	          
 					<menuSection>	            
 						<header>	              
-							<textDivider alignment="center">	                
+							<textDivider alignment="center"> 
 								<title>Genres</title>	              
 							</textDivider>	            
 						</header>	            
-						
 						<items>	              
-							<oneLineMenuItem id="list_1">	                
-								<label>Action</label>	                
+							<oneLineMenuItem id="list_1"> 
+								<label>Action</label> 
 								<preview>
-									<link>http://trailers.apple.com/MoviesGenreGrid.xml</link>
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=action</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_2"> 
+								<label>Adventure</label> 
+								<preview>
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Adventure</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_3"> 
+								<label>Animation</label> 
+								<preview>
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Animation</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_4"> 
+								<label>Biography</label> 
+								<preview>
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Biography</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_5"> 
+								<label>Comedy</label> 
+								<preview>
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Comedy</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_6"> 
+								<label>Crime</label> 
+								<preview>
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Crime</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_7"> 
+								<label>Documentary</label> 
+								<preview>
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Documentary</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_8"> 
+								<label>Family</label> 
+								<preview>
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Family</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_9"> 
+								<label>Fantasy</label> 
+								<preview>
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Fantasy</link>
 								</preview>
 							</oneLineMenuItem>	              
-							<oneLineMenuItem id="list_2">	                
-								<label>Romance</label>	                
-								<preview>	                  
-									<link>http://trailers.apple.com/MoviesGenreGrid.xml</link>	               
+							<oneLineMenuItem id="list_10"> 
+								<label>Film-Noir</label> 
+								<preview>   
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Film-Noir</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_12"> 
+								<label>History</label> 
+								<preview>   
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=History</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_12"> 
+								<label>Horror</label> 
+								<preview>   
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Horror</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_13"> 
+								<label>Music</label> 
+								<preview>   
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Music</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_14"> 
+								<label>Musical</label> 
+								<preview>   
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Musical</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_15"> 
+								<label>Mystery</label> 
+								<preview>   
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Mystery</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_16"> 
+								<label>Romance</label> 
+								<preview>   
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Romance</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_17"> 
+								<label>Sci-Fi</label> 
+								<preview>   
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Sci-Fi</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_18"> 
+								<label>Sport</label> 
+								<preview>   
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Sport</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_19"> 
+								<label>Thriller</label> 
+								<preview>   
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Thriller</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_20"> 
+								<label>War</label> 
+								<preview>   
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=War</link>
 								</preview>	              
 							</oneLineMenuItem>	              
-							<oneLineMenuItem id="list_3">	                
-								<label>Science Fiction</label>	                
-								<preview>	                  
-									<link>http://trailers.apple.com/MoviesGenreGrid.xml</link>	                
+							<oneLineMenuItem id="list_21"> 
+								<label>Western</label> 
+								<preview>   
+									<link>http://trailers.apple.com/MoviesGenreGrid.xml?genre=Western</link> 
 								</preview>	              
 							</oneLineMenuItem>	              
 						</items>	          
