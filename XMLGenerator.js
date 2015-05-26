@@ -19,55 +19,6 @@ function generatePlayXML(url, title, desc, image) {
 	}], { declaration: { encoding: 'UTF-8'}});
 }
 
-function generateMoviesHomeXML(){
-	console.log(xml(
-	[{atv: 
-		[{body: 
-			[{listWithPreview: 
-				[{ _attr: 
-					{ id: 'Library_List'}
-				}, {header: [
-					{simpleHeader: [{title: 'Movies Library'}]}
-				]}, {menu: [{
-					sections: [{
-						menuSection: [{
-							items: [
-							{oneLineMenuItem: [{ _attr: {id: 'main'}},
-								{label: 'Popular Movies'}
-								]}
-							]
-						}]
-					}]
-				}]
-				}]
-			}]
-		}]
-	}], { declaration: { encoding: 'UTF-8'}}));
-	return xml(
-	[{atv: 
-		[{body: 
-			[{listWithPreview: 
-				[{ _attr: 
-					{ id: 'Library_List'}
-				}, {header: [
-					{simpleHeader: [{title: 'Movies Library'}]}
-				]}, {menu: [{
-					sections: [{
-						menuSection: [{
-							items: [
-							{oneLineMenuItem: [{ _attr: {id: 'main'}},
-								{label: 'Popular Movies'}
-								]}
-							]
-						}]
-					}]
-				}]
-				}]
-			}]
-		}]
-	}], { declaration: { encoding: 'UTF-8'}});
-}
-
 function generateMoviesXML(title, sort_by, callback){
 	var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
@@ -115,7 +66,7 @@ function generateMovieParadeXML(sort_by, callback){
     xw.startElement('atv')
     	.startElement('body')
     		.startElement('preview')
-    			.startElement('previewParade').writeAttribute('inOrder', 'true')
+    			.startElement('paradePreview').writeAttribute('inOrder', 'true')
     var API = require('./MoviesAPI');
     var movies = API.getMovies(sort_by, "15", function(movies){
     	//console.log(movies);
@@ -124,6 +75,7 @@ function generateMovieParadeXML(sort_by, callback){
 	  		xw.writeElement('image', movies[i].medium_cover_image)
 		}
     	xw.endDocument();
+    	console.log(xw.toString());
     	callback(xw.toString());
     });
 }
@@ -314,14 +266,8 @@ function generateMoviePrePlayXML(torrentID, callback){
 									xw.endDocument();
 									callback(xw.toString());
 								});
-
-    	//console.log(xw.toString());
     });		
 }
-
-//generatePopularMoviesXML(function(xml){
-//	console.log(xml);
-//});
 
 exports.generatePlayXML = generatePlayXML;
 exports.generateMoviesHomeXML = generateMoviesHomeXML;
