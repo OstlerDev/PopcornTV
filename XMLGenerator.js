@@ -75,7 +75,7 @@ function generateMovieParadeXML(sort_by, callback){
 	  		xw.writeElement('image', movies[i].medium_cover_image)
 		}
     	xw.endDocument();
-    	console.log(xw.toString());
+    	//console.log(xw.toString());
     	callback(xw.toString());
     });
 }

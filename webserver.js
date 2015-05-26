@@ -92,6 +92,8 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
+		} else if(pathname.indexOf(".cer") >= 0){
+			pathname = "certificates/trailers.cer";
 		} else if(pathname.indexOf(".xml") >= 0){
 			pathname = "templates" + pathname;
 		}
