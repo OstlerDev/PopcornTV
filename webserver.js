@@ -111,7 +111,25 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("seasons.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
-			xml.generateTVSeasons(query.imdb, function(xmlstring){
+			xml.generateTVSeasons(query.imdb, query.title, function(xmlstring){
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
+		}  else if(pathname.indexOf("episodes.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			console.log(query);
+			xml.generateTVEpisodes(query.imdb, query.season, query.title, function(xmlstring){
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
+		} else if(pathname.indexOf("TVPrePlay.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			console.log(query);
+			xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, function(xmlstring){
 				response.write(xmlstring);
 				response.end();
 			})
