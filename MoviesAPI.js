@@ -3,8 +3,8 @@ function getMovies(sort_by, amount, callback) {
 	var request = require("request")
 
 	var url = "https://yts.to/api/v2/list_movies.json?sort_by=" + sort_by + "&limit=" + amount;
-	console.log(url);
-	console.log('Generating XML, sort_by: ' + sort_by + '; amount: ' + amount);
+	//console.log(url);
+	//console.log('Generating XML, sort_by: ' + sort_by + '; amount: ' + amount);
 	request({
 	    url: url,
 	    json: true
@@ -23,7 +23,7 @@ function getMoviesGenre(genre, amount, callback) {
 	var request = require("request")
 
 	var url = "https://yts.to/api/v2/list_movies.json?genre=" + genre + "&limit=" + amount + '&sort_by=seeds';
-	console.log('Generating XML, genre: ' + genre + '; amount: ' + amount);
+	//console.log('Generating XML, genre: ' + genre + '; amount: ' + amount);
 	request({
 	    url: url,
 	    json: true

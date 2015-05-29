@@ -3,8 +3,7 @@ function getTV(sort_by, amount, callback) {
 	var request = require("request")
 
 	var url = "http://eztvapi.re/shows/" + page.toString();
-	console.log(url);
-	console.log('Generating TV XML');
+	//console.log(url);
 	request({
 	    url: url,
 	    json: true
@@ -160,7 +159,6 @@ function getScreenshot(imdb, season, episode, callback){
  	   if (!error && response.statusCode === 200) {
  	   		//console.log(body);
 	        var screenshot = body;
-	        console.log(screenshot[1].images.screenshot.full);
 	        callback(screenshot);
 	    } else {
 			console.log("Error connecting to trakt.tv and grabbing json: " + url);
@@ -199,7 +197,7 @@ function getSeasonNumbers(imdb, callback){
 	var request = require("request")
 
 	var url = "http://eztvapi.re/show/" + imdb;
-	console.log(url);
+	//console.log(url);
 	request({
 	    url: url,
 	    json: true
@@ -223,7 +221,7 @@ function getEpisodeNumbers(imdb, season, callback){
 	var request = require("request")
 
 	var url = "http://eztvapi.re/show/" + imdb;
-	console.log(url);
+	//console.log(url);
 	request({
 	    url: url,
 	    json: true

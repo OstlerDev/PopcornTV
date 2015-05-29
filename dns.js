@@ -105,16 +105,17 @@ function startDnsProxy(localIp) {
 		var address = rinfo.address;
 		var port    = rinfo.port;
 	
-		console.log("DNS: " + domain);
 		if (domain == DOMAIN_ATV) {
 			var tag = msg.readUInt16BE(0);
 			var ip  = dot2num(localIp);
 			var newMsg = getMsg(tag, domain, ip);
 
-			console.log("DNS: " + DOMAIN_ATV + " from " + _ip + " change to " + localIp);
+			console.log("DNS: " + DOMAIN_ATV + " change to " + localIp);
 			server.send(newMsg.msg, 0, newMsg.size, port, address);
 			return;
-		} 
+		} else {
+			console.log("DNS: " + domain);
+		}
 		dgram.createSocket("udp4", function(msg, rinfo) {
 			server.send(msg, 0, rinfo.size, port, address);
 			this.close();

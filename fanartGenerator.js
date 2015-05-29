@@ -48,9 +48,5 @@ function generateFanartTV(url, imdb, callback) {
     }
 }
 
-generateFanartTV('https://walter.trakt.us/images/episodes/000/073/642/screenshots/thumb/238c3fabbf.jpg', 'tt0944947', function(url){
-  console.log(url);
-});
-
 exports.generateFanart = generateFanart;
 exports.generateFanartTV = generateFanartTV;

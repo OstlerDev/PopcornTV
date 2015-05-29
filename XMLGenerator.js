@@ -158,7 +158,6 @@ function generateSearchResults(query, callback){
 function generateMoviePrePlayXML(torrentID, callback){
 	var API = require('./MoviesAPI');
     var movies = API.getMovie(torrentID, function(movie, fanart){
-    	console.log(movie.rt_audience_score);
     	var XMLWriter = require('xml-writer');
 		var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movie.id;
     	xw = new XMLWriter;
@@ -328,7 +327,7 @@ function generateTVXML(title, sort_by, callback){
 		{
 			//var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + shows[i]._id;
 			var url = 'http://trailers.apple.com/seasons.xml?imdb=' + shows[i].imdb_id + '&title=' + shows[i].title.replace(/ /g,"%20");
-			console.log(url);
+			//console.log(url);
 	  		xw.startElement('moviePoster')
 	  			.writeAttribute('id', shows[i].title.replace(/\s/g, ''))
 	  			.writeAttribute('alwaysShowTitles', 'true')
@@ -380,7 +379,7 @@ function generateTVSeasons(imdb, seriesTitle, callback){
 					var title = 'Season ' + i;
 				}
 				var url = 'http://trailers.apple.com/episodes.xml?imdb=' + imdb + '&season=' + i + '&title=' + seriesTitle.replace(/ /g,"%20");
-				console.log(url);
+				//console.log(url);
 	  			xw.startElement('moviePoster')
 	  				.writeAttribute('id', i)
 	  				.writeAttribute('alwaysShowTitles', 'true')
@@ -402,7 +401,7 @@ function generateTVEpisodes(imdb, season, title, callback){
 	var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
     var API = require('./TVAPI');
-    console.log(title);
+    //console.log(title);
     var tv = API.getEpisodes(imdb, season, function(episodes, episodeNumbers, fanart){
     	xw.startDocument(version='1.0', encoding='UTF-8');
     	xw.startElement('atv')
