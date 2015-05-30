@@ -37,7 +37,7 @@
 <h4>
 <a id="preview-video" class="anchor" href="#preview-video" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preview Video</h4>
 
-<p><a href="https://www.youtube.com/watch?v=dlnwrfkbna4">Watch the latest video here</a>! Please excuse the bad video quality, it was filmed in one take on my iPhone. I will be uploading more videos in the future if so desired</p>
+<p><a href="https://www.youtube.com/watch?v=s9R24DIXkQk">Watch the latest video here! (v0.1.4a)</a></p>
 
 <h4>
 <a id="preview-images" class="anchor" href="#preview-images" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preview Images</h4>
@@ -53,33 +53,12 @@
 <h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
 
-<p>Step 1. Download Popcorn TV or Clone the Repository<br>
-Step 2. Open Terminal or the Command prompt and enter the commands below. I have only tested this on a Mac, so if there are issues on Windows or Linux please let me know so that I can update the guide!  </p>
-
-<div class="highlight highlight-sh"><pre>$ <span class="pl-c1">cd</span> PopcornTV
-$ sudo npm install
-$ sudo node atv.js</pre></div>
-
-<p>Step 2.5. On the first run it will generate the certificates needed to run the application, once those are generated restart the program again using the lines below. It will create a file named "config.json" open it up and swap the in there for your local IP if the Apple TV is on the same network, or the Public IP if you are running this on a VPS. Once you finish that run the application again.</p>
-
-<div class="highlight highlight-sh"><pre>$ sudo node atv.js</pre></div>
-
-<p>Step 3. Go to your Apple TV and select the settings Application.<br>
-Step 4. Select General &gt; Network &gt; "Your Network" &gt; "Your network" again. You should end on a page that says "Wifi Configuration" at the top.<br>
-Step 5. Go down to "Configure DNS" and set it to Manual, then enter in the local IP address of your Computer that is running PopcornTV<br>
-Step 6. Once the DNS is set, menu out back to the "General" page.<br>
-Step 7. Scroll down to where it says "Send Data to Apple" and select it then set it to "No"<br>
-Step 8. Once your setting says "No", while hovering over "Send Data to Apple" (like shown in the image below) press the "Play/Pause" button on your Apple TV remote. It will open up a screen that we will use in the next window.<br>
-<img src="http://i.imgur.com/ZUwdFkq.jpg" alt="">
-Step 9. Select "Add Profile" then click "Ok"<br>
-Step 10. On the "Add Profile" page it should pull up a text box. Type in "<a href="http://trailers.apple.com/trailers.cer">http://trailers.apple.com/trailers.cer</a>" then click "Submit". This adds a custom profile to your Apple TV that allows SSL connections between your Apple TV and the PopcornTV Application.  </p>
-
-<p>Now that you have all the tedious work out of the way, go to the Apple TV home screen and select the "Trailers" application! Browse the movies you want and select it!</p>
+<p>Please take a look at the Wiki for installation details <a href="https://github.com/OstlerDev/PopcornTV/wiki/How-to-Install">here!</a></p>
 
 <h3>
 <a id="bug-reporting" class="anchor" href="#bug-reporting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bug Reporting</h3>
 
-<p>If you find a bug please let me know of it by submitting an "Issue" on the Github page. Be sure to include what you were doing, steps to reproduce the bug, and the crash log.</p>
+<p>If you find a bug please let me know of it by submitting an "Issue" on the <a href="https://github.com/OstlerDev/PopcornTV/issues">Github page</a>. Be sure to include what you were doing, steps to reproduce the bug, and the crash log.</p>
 
 <h3>
 <a id="what-works" class="anchor" href="#what-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>What Works?</h3>
@@ -88,43 +67,18 @@ Step 10. On the "Add Profile" page it should pull up a text box. Type in "<a hre
 [X] Stream the movies directly from the torrents to the Apple TV
 [X] Display Fanart and information about the movie including related Movies
 [X] Display TV Shows and Information about them
+[X] Watch Movie Trailers instantly
 </code></pre>
 
 <h3>
-<a id="todos" class="anchor" href="#todos" aria-hidden="true"><span class="octicon octicon-link"></span></a>Todo's</h3>
+<a id="roadmap" class="anchor" href="#roadmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Roadmap</h3>
 
-<pre><code>[X] Add more movie libraries
-[X] Redo layout
-[-] Add TV Show Support (Requires work with FFMPEG &amp; Magnet URL Bug fix)
-[X] Implement Certificate Generation
-[ ] Add more dynamic loading to load more then 50 results
-[ ] Add VPN support(?)
-[ ] Add Quality selection
-[ ] Add Settings
-[ ] Look into Subtitle Support
-[ ] Add Anime Support
-[ ] Add Option to either Delete or Keep Videos Downloaded
-</code></pre>
+<p>Please view the <a href="https://github.com/OstlerDev/PopcornTV/wiki/Roadmap">roadmap</a> for Planned features and ideas! </p>
 
 <h3>
 <a id="bugs" class="anchor" href="#bugs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bugs</h3>
 
-<pre><code>[X] Unable to stream same torrent after leaving the stream
-[X] Streamer unable to stream Youtube videos
-[X] Related Movies not displaying
-[ ] TV Magnet Links do not work with streamer-server
-[ ] Unable to stream low seeded movies because of Apple TV Timeout
-[ ] Unable to stream TV Shows that are not in .mp4 format.
-[ ] TVPrePlay Season poster art
-</code></pre>
-
-<h3>
-<a id="ideas" class="anchor" href="#ideas" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ideas</h3>
-
-<pre><code>[ ] Switch to SSL Only
-[ ] Add Current time and finish time to display while the movie is playing
-[ ] Add "Watch Later" to save movies and TV shows that you either want to subscribe to or watch at a later date
-</code></pre>
+<p>Please take a look <a href="https://github.com/OstlerDev/PopcornTV/issues">here</a> for the latest information on Bugs. Please submit all new bugs here as well.</p>
 
 <h4>
 <a id="workflow" class="anchor" href="#workflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Workflow</h4>
@@ -165,14 +119,9 @@ Step 10. On the "Add Profile" page it should pull up a text box. Type in "<a hre
 </ul>
 
 <h3>
-<a id="why-is-it-not-released-yet" class="anchor" href="#why-is-it-not-released-yet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why is it not released yet?</h3>
-
-<p>I have decided to hold off on the initial release of this software until it is actually ready for release. Currently there are many features missing that I want to get working as well as some bugs that I wish to smash before a release from me.</p>
-
-<h3>
 <a id="development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h3>
 
-<p>Want to contribute? Great! Add the features that you want and submit a pull request! If you have a suggestion or comment, please post on this thread or email me at: <a href="mailto:hello@popcorntv.io">hello@popcorntv.io</a></p>
+<p>Want to contribute? Great! Add the features that you want and submit a <a href="https://github.com/OstlerDev/PopcornTV/pulls">pull request</a>! If you have a suggestion or comment, please post it on the <a href="https://github.com/OstlerDev/PopcornTV/issues/new">Github</a> and tag it with "enhancement" or reply to this thread :)</p>
 
 <h2>
 <a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
