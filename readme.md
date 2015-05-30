@@ -30,7 +30,7 @@ $ cd PopcornTV
 $ sudo npm install
 $ sudo node atv.js
 ```
-Step 2.5. On the first run it will generate the certificates needed to run the application, once those are generated restart the program using:  
+Step 2.5. On the first run it will generate the certificates needed to run the application, once those are generated restart the program again using the lines below. It will create a file named "config.json" open it up and swap the in there for your local IP if the Apple TV is on the same network, or the Public IP if you are running this on a VPS. Once you finish that run the application again.
 ```sh
 $ sudo node atv.js
 ```
