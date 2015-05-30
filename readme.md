@@ -23,27 +23,26 @@ We pull all of our Movies from [YTS](https://yts.to/) by using the API that they
 
 ### Installation
 
-Step 1. Download Popcorn TV or Clone the Repository
-Step 2. Run the commands below. This is the installation instructions for a Mac, I have not tested it on a PC but it should be the same.
-
+Step 1. Download Popcorn TV or Clone the Repository  
+Step 2. Open Terminal or the Command prompt and enter the commands below. I have only tested this on a Mac, so if there are issues on Windows or Linux please let me know so that I can update the guide!  
 ```sh
 $ cd PopcornTV
 $ sudo npm install
 $ sudo node atv.js
 ```
-Step 3. On the first run it will generate the certificates needed to run the application, once those are generated restart the program using:
+Step 2.5. On the first run it will generate the certificates needed to run the application, once those are generated restart the program using:  
 ```sh
 $ sudo node atv.js
 ```
-Step 3. Go to your Apple TV and select the settings Application.
-Step 4. Select General > Network > "Your Network" > "Your network" again. You should end on a page that says "Wifi Configuration" at the top. 
-Step 5. Go down to "Configure DNS" and set it to Manual, then enter in the local IP address of your Computer that is running PopcornTV
-Step 6. Once the DNS is set, menu out back to the "General" page.
-Step 7. Scroll down to where it says "Send Data to Apple" and select it then set it to "No"
-Step 8. Once your setting says "No", while hovering over "Send Data to Apple" (like shown in the image below) press the "Play/Pause" button on your Apple TV remote. It will open up a screen that we will use in the next window.
+Step 3. Go to your Apple TV and select the settings Application.  
+Step 4. Select General > Network > "Your Network" > "Your network" again. You should end on a page that says "Wifi Configuration" at the top.   
+Step 5. Go down to "Configure DNS" and set it to Manual, then enter in the local IP address of your Computer that is running PopcornTV  
+Step 6. Once the DNS is set, menu out back to the "General" page.  
+Step 7. Scroll down to where it says "Send Data to Apple" and select it then set it to "No"  
+Step 8. Once your setting says "No", while hovering over "Send Data to Apple" (like shown in the image below) press the "Play/Pause" button on your Apple TV remote. It will open up a screen that we will use in the next window.  
 ![](http://i.imgur.com/ZUwdFkq.jpg)
-Step 9. Select "Add Profile" then click "Ok"
-Step 10. On the "Add Profile" page it should pull up a text box. Type in "http://trailers.apple.com/trailers.cer" then click "Submit". This adds a custom profile to your Apple TV that allows SSL connections between your Apple TV and the PopcornTV Application.
+Step 9. Select "Add Profile" then click "Ok"  
+Step 10. On the "Add Profile" page it should pull up a text box. Type in "http://trailers.apple.com/trailers.cer" then click "Submit". This adds a custom profile to your Apple TV that allows SSL connections between your Apple TV and the PopcornTV Application.  
 
 Now that you have all the tedious work out of the way, go to the Apple TV home screen and select the "Trailers" application! Browse the movies you want and select it!
 
