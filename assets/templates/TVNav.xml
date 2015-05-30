@@ -9,19 +9,19 @@
       <navigation currentIndex="0">
         <navigationItem id="Libraries">
           <title>Popular</title>
-          <url>http://trailers.apple.com/TVGrid.xml?title=Popular%20Movies&amp;sort_by=seeds</url>
+          <url>http://trailers.apple.com/TVGrid.xml?title=Popular%20TV%20Shows&amp;sort_by=seeds</url>
         </navigationItem>
         <navigationItem id="Added">
           <title>Recently Updated</title>
-          <url>http://trailers.apple.com/TVGrid.xml?title=Recently%20Added&amp;sort_by=date_added</url>
+          <url>http://trailers.apple.com/TVGrid.xml?title=Recently%20Updated&amp;sort_by=updated</url>
         </navigationItem>
         <navigationItem id="released">
           <title>Recently Released</title>
           <url>http://trailers.apple.com/TVGrid.xml?title=Recently%20Released&amp;sort_by=year</url>
         </navigationItem>
         <navigationItem id="Rated">
-          <title>Highest Rated</title>
-          <url>http://trailers.apple.com/TVGrid.xml?title=Highest%20Rated&amp;sort_by=rating</url>
+          <title>A-Z</title>
+          <url>http://trailers.apple.com/TVGrid.xml?title=A-Z&amp;sort_by=name</url>
         </navigationItem>
         <navigationItem id="Genere">
           <title>Genres</title>

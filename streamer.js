@@ -1,4 +1,4 @@
-var Streamer = require('popcorn-streamer-server');
+var Streamer = require('./streamer-server');
 
 var torrent;
 var ready = false;
@@ -10,10 +10,13 @@ function startStreamer(url, torrentID, localIp) {
 	ip = localIp;
 	var streamBuffer = 10 * 1024 * 1024;
 	if (url.indexOf("youtube") >= 0){
-		streamBuffer = 100;
+		streamBuffer = 3 * 1024 * 1024;
 	}
 	torrent = new Streamer(url, 
 	{
+		youtube: {
+			hd: true
+		},
 		hostname: ip,
 		progressInterval: 200,
 		buffer: streamBuffer,
@@ -38,7 +41,7 @@ function startStreamer(url, torrentID, localIp) {
 }
 
 function getURL(){
-	return "http://" + ip + ":9999/" + ID + ".mp4";
+	return "http://" + ip + ":9999/" + ID + '.mp4';
 }
 
 function getStreamer(){

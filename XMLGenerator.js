@@ -19,6 +19,10 @@ function generatePlayXML(url, title, desc, image) {
 	}], { declaration: { encoding: 'UTF-8'}});
 }
 
+function generatePlayDelay(url){
+
+}
+
 function generateMoviesXML(title, sort_by, callback){
 	var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
@@ -259,7 +263,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  									.endElement()
 	  									.startElement('actionButton')
 	  										.writeAttribute('id', 'select')
-	  										.writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=https://www.youtube.com/watch?v=" + movie.yt_trailer_code + "&id=" + torrentID + "yt')")
+	  										.writeAttribute('onSelect', "atv.loadURL('')")
 	  										.writeElement('title', 'Select Quality')
 	  										.writeElement('image', 'resource://Queue.png')
 	  										.writeElement('focusedImage', 'resource://QueueFocused.png')
@@ -496,7 +500,7 @@ function generateTVPrePlayXML(imdb, season, episode, callback){
 	  				.endElement()
 	  				.startElement('image')
 	  					.writeAttribute('style', 'moviePoster')
-	  					.text('https://walter.trakt.us/images/seasons/000/003/963/posters/thumb/3b1d09801b.jpg')
+	  					.text('')
 	  				.endElement()
 	  				.writeElement('defaultImage', 'resource://Poster.png')
 	  				.startElement('table')

@@ -2,7 +2,11 @@ function getTV(sort_by, amount, callback) {
 	var page = 1;
 	var request = require("request")
 
-	var url = "http://eztvapi.re/shows/" + page.toString();
+	if(sort_by == "seeds"){
+		var url = "http://eztvapi.re/shows/" + page.toString();
+	} else {
+		var url = "http://eztvapi.re/shows/" + page.toString() + "?sort=" + sort_by;
+	}
 	//console.log(url);
 	request({
 	    url: url,
@@ -253,6 +257,7 @@ function getTorrents(imdb, season, episode, callback) {
 	        var shows = body.episodes;
 	        shows.forEach(function(show){
 	        	if (show.season == season && show.episode == episode){
+	        		console.log(show.torrents[0].url);
 	        		callback(show.torrents);
 	        	}
 	        });
