@@ -10,7 +10,7 @@ We pull all of our Movies from [YTS](https://yts.to/) by using the API that they
 
 ### Preview
 #### Preview Video
-[Watch the latest video here](https://www.youtube.com/watch?v=dlnwrfkbna4)! Please excuse the bad video quality, it was filmed in one take on my iPhone. I will be uploading more videos in the future if so desired
+[Watch the latest video here! (v0.1.4a)](https://www.youtube.com/watch?v=s9R24DIXkQk)
 
 #### Preview Images
 ![](http://i.imgur.com/Q8eQt73.jpg)
@@ -23,31 +23,10 @@ We pull all of our Movies from [YTS](https://yts.to/) by using the API that they
 
 ### Installation
 
-Step 1. Download Popcorn TV or Clone the Repository  
-Step 2. Open Terminal or the Command prompt and enter the commands below. I have only tested this on a Mac, so if there are issues on Windows or Linux please let me know so that I can update the guide!  
-```sh
-$ cd PopcornTV
-$ sudo npm install
-$ sudo node atv.js
-```
-Step 2.5. On the first run it will generate the certificates needed to run the application, once those are generated restart the program again using the lines below. It will create a file named "config.json" open it up and swap the in there for your local IP if the Apple TV is on the same network, or the Public IP if you are running this on a VPS. Once you finish that run the application again.
-```sh
-$ sudo node atv.js
-```
-Step 3. Go to your Apple TV and select the settings Application.  
-Step 4. Select General > Network > "Your Network" > "Your network" again. You should end on a page that says "Wifi Configuration" at the top.   
-Step 5. Go down to "Configure DNS" and set it to Manual, then enter in the local IP address of your Computer that is running PopcornTV  
-Step 6. Once the DNS is set, menu out back to the "General" page.  
-Step 7. Scroll down to where it says "Send Data to Apple" and select it then set it to "No"  
-Step 8. Once your setting says "No", while hovering over "Send Data to Apple" (like shown in the image below) press the "Play/Pause" button on your Apple TV remote. It will open up a screen that we will use in the next window.  
-![](http://i.imgur.com/ZUwdFkq.jpg)
-Step 9. Select "Add Profile" then click "Ok"  
-Step 10. On the "Add Profile" page it should pull up a text box. Type in "http://trailers.apple.com/trailers.cer" then click "Submit". This adds a custom profile to your Apple TV that allows SSL connections between your Apple TV and the PopcornTV Application.  
-
-Now that you have all the tedious work out of the way, go to the Apple TV home screen and select the "Trailers" application! Browse the movies you want and select it!
+Please take a look at the Wiki for installation details [here!](https://github.com/OstlerDev/PopcornTV/wiki/How-to-Install)
 
 ### Bug Reporting
-If you find a bug please let me know of it by submitting an "Issue" on the Github page. Be sure to include what you were doing, steps to reproduce the bug, and the crash log.
+If you find a bug please let me know of it by submitting an "Issue" on the [Github page](https://github.com/OstlerDev/PopcornTV/issues). Be sure to include what you were doing, steps to reproduce the bug, and the crash log.
 
 
 ### What Works?
@@ -57,42 +36,15 @@ If you find a bug please let me know of it by submitting an "Issue" on the Githu
 [X] Stream the movies directly from the torrents to the Apple TV
 [X] Display Fanart and information about the movie including related Movies
 [X] Display TV Shows and Information about them
+[X] Watch Movie Trailers instantly
 ```
 
-### Todo's
-
-```
-[X] Add more movie libraries
-[X] Redo layout
-[-] Add TV Show Support (Requires work with FFMPEG & Magnet URL Bug fix)
-[X] Implement Certificate Generation
-[ ] Add more dynamic loading to load more then 50 results
-[ ] Add VPN support(?)
-[ ] Add Quality selection
-[ ] Add Settings
-[ ] Look into Subtitle Support
-[ ] Add Anime Support
-[ ] Add Option to either Delete or Keep Videos Downloaded
-```
+### Roadmap
+Please view the [roadmap](https://github.com/OstlerDev/PopcornTV/wiki/Roadmap) for Planned features and ideas! 
 
 ### Bugs
 
-```
-[X] Unable to stream same torrent after leaving the stream
-[X] Streamer unable to stream Youtube videos
-[X] Related Movies not displaying
-[ ] TV Magnet Links do not work with streamer-server
-[ ] Unable to stream low seeded movies because of Apple TV Timeout
-[ ] Unable to stream TV Shows that are not in .mp4 format.
-[ ] TVPrePlay Season poster art
-```
-
-### Ideas
-```
-[ ] Switch to SSL Only
-[ ] Add Current time and finish time to display while the movie is playing
-[ ] Add "Watch Later" to save movies and TV shows that you either want to subscribe to or watch at a later date
-```
+Please take a look [here](https://github.com/OstlerDev/PopcornTV/issues) for the latest information on Bugs. Please submit all new bugs here as well.
 
 #### Workflow
 - Select Trailers application on Apple TV
@@ -120,13 +72,9 @@ PopcornTV uses several API's and libraries.
 * [YTS API](https://yts.to/api) - An extensive database with over 5.6k movies.
 * [PlexConnect](https://github.com/iBaa/PlexConnect) - For giving me some example source code that I used before moving to Node.js
 
-### Why is it not released yet?
-
-I have decided to hold off on the initial release of this software until it is actually ready for release. Currently there are many features missing that I want to get working as well as some bugs that I wish to smash before a release from me.
-
 ### Development
 
-Want to contribute? Great! Add the features that you want and submit a pull request! If you have a suggestion or comment, please post on this thread or email me at: hello@popcorntv.io
+Want to contribute? Great! Add the features that you want and submit a [pull request](https://github.com/OstlerDev/PopcornTV/pulls)! If you have a suggestion or comment, please post it on the [Github](https://github.com/OstlerDev/PopcornTV/issues/new) and tag it with "enhancement" or reply to this thread :)
 
 License
 ----
