@@ -1,4 +1,3 @@
-### Repository is currently Private, files cannot be downloaded! This restriction will be removed once the project is ready for release.
 # What is PopcornTV?
 
 PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from yts.to as well as the Popcorn Time TV API to allow for a smooth interface and ease of use.
