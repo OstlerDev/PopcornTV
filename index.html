@@ -19,10 +19,7 @@
     </section>
 
     <section class="main-content">
-      <h3>
-<a id="repository-is-currently-private-files-cannot-be-downloaded-this-restriction-will-be-removed-once-the-project-is-ready-for-release" class="anchor" href="#repository-is-currently-private-files-cannot-be-downloaded-this-restriction-will-be-removed-once-the-project-is-ready-for-release" aria-hidden="true"><span class="octicon octicon-link"></span></a>Repository is currently Private, files cannot be downloaded! This restriction will be removed once the project is ready for release.</h3>
-
-<h1>
+      <h1>
 <a id="what-is-popcorntv" class="anchor" href="#what-is-popcorntv" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is PopcornTV?</h1>
 
 <p>PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from yts.to as well as the Popcorn Time TV API to allow for a smooth interface and ease of use.</p>
@@ -54,6 +51,37 @@
 <img src="http://i.imgur.com/oD0n1NA.jpg" alt=""></p>
 
 <h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
+
+<p>Step 1. Download Popcorn TV or Clone the Repository<br>
+Step 2. Open Terminal or the Command prompt and enter the commands below. I have only tested this on a Mac, so if there are issues on Windows or Linux please let me know so that I can update the guide!  </p>
+
+<div class="highlight highlight-sh"><pre>$ <span class="pl-c1">cd</span> PopcornTV
+$ sudo npm install
+$ sudo node atv.js</pre></div>
+
+<p>Step 2.5. On the first run it will generate the certificates needed to run the application, once those are generated restart the program using:  </p>
+
+<div class="highlight highlight-sh"><pre>$ sudo node atv.js</pre></div>
+
+<p>Step 3. Go to your Apple TV and select the settings Application.<br>
+Step 4. Select General &gt; Network &gt; "Your Network" &gt; "Your network" again. You should end on a page that says "Wifi Configuration" at the top.<br>
+Step 5. Go down to "Configure DNS" and set it to Manual, then enter in the local IP address of your Computer that is running PopcornTV<br>
+Step 6. Once the DNS is set, menu out back to the "General" page.<br>
+Step 7. Scroll down to where it says "Send Data to Apple" and select it then set it to "No"<br>
+Step 8. Once your setting says "No", while hovering over "Send Data to Apple" (like shown in the image below) press the "Play/Pause" button on your Apple TV remote. It will open up a screen that we will use in the next window.<br>
+<img src="http://i.imgur.com/ZUwdFkq.jpg" alt="">
+Step 9. Select "Add Profile" then click "Ok"<br>
+Step 10. On the "Add Profile" page it should pull up a text box. Type in "<a href="http://trailers.apple.com/trailers.cer">http://trailers.apple.com/trailers.cer</a>" then click "Submit". This adds a custom profile to your Apple TV that allows SSL connections between your Apple TV and the PopcornTV Application.  </p>
+
+<p>Now that you have all the tedious work out of the way, go to the Apple TV home screen and select the "Trailers" application! Browse the movies you want and select it!</p>
+
+<h3>
+<a id="bug-reporting" class="anchor" href="#bug-reporting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bug Reporting</h3>
+
+<p>If you find a bug please let me know of it by submitting an "Issue" on the Github page. Be sure to include what you were doing, steps to reproduce the bug, and the crash log.</p>
+
+<h3>
 <a id="what-works" class="anchor" href="#what-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>What Works?</h3>
 
 <pre><code>[X] Display Movies from yts.to
@@ -68,7 +96,7 @@
 <pre><code>[X] Add more movie libraries
 [X] Redo layout
 [-] Add TV Show Support (Requires work with FFMPEG &amp; Magnet URL Bug fix)
-[ ] Implement Certificate Generation
+[X] Implement Certificate Generation
 [ ] Add more dynamic loading to load more then 50 results
 [ ] Add VPN support(?)
 [ ] Add Quality selection
@@ -111,7 +139,8 @@
 <h3>
 <a id="version-history" class="anchor" href="#version-history" aria-hidden="true"><span class="octicon octicon-link"></span></a>Version History</h3>
 
-<pre><code>0.1.3a - Add TV Show Support
+<pre><code>0.1.4a - Clean up Code, Implement Certificate Generation. Initial Release
+0.1.3a - Add TV Show Support (broken)
 0.1.2a - Redesign UI
 0.1.1a - Implement VideoAPI
 0.1.0a - Initial Testing
