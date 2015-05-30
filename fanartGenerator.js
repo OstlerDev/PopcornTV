@@ -16,7 +16,7 @@ function generateFanart(imdb, callback) {
                 var request = http.get(url, function(response) {
                     response.pipe(file);
                     file.on('finish', function() {
-                        images('tmp.jpg').draw(images('assets/thumbnails/gradient_1080.png'), 0, 0).save('assets/cache/' + imdb + '.jpg');
+                        images('tmp.jpg').resize(1920, 1080).draw(images('assets/thumbnails/gradient_1080.png'), 0, 0).save('assets/cache/' + imdb + '.jpg');
                         callback('cache/' + imdb + '.jpg');
                         fs.unlink('tmp.jpg');
                     });

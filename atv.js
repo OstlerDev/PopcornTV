@@ -2,7 +2,14 @@ var webservers = require("./webserver");
 var dns = require('./dns');
 
 var fs = require('fs');
-if (fs.existsSync('config.json')) {
+if (!fs.existsSync('assets/certificates/trailers.cer')){
+    var pem = require('pem');
+    console.log('SSL Certificate does not exist, Please restart once the process ends!');
+    pem.createCertificate({days:720, selfSigned:true, country: 'US', commonName: 'trailers.apple.com'}, function(err, keys){
+        fs.writeFile('assets/certificates/trailers.cer', keys.certificate+ '\n' + keys.serviceKey);
+        fs.writeFile('assets/certificates/trailers.pem', keys.certificate+ '\n' + keys.serviceKey);
+    });
+} else if (fs.existsSync('config.json')) {
     var data = fs.readFileSync('./config.json'), config;
     try {
         config = JSON.parse(data);
@@ -12,8 +19,9 @@ if (fs.existsSync('config.json')) {
 		webservers.startWebServer(LOCAL_IP);
 		webservers.startSSLWebServer(LOCAL_IP);
     } catch (err) {
-        console.log('There has been an error parsing your JSON.')
+        console.log('There is an error starting Popcorn TV, please post this on the Github page')
         console.log(err);
+        process.exit();
     }
 } else {
     var myOptions = {
