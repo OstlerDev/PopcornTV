@@ -4,7 +4,7 @@ var dns = require('./dns');
 var fs = require('fs');
 if (!fs.existsSync('assets/certificates/trailers.cer')){
     var pem = require('pem');
-    console.log('SSL Certificate does not exist, Please restart once the process ends!');
+    console.log('SSL Certificate does not exist, Please restart PopcornTV once the process ends!');
     pem.createCertificate({days:720, selfSigned:true, country: 'US', commonName: 'trailers.apple.com'}, function(err, keys){
         fs.writeFile('assets/certificates/trailers.cer', keys.certificate+ '\n' + keys.serviceKey);
         fs.writeFile('assets/certificates/trailers.pem', keys.certificate+ '\n' + keys.serviceKey);
@@ -37,7 +37,7 @@ if (!fs.existsSync('assets/certificates/trailers.cer')){
             console.log(err.message);
             return;
         }
-        console.log('Configuration Generated. Please fill in the IP, then restart the program!');
+        console.log('Configuration Generated. Please fill in the IP, then restart PopcornTV!');
         process.exit();
     });
 }
