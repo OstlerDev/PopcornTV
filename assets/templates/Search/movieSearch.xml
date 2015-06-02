@@ -4,7 +4,7 @@
       <search id="plex-search">
         <header>
           <simpleHeader>
-            <title>Search All</title>
+            <title>Search Movies</title>
           </simpleHeader>
         </header>
       <baseURL>http://trailers.apple.com/Search/results.xml?query=</baseURL>

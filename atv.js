@@ -1,5 +1,6 @@
 var webservers = require("./webserver");
 var dns = require('./dns');
+var ip = require("ip");
 
 var fs = require('fs');
 if (!fs.existsSync('assets/certificates/trailers.cer')){
@@ -25,7 +26,7 @@ if (!fs.existsSync('assets/certificates/trailers.cer')){
     }
 } else {
     var myOptions = {
-        ip: '10.0.1.2',
+        ip: ip.address(),
         default_dns: '8.8.8.8'
     };
 
@@ -37,7 +38,18 @@ if (!fs.existsSync('assets/certificates/trailers.cer')){
             console.log(err.message);
             return;
         }
-        console.log('Configuration Generated. Please fill in the IP, then restart PopcornTV!');
-        process.exit();
+        var data = fs.readFileSync('./config.json'), config;
+        try {
+            config = JSON.parse(data);
+            const LOCAL_IP = config.ip;
+            console.log("Starting PopcornTV");
+            dns.startDnsProxy(LOCAL_IP);
+            webservers.startWebServer(LOCAL_IP);
+            webservers.startSSLWebServer(LOCAL_IP);
+        } catch (err) {
+            console.log('There is an error starting Popcorn TV, please post this on the Github page')
+            console.log(err);
+            process.exit();
+        }
     });
 }

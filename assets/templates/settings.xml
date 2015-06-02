@@ -23,7 +23,7 @@
           </metadataKeys>
           <metadataValues>
             <label>PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from yts.to as well as the Popcorn Time TV API to allow for a smooth interface and ease of use.</label>
-            <label>0.1.4a</label>
+            <label>0.1.5 dev</label>
             <label>OstlerDev</label>
             <label>https://popcorntv.io</label>
             <label>https://discuss.popcorntime.io/t/popcorntv-bringing-popcorn-time-to-your-apple-tv/</label>
