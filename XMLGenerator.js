@@ -295,7 +295,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 								  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
 								  			.writeAttribute('alwaysShowTitles', 'true')
 								  			.writeAttribute('related', 'true')
-								  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+								  			.writeAttribute('onSelect', "atv.loadURL('" + url + "')")
 								  		.writeElement('title', movies[i].title)
 								  		.writeElement('subtitle', movies[i].year)
 								  		.writeElement('image', movies[i].medium_cover_image)
