@@ -10,7 +10,11 @@ function resolveDNSDomain(msg) {
 	while (offset = msg.readUInt8(index++)) {
 		var sub = "";
 		for (var i = 0; i <  offset; i++) {
-			sub += String.fromCharCode(msg.readUInt8(index++));
+			try{
+				sub += String.fromCharCode(msg.readUInt8(index++));
+			} catch(e) {
+				logger.error(e);
+			}
 		}
 		sub && domain.push(sub)
 	}

@@ -229,8 +229,6 @@ function startSSLWebServer(localIp) {
 			pathname += "index.html";
 		} else if(pathname == "/appletv/us/js/application.js"){
 			pathname = "js/application.js";
-		} else if(pathname.includes(".xml")){
-			pathname = "templates/" + pathname;
 		}
 		var realPath = path.join("assets", path.normalize(pathname.replace(/\.\./g, "")));
 		logger.Web("SSL: " + pathname);
