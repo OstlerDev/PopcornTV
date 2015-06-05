@@ -10,7 +10,15 @@ var logger = new (Winston.Logger)({
             prettyPrint: true,
             json: false
         }),
-        new (Winston.transports.File)({ filename: './PopcornTV.log', level: LoggingLevel, prettyPrint: true, json: false})
+        new (Winston.transports.File)({ 
+        	filename: './PopcornTV.log', 
+        	level: LoggingLevel, 
+        	prettyPrint: true, 
+        	json: false,
+        	maxsize: 10 * 1024 * 1024,
+        	maxFiles: 3,
+        	tailable: true
+        })
     ],
     colors: {Debug: "red", Web: "cyan", DNS: "cyan", Streamer: "cyan", notice: "white", warning: "yellow", error: "red"}
 });

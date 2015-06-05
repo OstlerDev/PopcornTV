@@ -45,16 +45,15 @@ function startWebServer(localIp) {
 		if (pathname.charAt(pathname.length - 1) == "/") {
 			pathname += "index.html";
 		} else if(pathname.indexOf("MoviePlay.xml") >= 0){
+			logger.Debug('=== Starting MoviePlay.xml Generation ===');
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Streamer('Streamer: Starting Stream... Please wait for stream to be ready.');
 			torrent.startStreamer(query.torrent, query.id, localIp);
 			torrent.getStreamer().on('ready', function (data) {
+				logger.Debug('=== Ending MoviePlay.xml Generation ===');
 				response.write(xml.generatePlayXML(torrent.getURL(), query.title, query.desc, query.poster));
 				response.end();
-			});
-			torrent.getStreamer().on('close', function () {
-				logger.Streamer('Streamer: Streaming Closed');
 			});
 			staticFile = false;
 		} else if(pathname.indexOf("MoviesGrid.xml") >= 0){
