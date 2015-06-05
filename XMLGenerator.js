@@ -458,7 +458,7 @@ function generateTVEpisodes(imdb, season, title, callback){
 }
 function generateTVPrePlayXML(imdb, season, episode, callback){
 	var API = require('./TVAPI');
-    var episode = API.getEpisode(imdb, season, episode, function(show, moreEpisodes, episodeNumbers, torrentLink, fanart){
+    var episode = API.getEpisode(imdb, season, episode, function(show, moreEpisodes, episodeNumbers, torrentLink, fanart, poster){
     	var XMLWriter = require('xml-writer');
 		var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?torrentID=" + imdb;
     	xw = new XMLWriter;
@@ -500,7 +500,7 @@ function generateTVPrePlayXML(imdb, season, episode, callback){
 	  				.endElement()
 	  				.startElement('image')
 	  					.writeAttribute('style', 'moviePoster')
-	  					.text('')
+	  					.text(poster)
 	  				.endElement()
 	  				.writeElement('defaultImage', 'resource://Poster.png')
 	  				.startElement('table')

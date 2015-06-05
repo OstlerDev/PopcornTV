@@ -109,9 +109,15 @@ function getEpisode(imdb, season, episodeNum, callback) {
 	        	getTorrents(imdb, season, episodeNum, function(torrents){
 	        		// get the fanart for the show
 	        		getScreenshotFanart(imdb, season, episodeNum, function(fanart){
-	        			callback(show, moreEpisodes, numbers, torrents, fanart);
-	        		})
-	        	})
+	        			getSeasons(imdb, function (seasons, numbers, url) {
+	        				seasons.forEach(function(seasonNum){
+	        					if (seasonNum.number == season){
+	        						callback(show, moreEpisodes, numbers, torrents, fanart, seasonNum.images.poster.thumb);
+	        					}
+	        				});
+	        			});
+	        		});
+	        	});
 	        });
 	    } else {
 			console.log("Error connecting to trakt.tv and grabbing json: " + url);
