@@ -329,7 +329,7 @@ function generateTVXML(title, sort_by, callback){
     				.startElement('grid')
     					.writeAttribute('columnCount', '7').writeAttribute('id', 'grid_0')
     						.startElement('items');
-    var API = require('./TVAPI');
+    var API = require('./TVApi');
     var tv = API.getTV(sort_by, "50", function(shows){
     	//console.log(movies);
     	for(var i = 0; i <= shows.length-1; i++)
@@ -357,7 +357,7 @@ function generateTVXML(title, sort_by, callback){
 function generateTVSeasons(imdb, seriesTitle, callback){
 	var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
-    var API = require('./TVAPI');
+    var API = require('./TVApi');
     var tv = API.getSeasons(imdb, function(seasons, seasonNumbers, fanart){
     	xw.startDocument(version='1.0', encoding='UTF-8');
     	xw.startElement('atv')
@@ -409,7 +409,7 @@ function generateTVSeasons(imdb, seriesTitle, callback){
 function generateTVEpisodes(imdb, season, title, callback){
 	var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
-    var API = require('./TVAPI');
+    var API = require('./TVApi');
     //console.log(title);
     var tv = API.getEpisodes(imdb, season, function(episodes, episodeNumbers, fanart){
     	xw.startDocument(version='1.0', encoding='UTF-8');
@@ -462,7 +462,7 @@ function generateTVEpisodes(imdb, season, title, callback){
     });
 }
 function generateTVPrePlayXML(imdb, season, episode, callback){
-	var API = require('./TVAPI');
+	var API = require('./TVApi');
     var episode = API.getEpisode(imdb, season, episode, function(show, moreEpisodes, episodeNumbers, torrentLink, fanart, poster, fullShow){
     	var XMLWriter = require('xml-writer');
 		var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?torrentID=" + imdb;
