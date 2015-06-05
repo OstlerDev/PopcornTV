@@ -424,7 +424,7 @@ function generateTVEpisodes(imdb, season, title, callback){
 			if (episodeNumbers.indexOf(num) > -1){
 				var url = 'http://trailers.apple.com/TVPrePlay.xml?imdb=' + imdb + '&season=' + season + '&episode=' + num;
 	  			xw.startElement('twoLineEnhancedMenuItem')
-	  				.writeAttribute('id', i)
+	  				.writeAttribute('id', episodes[i].ids.trakt)
 	  				.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
 	  				.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
 	  			.writeElement('label', 'Episode ' + num)
