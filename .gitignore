@@ -5,3 +5,4 @@ assets/certificates/*.cer
 assets/certificates/*.key
 assets/certificates/*.pem
 config.json
+*.log

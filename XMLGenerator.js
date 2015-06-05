@@ -1,4 +1,5 @@
 var xml = require('xml');
+var logger = require('./logger');
 
 function generatePlayXML(url, title, desc, image) {
 	return xml(
@@ -41,7 +42,6 @@ function generateMoviesXML(title, sort_by, callback){
     						.startElement('items');
     var API = require('./MoviesAPI');
     var movies = API.getMovies(sort_by, "50", function(movies){
-    	//console.log(movies);
     	for(var i = 0; i <= movies.length-1; i++)
 		{
 			var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
@@ -58,7 +58,7 @@ function generateMoviesXML(title, sort_by, callback){
 		}
     	xw.endDocument();
 
-    	//console.log(xw.toString());
+    	logger.Debug(xw.toString());
     	callback(xw.toString());
     });
 }
@@ -73,13 +73,12 @@ function generateMovieParadeXML(sort_by, callback){
     			.startElement('paradePreview').writeAttribute('inOrder', 'true')
     var API = require('./MoviesAPI');
     var movies = API.getMovies(sort_by, "15", function(movies){
-    	//console.log(movies);
     	for(var i = 0; i <= movies.length-1; i++)
 		{
 	  		xw.writeElement('image', movies[i].medium_cover_image)
 		}
     	xw.endDocument();
-    	//console.log(xw.toString());
+    	logger.Debug(xw.toString());
     	callback(xw.toString());
     });
 }
@@ -99,7 +98,6 @@ function generateMovieGenre(genre, callback){
     						.startElement('items')
     var API = require('./MoviesAPI');
     var movies = API.getMoviesGenre(genre, "50", function(movies){
-    	//console.log(movies);
     	for(var i = 0; i <= movies.length-1; i++)
 		{
 	  		var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
@@ -115,7 +113,7 @@ function generateMovieGenre(genre, callback){
 	  		.endElement();
 		}
     	xw.endDocument();
-    	//console.log(xw.toString());
+    	logger.Debug(xw.toString());
     	callback(xw.toString());
     });
 }
@@ -139,7 +137,6 @@ function generateSearchResults(query, callback){
     						.startElement('items')
     var API = require('./MoviesAPI');
     var movies = API.searchMovies(query, function(movies){
-    	//console.log(movies);
     	for(var i = 0; i <= movies.length-1; i++)
 		{
 			var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
@@ -154,7 +151,7 @@ function generateSearchResults(query, callback){
 		}
     	xw.endDocument();
 
-    	//console.log(xw.toString());
+    	logger.Debug(xw.toString());
     	callback(xw.toString());
     });
 }
@@ -308,6 +305,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 								  		.endElement();
 									}
 									xw.endDocument();
+									logger.Debug(xw.toString());
 									callback(xw.toString());
 								});
     });		
@@ -331,12 +329,9 @@ function generateTVXML(title, sort_by, callback){
     						.startElement('items');
     var API = require('./TVApi');
     var tv = API.getTV(sort_by, "50", function(shows){
-    	//console.log(movies);
     	for(var i = 0; i <= shows.length-1; i++)
 		{
-			//var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + shows[i]._id;
 			var url = 'http://trailers.apple.com/seasons.xml?imdb=' + shows[i].imdb_id + '&title=' + shows[i].title.replace(/ /g,"%20");
-			//console.log(url);
 	  		xw.startElement('moviePoster')
 	  			.writeAttribute('id', shows[i].title.replace(/\s/g, ''))
 	  			.writeAttribute('alwaysShowTitles', 'true')
@@ -350,7 +345,7 @@ function generateTVXML(title, sort_by, callback){
 		}
     	xw.endDocument();
 
-    	//console.log(xw.toString());
+    	logger.Debug(xw.toString());
     	callback(xw.toString());
     });
 }
@@ -378,7 +373,6 @@ function generateTVSeasons(imdb, seriesTitle, callback){
     						.startElement('sections')
     							.startElement('shelfSection')
     								.startElement('items');
-    	//console.log(movies);
     	for(var i = 0; i <= seasons.length-1; i++)
 		{
 			if (seasonNumbers.indexOf(i) > -1){
@@ -388,7 +382,6 @@ function generateTVSeasons(imdb, seriesTitle, callback){
 					var title = 'Season ' + i;
 				}
 				var url = 'http://trailers.apple.com/episodes.xml?imdb=' + imdb + '&season=' + i + '&title=' + seriesTitle.replace(/ /g,"%20");
-				//console.log(url);
 	  			xw.startElement('moviePoster')
 	  				.writeAttribute('id', i)
 	  				.writeAttribute('alwaysShowTitles', 'true')
@@ -402,7 +395,7 @@ function generateTVSeasons(imdb, seriesTitle, callback){
 		}
     	xw.endDocument();
 
-    	//console.log(xw.toString());
+    	logger.Debug(xw.toString());
     	callback(xw.toString());
     });
 }
@@ -410,7 +403,6 @@ function generateTVEpisodes(imdb, season, title, callback){
 	var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
     var API = require('./TVApi');
-    //console.log(title);
     var tv = API.getEpisodes(imdb, season, function(episodes, episodeNumbers, fanart){
     	xw.startDocument(version='1.0', encoding='UTF-8');
     	xw.startElement('atv')
@@ -426,7 +418,6 @@ function generateTVEpisodes(imdb, season, title, callback){
     					.startElement('sections')
     						.startElement('menuSection')
     							.startElement('items');
-    	//console.log(movies);
     	for(var i = 0; i <= episodes.length; i++)
 		{
 			var num = i+1;
@@ -457,7 +448,7 @@ function generateTVEpisodes(imdb, season, title, callback){
 	  		}
 		}
     	xw.endDocument();
-
+    	logger.Debug(xw.toString());
     	callback(xw.toString());
     });
 }
@@ -593,6 +584,7 @@ function generateTVPrePlayXML(imdb, season, episode, callback){
 								  		.writeElement('defaultImage', 'resource://Poster.png')
 								  		.endElement();*/
 									xw.endDocument();
+									logger.Debug(xw.toString());
 									callback(xw.toString());
     });		
 }

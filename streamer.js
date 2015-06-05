@@ -1,4 +1,5 @@
 var Streamer = require('./streamer-server');
+var logger = require('./logger');
 
 var torrent;
 var ready = false;
@@ -25,18 +26,18 @@ function startStreamer(url, torrentID, localIp) {
 		index: torrentID + '.mp4'
 	});
 	torrent.on('ready', function (data) {
-		console.log('Streamer: Ready to Stream, binding to ' + data.streamUrl);
+		logger.Streamer('Streamer: Ready to Stream, binding to ' + data.streamUrl);
 		boundURL = data.streamUrl;
 		ready = true;
 	});
 	torrent.on('close', function () {
-		//console.log('Streamer: Stream Closed');
+		logger.Debug('Streamer: Stream Closed');
 	});
 	torrent.on('progress', function (progress) {
-		console.log(progress);
+		logger.Debug(progress);
 	});
 	torrent.on('error', function (e) {
-		console.log(e);
+		logger.error(e);
 	});
 }
 

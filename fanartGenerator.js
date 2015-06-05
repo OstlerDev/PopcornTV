@@ -1,9 +1,11 @@
 var images = require("images");
+var logger = require("./logger");
 
 function generateFanart(imdb, callback) {
+  logger.Debug("=== Generating Fanart ===");
     var fs = require('fs');
     if (fs.existsSync('assets/cache/' + imdb + '.jpg')) {
-        //console.log('Fanart already downloaded, serving.');
+        logger.Debug('Fanart already downloaded, serving.');
         callback('cache/' + imdb + '.jpg');
     } else {
         var API = require('./MoviesAPI');
@@ -26,9 +28,10 @@ function generateFanart(imdb, callback) {
     }
 }
 function generateFanartTV(url, imdb, callback) {
+    logger.Debug("=== Generating Fanart for TV ===");
     var fs = require('fs');
     if (fs.existsSync('assets/cache/' + imdb + '.jpg')) {
-        //console.log('Fanart already downloaded, serving.');
+        logger.Debug('Fanart already downloaded, serving.');
         callback('cache/' + imdb + '.jpg');
     } else {
       var http = require('https');

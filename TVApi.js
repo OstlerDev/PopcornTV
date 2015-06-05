@@ -1,3 +1,5 @@
+var logger = require("./logger");
+
 function getTV(sort_by, amount, callback) {
 	var page = 1;
 	var request = require("request")
@@ -7,16 +9,18 @@ function getTV(sort_by, amount, callback) {
 	} else {
 		var url = "http://eztvapi.re/shows/" + page.toString() + "?sort=" + sort_by;
 	}
-	//console.log(url);
+	logger.Debug("=== Getting TV results ===")
+	logger.Debug(url);
 	request({
 	    url: url,
 	    json: true
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        var shows = body;
+	        logger.Debug(body);
 	        callback(shows);
 	    } else {
-			console.log("Error connecting to eztvapi.re and grabbing json: " + url);
+			logger.warning("Error connecting to eztvapi.re and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -25,6 +29,8 @@ function getShowInfo(imdb, callback) {
 	var request = require('request');
 
 	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '?extended=full';
+	logger.Debug("=== Getting Show Information ===")
+	logger.Debug(url);
 	request({
 	    url: url,
 	    json: true,
@@ -36,9 +42,10 @@ function getShowInfo(imdb, callback) {
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        var show = body;
+	        logger.Debug(show);
 	        callback(show);
 	    } else {
-			console.log("Error connecting to trakt.tv and grabbing json: " + url);
+			logger.warning("Error connecting to trakt.tv and grabbing json: " + url);
 			return;
 	    }
 	});
@@ -47,6 +54,8 @@ function getSeasons(imdb, callback) {
 	var request = require('request');
 
 	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '/seasons?extended=images';
+	logger.Debug("=== Getting Seasons ===")
+	logger.Debug(url);
 	request({
 	    url: url,
 	    json: true,
@@ -56,17 +65,16 @@ function getSeasons(imdb, callback) {
 	    	'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
 	    }
 	}, function (error, response, body) {
-		//console.log('Status:', response.statusCode);
  	   if (!error && response.statusCode === 200) {
+	        logger.Debug(body);
 	        var seasons = body;
-	        //console.log(fanart);
 	        getFanart(imdb, function(url){
 	        	getSeasonNumbers(imdb, function(numbers){
 	        		callback(seasons, numbers, url);
 	        	})
 	        })
 	    } else {
-			console.log("Error connecting to trakt.tv and grabbing json: " + url);
+			logger.warning("Error connecting to trakt.tv and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -75,6 +83,8 @@ function getEpisodes(imdb, season, callback) {
 	var request = require('request');
 
 	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '/seasons/' + season + '?extended=full,images';
+	logger.Debug("=== Getting Episodes ===")
+	logger.Debug(url);
 	request({
 	    url: url,
 	    json: true,
@@ -84,15 +94,14 @@ function getEpisodes(imdb, season, callback) {
 	    	'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
 	    }
 	}, function (error, response, body) {
-		//console.log('Status:', response.statusCode);
  	   if (!error && response.statusCode === 200) {
+	        logger.Debug(body);
 	        var episodes = body;
-	        //console.log(fanart);
 	        getEpisodeNumbers(imdb, season, function(numbers){
 	        	callback(episodes, numbers, url);
 	        });
 	    } else {
-			console.log("Error connecting to trakt.tv and grabbing json: " + url);
+			logger.warning("Error connecting to trakt.tv and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -101,6 +110,8 @@ function getEpisode(imdb, season, episodeNum, callback) {
 	var request = require('request');
 
 	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '/seasons/' + season + '?extended=full,images';
+	logger.Debug("=== Getting Episode ===")
+	logger.Debug(url);
 	request({
 	    url: url,
 	    json: true,
@@ -110,8 +121,8 @@ function getEpisode(imdb, season, episodeNum, callback) {
 	    	'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
 	    }
 	}, function (error, response, body) {
-		//console.log('Status:', response.statusCode);
  	   if (!error && response.statusCode === 200) {
+	        logger.Debug(body);
 	        var episodes = body;
 	        getEpisodeNumbers(imdb, season, function(numbers){
 	        	var moreEpisodes = [];
@@ -143,7 +154,7 @@ function getEpisode(imdb, season, episodeNum, callback) {
 	        	});
 	        });
 	    } else {
-			console.log("Error connecting to trakt.tv and grabbing json: " + url);
+			logger.warning("Error connecting to trakt.tv and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -152,6 +163,8 @@ function getFanart(imdb, callback){
 	var request = require('request');
 
 	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '?extended=images';
+	logger.Debug("=== Getting Fanart ===")
+	logger.Debug(url);
 	request({
 	    url: url,
 	    json: true,
@@ -161,16 +174,15 @@ function getFanart(imdb, callback){
 	    	'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
 	    }
 	}, function (error, response, body) {
-		//console.log('Status:', response.statusCode);
  	   if (!error && response.statusCode === 200) {
 	        var fanart = body.images.fanart.full;
-	        //console.log(fanart);
+	        logger.Debug(fanart);
 	        var gen = require('./fanartGenerator');
 	        gen.generateFanartTV(fanart, imdb, function(url){
 	        	callback('http://trailers.apple.com/' + url);
 	        });
 	    } else {
-			console.log("Error connecting to trakt.tv and grabbing json: " + url);
+			logger.warning("Error connecting to trakt.tv and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -179,6 +191,8 @@ function getScreenshot(imdb, season, episode, callback){
 	var request = require('request');
 
 	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '/seasons/' + season + '/episodes/' + episode + '?extended=images';
+	logger.Debug("=== Getting Screenshot ===")
+	logger.Debug(url);
 	request({
 	    url: url,
 	    json: true,
@@ -188,13 +202,12 @@ function getScreenshot(imdb, season, episode, callback){
 	    	'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
 	    }
 	}, function (error, response, body) {
-		//console.log('Status:', response.statusCode);
  	   if (!error && response.statusCode === 200) {
- 	   		//console.log(body);
+	        logger.Debug(body);
 	        var screenshot = body;
 	        callback(screenshot);
 	    } else {
-			console.log("Error connecting to trakt.tv and grabbing json: " + url);
+			clogger.warning("Error connecting to trakt.tv and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -203,6 +216,8 @@ function getScreenshotFanart(imdb, season, episode, callback){
 	var request = require('request');
 
 	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '/seasons/' + season + '/episodes/' + episode + '?extended=images';
+	logger.Debug("=== Getting Screenshot Fanart ===")
+	logger.Debug(url);
 	request({
 	    url: url,
 	    json: true,
@@ -212,16 +227,15 @@ function getScreenshotFanart(imdb, season, episode, callback){
 	    	'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
 	    }
 	}, function (error, response, body) {
-		//console.log('Status:', response.statusCode);
  	   if (!error && response.statusCode === 200) {
- 	   		//console.log(body);
-	        var screenshot = body.images.screenshot.full;
+	        var screenshot = body.images.screenshot.full; 
+	        logger.Debug(screenshot);
 	        var gen = require('./fanartGenerator');
 	        gen.generateFanartTV(screenshot, body.ids.tvdb, function(url){
 	        	callback('http://trailers.apple.com/' + url);
 	        });
 	    } else {
-			console.log("Error connecting to trakt.tv and grabbing json: " + url);
+			logger.warning("Error connecting to trakt.tv and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -230,7 +244,8 @@ function getSeasonNumbers(imdb, callback){
 	var request = require("request")
 
 	var url = "http://eztvapi.re/show/" + imdb;
-	//console.log(url);
+	logger.Debug("=== Getting Season Numbers ===")
+	logger.Debug(url);
 	request({
 	    url: url,
 	    json: true
@@ -239,13 +254,13 @@ function getSeasonNumbers(imdb, callback){
 	        var shows = body.episodes;
 	        var seasons = [];
 	        shows.forEach(function(episode){
-	        	//console.log(episode.season);
 	        	if (seasons.indexOf(episode.season) == -1)
 	        		seasons.push(episode.season);
 	        });
+	        logger.Debug(seasons.sort());
 	        callback(seasons.sort());
 	    } else {
-			console.log("Error connecting to eztvapi.re and grabbing json: " + url);
+			logger.warning("Error connecting to eztvapi.re and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -254,13 +269,15 @@ function getEpisodeNumbers(imdb, season, callback){
 	var request = require("request")
 
 	var url = "http://eztvapi.re/show/" + imdb;
-	//console.log(url);
+	logger.Debug("=== Getting Episode Numbers ===")
+	logger.Debug(url);
 	request({
 	    url: url,
 	    json: true
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        var shows = body.episodes;
+	        logger.Debug(shows);
 	        var episodes = [];
 	        shows.forEach(function(episode){
 	        	if (episode.season == season && episodes.indexOf(episode.episode) == -1)
@@ -268,7 +285,7 @@ function getEpisodeNumbers(imdb, season, callback){
 	        });
 	        callback(episodes.sort(function(a, b){return a-b}));
 	    } else {
-			console.log("Error connecting to eztvapi.re and grabbing json: " + url);
+			logger.warning("Error connecting to eztvapi.re and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -278,6 +295,8 @@ function getTorrents(imdb, season, episode, callback) {
 	var request = require("request")
 
 	var url = "http://eztvapi.re/show/" + imdb;
+	logger.Debug("=== Getting Torrents ===")
+	logger.Debug(url);
 	request({
 	    url: url,
 	    json: true
@@ -286,12 +305,12 @@ function getTorrents(imdb, season, episode, callback) {
 	        var shows = body.episodes;
 	        shows.forEach(function(show){
 	        	if (show.season == season && show.episode == episode){
-	        		console.log(show.torrents[0].url);
+	        		logger.Debug(show.torrents);
 	        		callback(show.torrents);
 	        	}
 	        });
 	    } else {
-			console.log("Error connecting to eztvapi.re and grabbing json: " + url);
+			logger.warning("Error connecting to eztvapi.re and grabbing json: " + url);
 			return;
 	    }
 	})

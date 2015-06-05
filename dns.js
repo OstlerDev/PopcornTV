@@ -1,3 +1,5 @@
+var logger = require('./logger');
+
 const DOMAIN_ATV = "trailers.apple.com";
 const IP_DNS     = "8.8.8.8"; // *********** Googles Default DNS ***********
 
@@ -110,18 +112,18 @@ function startDnsProxy(localIp) {
 			var ip  = dot2num(localIp);
 			var newMsg = getMsg(tag, domain, ip);
 
-			console.log("DNS: " + DOMAIN_ATV + " change to " + localIp);
+			logger.DNS(DOMAIN_ATV + " change to " + localIp);
 			server.send(newMsg.msg, 0, newMsg.size, port, address);
 			return;
 		} else {
-			console.log("DNS: " + domain);
+			logger.DNS(domain);
 		}
 		dgram.createSocket("udp4", function(msg, rinfo) {
 			server.send(msg, 0, rinfo.size, port, address);
 			this.close();
 		}).send(msg, 0, rinfo.size, 53, IP_DNS);
 	}).bind(53, localIp);
-	console.log("DnsProxy binding on " + localIp + ":53");
+	logger.DNS("DnsProxy binding on " + localIp + ":53");
 }
 
 exports.startDnsProxy = startDnsProxy;

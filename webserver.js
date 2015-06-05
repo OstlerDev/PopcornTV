@@ -1,3 +1,5 @@
+var logger = require('./logger');
+
 function parseRange(str, size) {
     if (str.indexOf(",") != -1) {
         return;
@@ -45,20 +47,22 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("MoviePlay.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
-			console.log('Streamer: Starting Stream... Please wait for stream to be ready.');
+			logger.Streamer('Streamer: Starting Stream... Please wait for stream to be ready.');
 			torrent.startStreamer(query.torrent, query.id, localIp);
 			torrent.getStreamer().on('ready', function (data) {
 				response.write(xml.generatePlayXML(torrent.getURL(), query.title, query.desc, query.poster));
 				response.end();
 			});
 			torrent.getStreamer().on('close', function () {
-				console.log('Streamer: Streaming Closed');
+				logger.Streamer('Streamer: Streaming Closed');
 			});
 			staticFile = false;
 		} else if(pathname.indexOf("MoviesGrid.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting MoviesGrid.xml Generation ===');
 			xml.generateMoviesXML(query.title, query.sort_by, function(xmlstring){
+				logger.Debug('=== Ending MoviesGrid.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})
@@ -66,7 +70,9 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("Parade.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting Parade.xml Generation ===');
 			xml.generateMovieParadeXML(query.sort_by, function(xmlstring){
+			logger.Debug('=== Starting Parade.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})
@@ -74,7 +80,9 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("MoviesGenreGrid.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting MoviesGenreGrid.xml Generation ===');
 			xml.generateMovieGenre(query.genre, function(xmlstring){
+			logger.Debug('=== Starting MoviesGenreGrid.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})
@@ -83,11 +91,13 @@ function startWebServer(localIp) {
 			try{
 				torrent.getStreamer().close();
 			} catch(e) {
-				console.log('Streamer: No Stream Running');
+				logger.Streamer('Streamer: No Stream Running');
 			}
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting MoviePrePlay.xml Generation ===');
 			xml.generateMoviePrePlayXML(query.torrentID, function(xmlstring){
+			logger.Debug('=== Starting MoviePrePlay.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})
@@ -95,7 +105,9 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("results.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting results.xml Generation ===');
 			xml.generateSearchResults(query.query, function(xmlstring){
+			logger.Debug('=== Starting results.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})
@@ -103,7 +115,9 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("TVGrid.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting TVGrid.xml Generation ===');
 			xml.generateTVXML(query.title, query.sort_by, function(xmlstring){
+			logger.Debug('=== Starting TVGrid.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})
@@ -111,7 +125,9 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("seasons.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting seasons.xml Generation ===');
 			xml.generateTVSeasons(query.imdb, query.title, function(xmlstring){
+			logger.Debug('=== Starting seasons.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})
@@ -119,7 +135,9 @@ function startWebServer(localIp) {
 		}  else if(pathname.indexOf("episodes.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting episodes.xml Generation ===');
 			xml.generateTVEpisodes(query.imdb, query.season, query.title, function(xmlstring){
+				logger.Debug('=== Ending episodes.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})
@@ -127,7 +145,9 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("TVPrePlay.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting TVPrePlay.xml Generation ===');
 			xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, function(xmlstring){
+				logger.Debug('=== Ending TVPrePlay.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})
@@ -138,11 +158,11 @@ function startWebServer(localIp) {
 			pathname = "templates" + pathname;
 		}
 		var realPath = path.join("assets", path.normalize(pathname.replace(/\.\./g, "")));
-		console.log("WEB: " + pathname);
+		logger.Web(pathname);
 		if(staticFile){
 			fs.stat(realPath, function(err, stats) {
 				if (err) {
-					console.log('404: ' + pathname)
+					logger.Web('404: ' + pathname)
 					response.writeHead(404, {'Content-Type': 'text/plain'});
 					response.write("This request URL " + pathname + " was not found on this server.");
 					response.end();						
@@ -179,7 +199,7 @@ function startWebServer(localIp) {
 		}
 	});
 	server.listen(80);
-	console.log("Web: listening on " + localIp + ":80");
+	logger.Web("listening on " + localIp + ":80");
 }
 
 function startSSLWebServer(localIp) {
@@ -214,12 +234,12 @@ function startSSLWebServer(localIp) {
 			pathname = "templates/" + pathname;
 		}
 		var realPath = path.join("assets", path.normalize(pathname.replace(/\.\./g, "")));
-		console.log("SSL WEB: " + pathname);
+		logger.Web("SSL: " + pathname);
 		
 		if(staticFile){
 			fs.stat(realPath, function(err, stats) {
 				if (err) {
-					console.log('SSL 404: ' + pathname)
+					logger.Web('SSL 404: ' + pathname)
 					response.writeHead(404, {'Content-Type': 'text/plain'});
 					response.write("This request URL " + pathname + " was not found on this server.");
 					response.end();						
@@ -255,7 +275,7 @@ function startSSLWebServer(localIp) {
 			});
 		}
 	});
-	console.log("SSL Web: listening on " + localIp + ":443");
+	logger.Web("SSL Web: listening on " + localIp + ":443");
 }
 
 exports.startWebServer = startWebServer;
