@@ -21,6 +21,28 @@ function getTV(sort_by, amount, callback) {
 	    }
 	})
 }
+function getShowInfo(imdb, callback) {
+	var request = require('request');
+
+	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '?extended=full';
+	request({
+	    url: url,
+	    json: true,
+	    headers: {
+	    	'Content-Type': 'application/json',
+	    	'trakt-api-version': '2',
+	    	'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
+	    }
+	}, function (error, response, body) {
+ 	   if (!error && response.statusCode === 200) {
+	        var show = body;
+	        callback(show);
+	    } else {
+			console.log("Error connecting to trakt.tv and grabbing json: " + url);
+			return;
+	    }
+	});
+}
 function getSeasons(imdb, callback) {
 	var request = require('request');
 
@@ -91,7 +113,6 @@ function getEpisode(imdb, season, episodeNum, callback) {
 		//console.log('Status:', response.statusCode);
  	   if (!error && response.statusCode === 200) {
 	        var episodes = body;
-	        //console.log(fanart);
 	        getEpisodeNumbers(imdb, season, function(numbers){
 	        	var moreEpisodes = [];
 	        	var show;
@@ -112,7 +133,9 @@ function getEpisode(imdb, season, episodeNum, callback) {
 	        			getSeasons(imdb, function (seasons, numbers, url) {
 	        				seasons.forEach(function(seasonNum){
 	        					if (seasonNum.number == season){
-	        						callback(show, moreEpisodes, numbers, torrents, fanart, seasonNum.images.poster.thumb);
+	        						getShowInfo(imdb, function(fullShow){
+	        							callback(show, moreEpisodes, numbers, torrents, fanart, seasonNum.images.poster.thumb, fullShow);
+	        						});
 	        					}
 	        				});
 	        			});

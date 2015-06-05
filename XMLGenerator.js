@@ -216,10 +216,10 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  					.endElement()
 	  					.startElement('rows')
 	  						.startElement('row')
-	  						.writeElement('label', movie.genres[0] + '/' + movie.genres[1])
+	  						.writeElement('label', parseGenres(movie.genres))
 	  						.endElement()
 	  						.startElement('row')
-	  						.writeElement('label', parseInt(Math.floor(movie.runtime)/60) + 'hr ' + movie.runtime%60 + 'min')
+	  						.writeElement('label', parseTime(movie.runtime))
 	  						.endElement()
 	  						.startElement('row')
 	  							.startElement('mediaBadges')
@@ -230,7 +230,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  									.writeAttribute('src', 'http://trailers.apple.com/thumbnails/MediaBadges/720.png')
 	  									.endElement()
 	  									.startElement('urlBadge')
-	  									.writeAttribute('insertIndex', '0')
+	  									.writeAttribute('insertIndex', '1')
 	  									.writeAttribute('required', 'true')
 	  									.writeAttribute('src', 'http://trailers.apple.com/thumbnails/MediaBadges/1080.png')
 	  									.endElement()
@@ -458,7 +458,7 @@ function generateTVEpisodes(imdb, season, title, callback){
 }
 function generateTVPrePlayXML(imdb, season, episode, callback){
 	var API = require('./TVAPI');
-    var episode = API.getEpisode(imdb, season, episode, function(show, moreEpisodes, episodeNumbers, torrentLink, fanart, poster){
+    var episode = API.getEpisode(imdb, season, episode, function(show, moreEpisodes, episodeNumbers, torrentLink, fanart, poster, fullShow){
     	var XMLWriter = require('xml-writer');
 		var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?torrentID=" + imdb;
     	xw = new XMLWriter;
@@ -490,8 +490,8 @@ function generateTVPrePlayXML(imdb, season, episode, callback){
     					.endElement()
     				.endElement()
 	  				.writeElement('title', show.title)
-	  				.writeElement('footnote', 'asd')
-	  				.writeElement('rating', 'TV-MA')
+	  				.writeElement('footnote', fullShow.network)
+	  				.writeElement('rating', fullShow.certification)
 	  				.writeElement('summary', show.overview)
 	  				.startElement('userRatings')
 	  					.startElement('starRating')
@@ -513,10 +513,10 @@ function generateTVPrePlayXML(imdb, season, episode, callback){
 	  					.endElement()
 	  					.startElement('rows')
 	  						.startElement('row')
-	  						.writeElement('label', 'asd') // movie.genres[0] + '/' + movie.genres[1]
+	  						.writeElement('label', parseGenre(fullShow.genres))
 	  						.endElement()
 	  						.startElement('row')
-	  						.writeElement('label', 'asd')// parseInt(Math.floor(movie.runtime)/60) + 'hr ' + movie.runtime%60 + 'min'
+	  						.writeElement('label', parseTime(fullShow.runtime))
 	  						.endElement()
 	  						.startElement('row')
 	  							.startElement('mediaBadges')
@@ -527,7 +527,7 @@ function generateTVPrePlayXML(imdb, season, episode, callback){
 	  									.writeAttribute('src', 'http://trailers.apple.com/thumbnails/MediaBadges/720.png')
 	  									.endElement()
 	  									.startElement('urlBadge')
-	  									.writeAttribute('insertIndex', '0')
+	  									.writeAttribute('insertIndex', '1')
 	  									.writeAttribute('required', 'true')
 	  									.writeAttribute('src', 'http://trailers.apple.com/thumbnails/MediaBadges/1080.png')
 	  									.endElement()
@@ -553,7 +553,7 @@ function generateTVPrePlayXML(imdb, season, episode, callback){
 	  									.endElement()
 	  									.startElement('actionButton')
 	  										.writeAttribute('id', 'select')
-	  										.writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=https://www.youtube.com/watch?v=" + "&id=" + "yt')")
+	  										.writeAttribute('onSelect', "atv.loadURL('')") // need to add in quality selection stuff
 	  										.writeElement('title', 'Select Quality')
 	  										.writeElement('image', 'resource://Queue.png')
 	  										.writeElement('focusedImage', 'resource://QueueFocused.png')
@@ -590,6 +590,28 @@ function generateTVPrePlayXML(imdb, season, episode, callback){
 									xw.endDocument();
 									callback(xw.toString());
     });		
+}
+
+function parseTime(runtime){
+	var hour = parseInt(Math.floor(runtime)/60)
+	var minute = runtime%60
+	if (hour == 0){
+		return minute + 'min';
+	} else if (minute == 0){
+		return hour + 'hr';
+	} else {
+		return hour + 'hr ' + minute + 'min';
+	}
+}
+function parseGenre(genres){
+	if (genres[1] != undefined){
+		return capitalizeFirstLetter(genres[0]) + '/' + capitalizeFirstLetter(genres[1]); // Trakt.tv Genres are Lowercase so we capitolize them :)
+	} else {
+		return capitalizeFirstLetter(genres[0]);
+	}
+}
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 exports.generatePlayXML = generatePlayXML;
