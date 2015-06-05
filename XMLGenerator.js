@@ -167,6 +167,11 @@ function generateMoviePrePlayXML(torrentID, callback){
     	xw = new XMLWriter;
     	xw.startDocument(version='1.0', encoding='UTF-8');
     	xw.startElement('atv')
+    		.startElement('head')
+    			.startElement('script')
+    				.writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
+    			.endElement()
+    		.endElement()
     		.startElement('body')
     			.startElement('itemDetailWithImageHeader')
     				.writeAttribute('id', 'com.apple.trailer')
@@ -216,7 +221,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  					.endElement()
 	  					.startElement('rows')
 	  						.startElement('row')
-	  						.writeElement('label', parseGenres(movie.genres))
+	  						.writeElement('label', parseGenre(movie.genres))
 	  						.endElement()
 	  						.startElement('row')
 	  						.writeElement('label', parseTime(movie.runtime))
@@ -263,7 +268,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  									.endElement()
 	  									.startElement('actionButton')
 	  										.writeAttribute('id', 'select')
-	  										.writeAttribute('onSelect', "atv.loadURL('')")
+	  										.writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/quality.xml')")
 	  										.writeElement('title', 'Select Quality')
 	  										.writeElement('image', 'resource://Queue.png')
 	  										.writeElement('focusedImage', 'resource://QueueFocused.png')
@@ -553,7 +558,7 @@ function generateTVPrePlayXML(imdb, season, episode, callback){
 	  									.endElement()
 	  									.startElement('actionButton')
 	  										.writeAttribute('id', 'select')
-	  										.writeAttribute('onSelect', "atv.loadURL('')") // need to add in quality selection stuff
+	  										.writeAttribute('onSelect', "atv.loadURL('quality.xml')") // need to add in quality selection stuff
 	  										.writeElement('title', 'Select Quality')
 	  										.writeElement('image', 'resource://Queue.png')
 	  										.writeElement('focusedImage', 'resource://QueueFocused.png')

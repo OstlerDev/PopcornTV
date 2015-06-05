@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<atv> 
+  <head>
+    <script src="http://trailers.apple.com/js/utils.js"/> 
+  </head> 
+  
+  <body>
+    <optionDialog id="scrobble.optionDialog">
+      <header>
+        <simpleHeader>
+          <title>Quality Selection</title>
+          <subtitle>Please select your desired quality</subtitle>
+        </simpleHeader>
+      </header> 
+      
+      <menu>
+        <sections>
+          <menuSection>
+            <header>
+              <horizontalDivider alignment="left">
+                <title></title>
+              </horizontalDivider>
+            </header>
+            
+            <items>
+              <oneLineMenuItem id="item2" onSelect="changeSetting('quality', '480p');atv.unloadPage();">
+                <label>480p</label>
+              </oneLineMenuItem>
+        
+              <oneLineMenuItem id="item3" onSelect="changeSetting('quality', '720p');atv.unloadPage();">
+                <label>720p</label>
+              </oneLineMenuItem>
+        
+              <oneLineMenuItem id="item4" onSelect="changeSetting('quality', '1080p');atv.unloadPage();">
+                <label>1080p</label>
+              </oneLineMenuItem>
+        
+              <oneLineMenuItem id="item5" onSelect="changeSetting('quality', '3D');atv.unloadPage();">
+                <label>3D</label>
+              </oneLineMenuItem>
+            </items>
+
+          </menuSection>
+        </sections>
+      </menu>
+    </optionDialog>
+  </body>
+</atv>

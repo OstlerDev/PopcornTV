@@ -129,7 +129,7 @@ function changeArtwork(PMS_baseURL, accessToken, ratingKey, artURL, shelfName)
 {
   fv = atv.device.softwareVersion.split(".");
   firmVer = fv[0] + "." + fv[1];
-  log(firmVer);
+  //log(firmVer);
   if (parseFloat(firmVer) < 6.0)
   {
     // firmware <6.0
@@ -141,7 +141,7 @@ function changeArtwork(PMS_baseURL, accessToken, ratingKey, artURL, shelfName)
     // firmware >=6.0
     // load scrobble menu xml
     // parse the xml and build a popup context menu 
-    var url = url + "&PlexConnectUDID="+atv.device.udid
+    var url = url;
     var req = new XMLHttpRequest();
     req.onreadystatechange = function()
     {
@@ -153,6 +153,9 @@ function changeArtwork(PMS_baseURL, accessToken, ratingKey, artURL, shelfName)
           if(xml.indexOf('popUpMenu') !== -1)
           {
             xmlDoc = atv.parseXML(xml);
+            if (xmlDoc == undefined){
+              errorXML('undefined', 'so sweggy');
+            }
             atv.contextMenu.load(xmlDoc);
           }
           else
@@ -166,6 +169,7 @@ function changeArtwork(PMS_baseURL, accessToken, ratingKey, artURL, shelfName)
       }
       catch(e)
       {
+        errorXML('error', e);
         req.abort();
       }
     }
@@ -184,5 +188,21 @@ function updateContextXML()
             <items><oneLineMenuItem id="0" onSelect="atv.unloadPage()"><label></label> \
             </oneLineMenuItem></items></optionList></body></atv>';
   xmlDoc = atv.parseXML(xmlstr);
+  atv.loadXML(xmlDoc);
+}
+
+function errorXML(title, err){
+  errorXML = '\
+<?xml version="1.0" encoding="UTF-8"?>\n\
+<atv>\n\
+    <body>\n\
+        <dialog id="com.sample.error-dialog">\n\
+            <title>' + title + '</title>\n\
+            <description>' + err + '</description>\n\
+        </dialog>\n\
+    </body>\n\
+</atv>\n\
+';
+  xmlDoc = atv.parseXML(errorXML);
   atv.loadXML(xmlDoc);
 }
