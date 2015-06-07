@@ -7,10 +7,6 @@ if (process.argv[2] != undefined){
 
 var logger = startLogger(level);
 
-process.argv.forEach(function (val, index, array) {
-  console.log(index + ': ' + val);
-});
-
 function startLogger(LoggingLevel){
 	var logger = new (Winston.Logger)({
     	levels: {Debug: 0, Web: 1, DNS: 1, Streamer: 1, notice: 2, warning: 3, error: 4},
@@ -33,6 +29,9 @@ function startLogger(LoggingLevel){
     	],
     	colors: {Debug: "red", Web: "cyan", DNS: "cyan", Streamer: "cyan", notice: "white", warning: "yellow", error: "red"}
 	});
+	if (LoggingLevel != "Web"){
+		logger.notice("Started logger in " + LoggingLevel + " mode!");
+	}
 	return logger;
 }
 
