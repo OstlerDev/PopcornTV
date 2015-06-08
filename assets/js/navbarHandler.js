@@ -14,6 +14,9 @@ function loadMenuPage(event)
     
     var item = document.getElementById(navbarCurrentItemId);
     var url = item.getElementByTagName('url').textContent;
+    if (url.indexOf("settings.xml") >= 0){
+        url = url + "?UDID=" + atv.device.udid;
+    }
     
     var req = new XMLHttpRequest();
     req.onreadystatechange = function()

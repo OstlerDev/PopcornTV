@@ -41,6 +41,7 @@ function startWebServer(localIp) {
 	var server = http.createServer(function(request, response) {
 		var pathname = url.parse(request.url).pathname;
 		var query = querystring.parse(url.parse(request.url).query);
+		logger.Debug("Query: " + JSON.stringify(query));
 		var staticFile = true;
 		if (pathname.charAt(pathname.length - 1) == "/") {
 			pathname += "index.html";
@@ -147,6 +148,29 @@ function startWebServer(localIp) {
 			logger.Debug('=== Starting TVPrePlay.xml Generation ===');
 			xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, function(xmlstring){
 				logger.Debug('=== Ending TVPrePlay.xml Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
+		} else if(pathname.indexOf("settings.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting settings.xml Generation ===');
+			xml.generateSettingsXML(query.UDID, function(xmlstring){
+				logger.Debug('=== Ending settings.xml Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
+		} else if(pathname.indexOf("altersetting.xml") >= 0){
+			var aTVSettings = require('./settings.js');
+			aTVSettings.changeSetting(query.UDID, query.setting, query.newSetting);
+
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting settings.xml Generation ===');
+			xml.generateSettingsXML(query.UDID, function(xmlstring){
+				logger.Debug('=== Ending settings.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})

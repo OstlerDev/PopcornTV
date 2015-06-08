@@ -4,5 +4,5 @@ assets/cache/*.jpg
 assets/certificates/*.cer
 assets/certificates/*.key
 assets/certificates/*.pem
-config.json
+*.json
 *.log

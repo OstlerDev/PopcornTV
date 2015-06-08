@@ -7,42 +7,46 @@
 /*
  * Update Settings
  */
-function toggleSettings(opt, template) 
+function toggleSetting(setting, curSetting) 
 {
+  if (setting == 'quality'){
+    switch(curSetting){
+      case '480p':
+        var newSetting = '720p';
+        break;
+      case '720p':
+        var newSetting = '1080p';
+        break;
+      case '1080p':
+        var newSetting = '3D';
+        break;
+      case '3D':
+        var newSetting = '480p';
+        break;
+      default:
+        var newSetting = '720p';
+    }
+  } else if (setting == 'fanart'){
+    if (curSetting == 'On'){
+      var newSetting = 'Off';
+    } else {
+      var newSetting = 'On';
+    }
+  } else if (setting == 'subtitle'){
+    if (curSetting == 'Off'){
+      var newSetting = 'On';
+    } else {
+      var newSetting = 'Off';
+    }
+  }
   // read new XML
-  var url = "altersettings.xml"+ opt + "&UDID="+atv.device.udid
+  var url = "http://trailers.apple.com/altersetting.xml?setting="+ setting + '&newSetting=' + newSetting + "&UDID="+atv.device.udid
   var req = new XMLHttpRequest();
   req.open('GET', url, false);
   req.send();
   doc=req.responseXML;
   
-  // get "opt" element of displayed XML
-  var dispval = document.getElementById(opt).getElementByTagName("rightLabel");
-  if (!dispval) // No rightlabel must be a checkmark :)
-  {
-    mainMenuItem = document.getElementById(opt);
-    newMenuItem = doc.getElementById(opt);
-    var mainAccessories = mainMenuItem.getElementByTagName("accessories");
-    var newAccessories = newMenuItem.getElementByTagName("accessories");
-    if ( mainAccessories ) mainAccessories.removeFromParent();
-    if ( newAccessories )
-    {
-      accessories = document.makeElementNamed("accessories");
-      var checkmark = document.makeElementNamed("checkMark");
-      accessories.appendChild(checkmark);
-      mainMenuItem.appendChild(accessories);
-    }
-    return;
-  }
-
-    // get "opt" element of fresh XML
-  var newval = doc.getElementById(opt).getElementByTagName("rightLabel");
-  if (!newval) return undefined;  // error - element not found
-  
-  log("new setting - "+opt+"="+newval.textContent);
-    
-  // push new value to display
-  dispval.textContent = newval.textContent;
+  atv.loadAndSwapXML(doc);
 };
 
 /* 
@@ -56,6 +60,5 @@ atv.onPageUnload = function(pageID)
     var req = new XMLHttpRequest();
     req.open('GET', url, false);
     req.send();
-    log('Saving Settings file');
   }
 }

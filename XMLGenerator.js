@@ -1,5 +1,6 @@
 var xml = require('xml');
 var logger = require('./logger');
+var atvSettings = require('./settings.js');
 
 function generatePlayXML(url, title, desc, image) {
 	return xml(
@@ -22,6 +23,83 @@ function generatePlayXML(url, title, desc, image) {
 
 function generatePlayDelay(url){
 
+}
+
+function generateSettingsXML(UDID, callback){
+	var settings = atvSettings.loadSettings(UDID);
+	logger.Debug(settings);
+
+	var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+	xw.startDocument(version='1.0', encoding='UTF-8');
+    	xw.startElement('atv')
+    		.startElement('head')
+    			.startElement('script')
+    				.writeAttribute('src', 'http://trailers.apple.com/js/settings.js')
+    			.endElement()
+    		.endElement()
+    		.startElement('body')
+    			.startElement('listWithPreview')
+    				.writeAttribute('id', 'SettingsPage')
+    				.startElement('header')
+    					.startElement('simpleHeader')
+    						.writeElement('title', 'Settings')
+    					.endElement()
+    				.endElement()
+    				.startElement('preview')
+    					.startElement('keyedPreview')
+    						.writeElement('title', 'About')
+    						.writeElement('summary', '')
+    						.startElement('metadataKeys')
+    							.writeElement('label', 'About')
+    							.writeElement('label', 'Version')
+    							.writeElement('label', 'Authors')
+    							.writeElement('label', 'Homepage')
+    							.writeElement('label', 'Forum')
+    						.endElement()
+    						.startElement('metadataValues')
+    							.writeElement('label', 'PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from yts.to as well as the Popcorn Time TV API to allow for a smooth interface and ease of use.')
+    							.writeElement('label', '0.1.5 dev')
+    							.writeElement('label', 'OstlerDev')
+    							.writeElement('label', 'https://popcorntv.io')
+    							.writeElement('label', 'https://discuss.popcorntime.io/t/popcorntv-bringing-popcorn-time-to-your-apple-tv/')
+    						.endElement()
+    						.writeElement('image', 'http://trailers.apple.com/thumbnails/Logo.png')
+    					.endElement()
+    				.endElement()
+    				.startElement('menu')
+    					.startElement('sections')
+    						.startElement('menuSection')
+    							.startElement('header')
+    								.startElement('horizontalDivider')
+    									.writeAttribute('alignment', 'left')
+    									.writeElement('title', '')
+    								.endElement()
+    							.endElement()
+    							.startElement('items')
+    								.startElement('oneLineMenuItem')
+    									.writeAttribute('id', 'quality')
+    									.writeAttribute('onSelect', "toggleSetting('quality', '" + settings.quality + "')")
+    									.writeElement('label', 'Prefered Quality')
+    									.writeElement('rightLabel', settings.quality)
+    								.endElement()
+    								.startElement('oneLineMenuItem')
+    									.writeAttribute('id', 'fanart')
+    									.writeAttribute('onSelect', "toggleSetting('fanart', '" + settings.fanart + "')")
+    									.writeElement('label', 'Fanart')
+    									.writeElement('rightLabel', settings.fanart)
+    								.endElement()
+    								.startElement('oneLineMenuItem')
+    									.writeAttribute('id', 'subtitle')
+    									.writeAttribute('onSelect', "toggleSetting('subtitle', '" + settings.subtitle + "')")
+    									.writeElement('label', 'Enable Subtitle Support')
+    									.writeElement('rightLabel', settings.subtitle)
+    								.endElement();
+
+    								xw.endDocument();
+
+    								logger.Debug(xw.toString());
+    								callback(xw.toString());
 }
 
 function generateMoviesXML(title, sort_by, callback){
@@ -612,6 +690,7 @@ function capitalizeFirstLetter(string) {
 }
 
 exports.generatePlayXML = generatePlayXML;
+exports.generateSettingsXML = generateSettingsXML;
 exports.generateMovieGenre = generateMovieGenre;
 exports.generateMoviesXML = generateMoviesXML;
 exports.generateMoviePrePlayXML = generateMoviePrePlayXML;
