@@ -31,7 +31,7 @@ if (!fs.existsSync('assets/certificates/trailers.cer')){
         default_dns: '8.8.8.8'
     };
 
-    var data = JSON.stringify(myOptions);
+    var data = JSON.stringify(myOptions, null, 4);
 
     fs.writeFile('./config.json', data, function(err) {
         if (err) {
