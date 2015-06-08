@@ -177,6 +177,18 @@ function startWebServer(localIp) {
 			staticFile = false;
 		} else if(pathname.indexOf(".cer") >= 0){
 			pathname = "certificates/trailers.cer";
+		} else if(pathname.indexOf("/appletv/us/images/icons/trailerslogo.png") >= 0){
+			pathname = "thumbnails/logo.png";
+		} else if(pathname.indexOf("ScreenSaver.json") >= 0){
+			var movieAPI = require('./MoviesAPI');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting ScreenSaver.json Generation ===');
+			movieAPI.generateScreenSaverJSON(function(xmlstring){
+				logger.Debug('=== Ending MoviesGrid.xml Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
 		} else if(pathname.indexOf(".xml") >= 0){
 			pathname = "templates" + pathname;
 		}

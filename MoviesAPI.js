@@ -138,6 +138,39 @@ function getRelatedMovies(movie_id, callback) {
 	    }
 	})
 }
+function generateScreenSaverJSON(callback){
+	var request = require("request")
+	var url = "https://yts.to/api/v2/list_movies.json?sort_by=seeds&limit=50";
+	logger.Debug("=== Getting Movies ===");
+	logger.Debug(url);
+	
+	request({
+	    url: url,
+	    json: true
+	}, function (error, response, body) {
+ 	   if (!error && response.statusCode === 200) {
+	        var movies = body.data.movies;
+	        logger.Debug(movies);
+	        var json = [];
+	        movies.forEach(function(movie){
+	        	json.push({
+	        		type: 'photo',
+	        		id: 'photo_' + movie.id,
+	        		assets: [{
+	        			width: 406,
+	        			height: 600,
+	        			src: movie.medium_cover_image
+	        		}]
+	        	})
+	        });
+	        logger.Debug(json);
+	        callback(JSON.stringify(json));
+	    } else {
+			logger.warning("Error connecting to yts.to and grabbing json: " + url);
+			return;
+	    }
+	})
+}
 
 exports.getMovies = getMovies;
 exports.getMovie = getMovie;
@@ -145,3 +178,4 @@ exports.searchMovies = searchMovies;
 exports.getFanart = getFanart;
 exports.getRelatedMovies = getRelatedMovies;
 exports.getMoviesGenre = getMoviesGenre;
+exports.generateScreenSaverJSON = generateScreenSaverJSON;
