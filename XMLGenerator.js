@@ -21,6 +21,24 @@ function generatePlayXML(url, title, desc, image) {
 	}], { declaration: { encoding: 'UTF-8'}});
 }
 
+function errorXML(title, err, callback){
+	var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+    xw.startDocument(version='1.0', encoding='UTF-8');
+    xw.startElement('atv')
+    	.startElement('body')
+    		.startElement('dialog')
+    			.writeAttribute('id', 'com.sample.error-dialog')
+    			.writeElement('title', title)
+    			.writeElement('description', err)
+    		.endElement()
+    	.endElement()
+    .endElement();
+    xw.endDocument();
+	logger.Debug(xw.toString());
+	callback(xw.toString());
+}
+
 function generatePlayDelay(url){
 
 }
@@ -113,6 +131,11 @@ function generateMoviesXML(title, sort_by, callback){
     xw = new XMLWriter;
     xw.startDocument(version='1.0', encoding='UTF-8');
     xw.startElement('atv')
+    	.startElement('head')
+    			.startElement('script')
+    				.writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
+    			.endElement()
+    		.endElement()
     	.startElement('body')
     		.startElement('scroller').writeAttribute('id', 'com.sample.movie-grid')
     			.startElement('header')
@@ -134,6 +157,7 @@ function generateMoviesXML(title, sort_by, callback){
 	  			.writeAttribute('alwaysShowTitles', 'true')
 	  			.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
 	  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=' + movies[i].id + '")')
 	  		.writeElement('title', movies[i].title)
 	  		.writeElement('subtitle', movies[i].year)
 	  		.writeElement('image', movies[i].medium_cover_image)
@@ -145,6 +169,33 @@ function generateMoviesXML(title, sort_by, callback){
     	logger.Debug(xw.toString());
     	callback(xw.toString());
     });
+}
+
+function generateScrobbleXML(type, id, UDID, url, label, callback){
+	var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+    xw.startDocument(version='1.0', encoding='UTF-8');
+    xw.startElement('atv')
+    	.startElement('body')
+    		.startElement('popUpMenu')
+    			.writeAttribute('id', 'context_menu')
+    			.startElement('sections')
+    				.startElement('menuSection')
+    					.startElement('items')
+    						.startElement('oneLineMenuItem')
+    							.writeAttribute('id', 'item2')
+    							.writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/" + url + "?type=" + type + '&id=' + id + '&UDID=' + UDID + "')")
+    							.writeElement('label', label)
+    						.endElement()
+    					.endElement()
+    				.endElement()
+    			.endElement()
+    		.endElement()
+    	.endElement()
+    .endElement();
+    xw.endDocument();
+	logger.Debug(xw.toString());
+	callback(xw.toString());
 }
 
 function generateMovieParadeXML(sort_by, callback){
@@ -781,9 +832,11 @@ function capitalizeFirstLetter(string) {
 }
 
 exports.generatePlayXML = generatePlayXML;
+exports.errorXML = errorXML;
 exports.generateSettingsXML = generateSettingsXML;
 exports.generateMovieGenre = generateMovieGenre;
 exports.generateMoviesXML = generateMoviesXML;
+exports.generateScrobbleXML = generateScrobbleXML;
 exports.generateMoviePrePlayXML = generateMoviePrePlayXML;
 exports.generateNoFanartXML = generateNoFanartXML;
 exports.generateMovieParadeXML = generateMovieParadeXML;

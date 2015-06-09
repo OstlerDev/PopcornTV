@@ -162,6 +162,30 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
+		} else if(pathname.indexOf("scrobble.xml") >= 0){
+			var aTVSettings = require('./settings.js');
+			var checkFavorite = aTVSettings.checkFavorite(query.type, query.id, query.UDID);
+
+			if (checkFavorite){
+				var xml = require('./XMLGenerator');
+				response.writeHead(200, {'Content-Type': 'text/xml'});
+				logger.Debug('=== Starting scrobble.xml Generation ===');
+				xml.generateScrobbleXML(query.type, query.id, query.UDID, 'removeFavorite.xml', 'Remove from Favorites', function(xmlstring){
+					logger.Debug('=== Ending scrobble.xml Generation ===');
+					response.write(xmlstring);
+					response.end();
+				})
+			} else {
+				var xml = require('./XMLGenerator');
+				response.writeHead(200, {'Content-Type': 'text/xml'});
+				logger.Debug('=== Starting scrobble.xml Generation ===');
+				xml.generateScrobbleXML(query.type, query.id, query.UDID, 'addFavorite.xml', 'Add to Favorites', function(xmlstring){
+					logger.Debug('=== Ending scrobble.xml Generation ===');
+					response.write(xmlstring);
+					response.end();
+				})
+			}
+			staticFile = false;
 		} else if(pathname.indexOf("altersetting.xml") >= 0){
 			var aTVSettings = require('./settings.js');
 			aTVSettings.changeSetting(query.UDID, query.setting, query.newSetting);
@@ -171,6 +195,32 @@ function startWebServer(localIp) {
 			logger.Debug('=== Starting settings.xml Generation ===');
 			xml.generateSettingsXML(query.UDID, function(xmlstring){
 				logger.Debug('=== Ending settings.xml Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
+		} else if(pathname.indexOf("addFavorite.xml") >= 0){
+			var aTVSettings = require('./settings.js');
+			aTVSettings.addFavorite(query.type, query.id, query.UDID);
+
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting error.xml (favorites) Generation ===');
+			xml.errorXML('Favorites', 'Added successfully to your favorites!', function(xmlstring){
+				logger.Debug('=== Ending error.xml (favorites) Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
+		} else if(pathname.indexOf("removeFavorite.xml") >= 0){
+			var aTVSettings = require('./settings.js');
+			aTVSettings.removeFavorite(query.type, query.id, query.UDID);
+
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting error.xml (favorites) Generation ===');
+			xml.errorXML('Favorites', 'Successfully removed from Favorites', function(xmlstring){
+				logger.Debug('=== Ending error.xml (favorites) Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})

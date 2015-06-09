@@ -13,9 +13,6 @@ function changeSetting(UDID, setting, newSetting){
         process.exit();
     }
 }
-function loadSetting(UDID, setting){
-
-}
 function loadSettings(UDID){
     if (fs.existsSync('aTVSettings.json')) {
         var data = fs.readFileSync('./aTVSettings.json'), config;
@@ -75,7 +72,57 @@ function addTV(UDID){
         logger.error(err);
     }
 }
+function addFavorite(type, id, UDID){
+    var data = fs.readFileSync('./aTVSettings.json'), settings;
+    try {
+        settings = JSON.parse(data);
+        favorites = settings[UDID].favorites || [];
+        favorites.push({type: type, id: id});
+        settings[UDID].favorites = favorites;
+        fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
+    } catch (err) {
+        logger.error('There is an error adding to favorite, please post this on the Github page')
+        logger.error(err);
+        process.exit();
+    }
+}
+function removeFavorite(type, id, UDID){
+    var data = fs.readFileSync('./aTVSettings.json'), settings;
+    try {
+        settings = JSON.parse(data);
+        favorites = settings[UDID].favorites || [];
+        var index = favorites.indexOf({type: type, id: id});
+        logger.Debug(index);
+        favorites.splice(index, 1);
+        settings[UDID].favorites = favorites;
+        fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
+    } catch (err) {
+        logger.error('There is an error adding to favorite, please post this on the Github page')
+        logger.error(err);
+        process.exit();
+    }
+}
+function checkFavorite(type, id, UDID){
+    var data = fs.readFileSync('./aTVSettings.json'), settings;
+    try {
+        settings = JSON.parse(data);
+        favorites = settings[UDID].favorites || [];
+        var isFavorite = false;
+        favorites.forEach(function(favorite){
+            if (favorite.type == type && favorite.id == id){
+                isFavorite = true;
+            }
+        })
+        return isFavorite;
+    } catch (err) {
+        logger.error('There is an error checking favorites, please post this on the Github page')
+        logger.error(err);
+        process.exit();
+    }
+}
 
 exports.loadSettings = loadSettings;
-exports.loadSetting = loadSetting;
 exports.changeSetting = changeSetting;
+exports.addFavorite = addFavorite;
+exports.removeFavorite = removeFavorite;
+exports.checkFavorite = checkFavorite;
