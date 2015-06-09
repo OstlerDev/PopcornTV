@@ -5,6 +5,7 @@ function changeSetting(UDID, setting, newSetting){
     var data = fs.readFileSync('./aTVSettings.json'), settings;
     try {
         settings = JSON.parse(data);
+        logger.Debug('Changing setting ' + setting + ' from ' + settings[UDID][setting] + ' to ' + newSetting + ' - UDID: ' + UDID);
         settings[UDID][setting] = newSetting;
         fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
     } catch (err) {
@@ -15,18 +16,19 @@ function changeSetting(UDID, setting, newSetting){
 }
 function loadSettings(UDID){
     if (fs.existsSync('aTVSettings.json')) {
+        logger.Debug('Loading Settings');
         var data = fs.readFileSync('./aTVSettings.json'), config;
         try {
             settings = JSON.parse(data);
             
             if (settings[UDID] == undefined) {
-                console.log("Adding TV " + UDID);
+                logger.Debug("Adding TV " + UDID);
                 return addTV(UDID);
             } else {
                 return settings[UDID];
             }
         } catch (err) {
-            logger.error('There is an error starting Popcorn TV, please post this on the Github page')
+            logger.error('There is an error loading settings, please post this on the Github page')
             logger.error(err);
         }
     } else {
@@ -57,6 +59,8 @@ function createFile(UDID){
     fs.writeFile('./aTVSettings.json', data, function(err) {});
 }
 function addTV(UDID){
+    logger.Debug('=== Settings ===');
+    logger.Debug('TV not in settings file, adding it. UDID: ' + UDID);
     var data = fs.readFileSync('./aTVSettings.json'), settings;
     try {
         settings = JSON.parse(data);
@@ -68,7 +72,7 @@ function addTV(UDID){
         fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
         return settings[UDID];
     } catch (err) {
-        logger.error('There is an error changing a setting, please post this on the Github page')
+        logger.error('There is an error adding a TV, please post this on the Github page')
         logger.error(err);
     }
 }
@@ -91,13 +95,16 @@ function removeFavorite(type, id, UDID){
     try {
         settings = JSON.parse(data);
         favorites = settings[UDID].favorites || [];
-        var index = favorites.indexOf({type: type, id: id});
-        logger.Debug(index);
-        favorites.splice(index, 1);
+        for (var i = 0; i < favorites.length; i++) {
+            if (favorites[i].type == type && favorites[i].id == id){
+                favorites.splice(i, 1);
+            }
+        };
+
         settings[UDID].favorites = favorites;
         fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
     } catch (err) {
-        logger.error('There is an error adding to favorite, please post this on the Github page')
+        logger.error('There is an error removing from favorites, please post this on the Github page')
         logger.error(err);
         process.exit();
     }

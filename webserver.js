@@ -234,7 +234,7 @@ function startWebServer(localIp) {
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting ScreenSaver.json Generation ===');
 			movieAPI.generateScreenSaverJSON(function(xmlstring){
-				logger.Debug('=== Ending MoviesGrid.xml Generation ===');
+				logger.Debug('=== Ending ScreenSaver.json Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})

@@ -132,10 +132,10 @@ function generateMoviesXML(title, sort_by, callback){
     xw.startDocument(version='1.0', encoding='UTF-8');
     xw.startElement('atv')
     	.startElement('head')
-    			.startElement('script')
-    				.writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
-    			.endElement()
+    		.startElement('script')
+    			.writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
     		.endElement()
+    	.endElement()
     	.startElement('body')
     		.startElement('scroller').writeAttribute('id', 'com.sample.movie-grid')
     			.startElement('header')
@@ -536,6 +536,11 @@ function generateTVXML(title, sort_by, callback){
     xw = new XMLWriter;
     xw.startDocument(version='1.0', encoding='UTF-8');
     xw.startElement('atv')
+    	.startElement('head')
+    		.startElement('script')
+    			.writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
+    		.endElement()
+    	.endElement()
     	.startElement('body')
     		.startElement('scroller').writeAttribute('id', 'com.sample.movie-grid')
     			.startElement('header')
@@ -557,6 +562,7 @@ function generateTVXML(title, sort_by, callback){
 	  			.writeAttribute('alwaysShowTitles', 'true')
 	  			.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
 	  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onHoldSelect', "scrobbleMenu('http://trailers.apple.com/scrobble.xml?type=tvshow&id=" + shows[i].imdb_id + "')")
 	  		.writeElement('title', shows[i].title)
 	  		.writeElement('subtitle', shows[i].year + ' | ' + shows[i].num_seasons + ' Seasons')
 	  		.writeElement('image', shows[i].images.poster)
