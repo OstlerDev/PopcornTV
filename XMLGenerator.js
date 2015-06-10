@@ -648,6 +648,20 @@ function generateTVEpisodes(imdb, season, title, callback){
 		{
 			var num = i+1;
 			if (episodeNumbers.indexOf(num) > -1){
+				logger.Debug(episodes[i]);
+				if (episodes[i].title == null){
+					logger.warning('TV Grid Produced null values, this could be an error with Trakt.tv OR eztvapi.re');
+					episodes[i].title = 'No Title';
+				}
+				if (episodes[i].images.screenshot.thumb == null){
+					logger.warning('TV Grid Produced null values, this could be an error with Trakt.tv OR eztvapi.re');
+					episodes[i].images.screenshot.thumb = 'resource://16x9.png';
+				}
+				if (episodes[i].overview == null){
+					logger.warning('TV Grid Produced null values, this could be an error with Trakt.tv OR eztvapi.re');
+					episodes[i].overview = 'No Overview';
+				}
+				logger.Debug(episodes[i]);
 				var url = 'http://trailers.apple.com/TVPrePlay.xml?imdb=' + imdb + '&season=' + season + '&episode=' + num;
 	  			xw.startElement('twoLineEnhancedMenuItem')
 	  				.writeAttribute('id', episodes[i].ids.trakt)
@@ -836,6 +850,13 @@ function parseGenre(genres){
 }
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+function nullCheck(string){
+	if (string == null){
+		return 'Undefined';
+	} else {
+		return string;
+	}
 }
 
 exports.generatePlayXML = generatePlayXML;
