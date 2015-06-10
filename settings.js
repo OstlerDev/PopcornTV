@@ -36,7 +36,8 @@ function loadSettings(UDID){
         settings[UDID] = {
             quality: '720p',
             fanart: 'On',
-            subtitle: 'Off'
+            subtitle: 'Off',
+            keep: 'On'
         };
 
         var data = JSON.stringify(settings, null, 4);
@@ -51,7 +52,8 @@ function createFile(UDID){
     settings[UDID] = {
         quality: '720p',
         fanart: 'On',
-        subtitle: 'Off'
+        subtitle: 'Off',
+        keep: 'On'
     };
 
     var data = JSON.stringify(settings, null, 4);
@@ -67,7 +69,8 @@ function addTV(UDID){
         settings[UDID] = {
             quality: '720p',
             fanart: 'On',
-            subtitle: 'Off'
+            subtitle: 'Off',
+            keep: 'On'
         };
         fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
         return settings[UDID];
