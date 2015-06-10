@@ -102,6 +102,16 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
+		} else if(pathname.indexOf("tvresults.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting tvresults.xml Generation ===');
+			xml.generateTVSearchResults(query.query, function(xmlstring){
+			logger.Debug('=== Starting tvresults.xml Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
 		} else if(pathname.indexOf("results.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});

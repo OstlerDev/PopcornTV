@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <atv>
+    <body>
+      <search id="plex-search">
+        <header>
+          <simpleHeader>
+            <title>Search TV Shows</title>
+          </simpleHeader>
+        </header>
+      <baseURL>http://trailers.apple.com/Search/tvresults.xml?query=</baseURL>
+    </search>
+  </body>
+</atv>

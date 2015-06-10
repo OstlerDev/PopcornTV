@@ -315,9 +315,31 @@ function getTorrents(imdb, season, episode, callback) {
 	    }
 	})
 }
+function searchShows(query, callback) {
+	var page = 1;
+	var request = require("request")
+
+	var url = "http://eztvapi.re/shows/1?keywords=" + query;
+	logger.Debug("=== Getting Search Results ===")
+	logger.Debug(url);
+	request({
+	    url: url,
+	    json: true
+	}, function (error, response, body) {
+ 	   if (!error && response.statusCode === 200) {
+	        var shows = body;
+	        logger.Debug(shows);
+	        callback(shows);
+	    } else {
+			logger.warning("Error connecting to eztvapi.re and grabbing json: " + url);
+			return;
+	    }
+	})
+}
 
 exports.getTV = getTV;
 exports.getFanart = getFanart;
 exports.getSeasons = getSeasons;
 exports.getEpisodes = getEpisodes;
 exports.getEpisode = getEpisode;
+exports.searchShows = searchShows;

@@ -291,6 +291,45 @@ function generateSearchResults(query, callback){
     });
 }
 
+function generateTVSearchResults(query, callback){
+	var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+    xw.startDocument(version='1.0', encoding='UTF-8');
+    xw.startElement('atv')
+    	.startElement('body')
+    		.startElement('searchResults').writeAttribute('id', 'searchResults')
+    			.startElement('menu')
+    				.startElement('sections')
+    					.startElement('menuSection')
+    						.startElement('header')
+    							.startElement('horizontalDivider')
+    							.writeAttribute('alignment', 'left')
+    							.writeElement('title', 'TV Shows')
+    							.endElement()
+    						.endElement()
+    						.startElement('items')
+    var API = require('./TVApi');
+    var search = API.searchShows(query, function(shows){
+    	for(var i = 0; i <= shows.length-1; i++)
+		{
+			var url = 'http://trailers.apple.com/seasons.xml?imdb=' + shows[i].imdb_id + '&title=' + shows[i].title.replace(/ /g,"%20");
+	  		xw.startElement('twoLineEnhancedMenuItem')
+	  			.writeAttribute('id', shows[i].title.replace(/\s/g, ''))
+	  			.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onHoldSelect', "scrobbleMenu('http://trailers.apple.com/scrobble.xml?type=tvshow&id=" + shows[i].imdb_id + "')")
+	  		.writeElement('label', shows[i].title)
+	  		.writeElement('image', shows[i].images.poster)
+	  		.writeElement('defaultImage', 'resource://Poster.png')
+	  		.endElement();
+		}
+    	xw.endDocument();
+
+    	logger.Debug(xw.toString());
+    	callback(xw.toString());
+    });
+}
+
 function generateMoviePrePlayXML(torrentID, callback){
 	var API = require('./MoviesAPI');
     var movies = API.getMovie(torrentID, function(movie, fanart){
@@ -648,7 +687,6 @@ function generateTVEpisodes(imdb, season, title, callback){
 		{
 			var num = i+1;
 			if (episodeNumbers.indexOf(num) > -1){
-				logger.Debug(episodes[i]);
 				if (episodes[i].title == null){
 					logger.warning('TV Grid Produced null values, this could be an error with Trakt.tv OR eztvapi.re');
 					episodes[i].title = 'No Title';
@@ -869,6 +907,7 @@ exports.generateMoviePrePlayXML = generateMoviePrePlayXML;
 exports.generateNoFanartXML = generateNoFanartXML;
 exports.generateMovieParadeXML = generateMovieParadeXML;
 exports.generateSearchResults = generateSearchResults;
+exports.generateTVSearchResults = generateTVSearchResults;
 exports.generateTVXML = generateTVXML;
 exports.generateTVSeasons = generateTVSeasons;
 exports.generateTVEpisodes = generateTVEpisodes;
