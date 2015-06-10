@@ -70,12 +70,21 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("Parade.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
-			logger.Debug('=== Starting Parade.xml Generation ===');
-			xml.generateMovieParadeXML(query.sort_by, function(xmlstring){
-			logger.Debug('=== Starting Parade.xml Generation ===');
-				response.write(xmlstring);
-				response.end();
-			})
+			if (query.type == 'movie'){
+				logger.Debug('=== Starting Parade.xml Movie Generation ===');
+				xml.generateMovieParadeXML(query.sort_by, function(xmlstring){
+					logger.Debug('=== Ending Parade.xml Movie Generation ===');
+					response.write(xmlstring);
+					response.end();
+				})
+			} else if (query.type == 'tv'){
+				logger.Debug('=== Starting Parade.xml TV Generation ===');
+				xml.generateTVParadeXML(query.sort_by, function(xmlstring){
+					logger.Debug('=== Ending Parade.xml TV Generation ===');
+					response.write(xmlstring);
+					response.end();
+				})
+			}
 			staticFile = false;
 		} else if(pathname.indexOf("MoviesGenreGrid.xml") >= 0){
 			var xml = require('./XMLGenerator');

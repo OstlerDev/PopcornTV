@@ -14,13 +14,13 @@
               <oneLineMenuItem id="popular" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MovieNav.xml');" onSelect="atv.loadURL('http://trailers.apple.com/MovieNav.xml');">
                 <label>Movies</label>
                 <preview>
-                  <link>http://trailers.apple.com/Parade.xml?sort_by=seeds</link>
+                  <link>http://trailers.apple.com/Parade.xml?sort_by=seeds&amp;type=movie</link>
                 </preview>
               </oneLineMenuItem>
               <oneLineMenuItem id="added" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/TVNav.xml');" onSelect="atv.loadURL('http://trailers.apple.com/TVNav.xml');">
                 <label>TV Shows</label>
                 <preview>
-                  <link>http://trailers.apple.com/Parade.xml?sort_by=date_added</link>
+                  <link>http://trailers.apple.com/Parade.xml?sort_by=seeds&amp;type=tv</link>
                 </preview>
               </oneLineMenuItem>
               <oneLineMenuItem id="released" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Released&amp;sort_by=year');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Released&amp;sort_by=year');">

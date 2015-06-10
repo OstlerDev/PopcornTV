@@ -218,6 +218,27 @@ function generateMovieParadeXML(sort_by, callback){
     });
 }
 
+function generateTVParadeXML(sort_by, callback){
+	var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+    xw.startDocument(version='1.0', encoding='UTF-8');
+    xw.startElement('atv')
+    	.startElement('body')
+    		.startElement('preview')
+    			.startElement('paradePreview').writeAttribute('inOrder', 'true')
+
+    var API = require('./TVApi');
+    var tv = API.getTV(sort_by, "15", function(shows){
+    	for(var i = 0; i <= shows.length-1; i++)
+		{
+	  		xw.writeElement('image', shows[i].images.poster)
+		}
+    	xw.endDocument();
+    	logger.Debug(xw.toString());
+    	callback(xw.toString());
+    });
+}
+
 function generateMovieGenre(genre, callback){
 	var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
@@ -906,6 +927,7 @@ exports.generateScrobbleXML = generateScrobbleXML;
 exports.generateMoviePrePlayXML = generateMoviePrePlayXML;
 exports.generateNoFanartXML = generateNoFanartXML;
 exports.generateMovieParadeXML = generateMovieParadeXML;
+exports.generateTVParadeXML = generateTVParadeXML;
 exports.generateSearchResults = generateSearchResults;
 exports.generateTVSearchResults = generateTVSearchResults;
 exports.generateTVXML = generateTVXML;
