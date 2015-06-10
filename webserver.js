@@ -91,7 +91,7 @@ function startWebServer(localIp) {
 			try{
 				torrent.getStreamer().close();
 			} catch(e) {
-				logger.Streamer('Streamer: No Stream Running');
+				logger.Debug('Streamer: No Stream Running');
 			}
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
@@ -143,6 +143,11 @@ function startWebServer(localIp) {
 			})
 			staticFile = false;
 		} else if(pathname.indexOf("TVPrePlay.xml") >= 0){
+			try{
+				torrent.getStreamer().close();
+			} catch(e) {
+				logger.Debug('Streamer: No Stream Running');
+			}
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting TVPrePlay.xml Generation ===');

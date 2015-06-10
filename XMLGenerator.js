@@ -768,7 +768,7 @@ function generateTVPrePlayXML(imdb, season, episode, callback){
 	  								.startElement('items')
 	  									.startElement('actionButton')
 	  										.writeAttribute('id', 'play')
-	  										.writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=" + torrentLink[0].url + "&id=" + imdb + "&title=" + show.title.replace(/ /g,"%20") + "&desc=" + show.overview.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + show.images.screenshot.thumb + "')")
+	  										.writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=" + encodeURIComponent(torrentLink[0].url) + "&id=" + imdb + "&title=" + show.title.replace(/ /g,"%20") + "&desc=" + show.overview.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + show.images.screenshot.thumb + "')")
 	  										.writeElement('title', 'Play')
 	  										.writeElement('image', 'resource://Play.png')
 	  										.writeElement('focusedImage', 'resource://PlayFocused.png')
@@ -810,6 +810,7 @@ function generateTVPrePlayXML(imdb, season, episode, callback){
 								  		.writeElement('defaultImage', 'resource://Poster.png')
 								  		.endElement();*/
 									xw.endDocument();
+									logger.Debug(encodeURIComponent(torrentLink[0].url));
 									logger.Debug(xw.toString());
 									callback(xw.toString());
     });		

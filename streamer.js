@@ -9,7 +9,7 @@ var ip;
 function startStreamer(url, torrentID, localIp) {
 	ID = torrentID;
 	ip = localIp;
-	var streamBuffer = 10 * 1024 * 1024;
+	var streamBuffer = 5 * 1024 * 1024;
 	if (url.indexOf("youtube") >= 0){
 		streamBuffer = 3 * 1024 * 1024;
 	}
@@ -26,7 +26,7 @@ function startStreamer(url, torrentID, localIp) {
 		index: torrentID + '.mp4'
 	});
 	torrent.on('ready', function (data) {
-		logger.Streamer('Streamer: Ready to Stream, binding to ' + data.streamUrl);
+		logger.Streamer('Ready to Stream, binding to ' + data.streamUrl);
 		boundURL = data.streamUrl;
 		ready = true;
 	});
