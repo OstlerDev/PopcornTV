@@ -823,9 +823,10 @@ function generateTVEpisodes(imdb, season, title, callback){
 }
 function generateTVPrePlayXML(imdb, season, episode, callback){
 	var API = require('./TVApi');
+	var tmpEp = episode;
     var episode = API.getEpisode(imdb, season, episode, function(show, moreEpisodes, episodeNumbers, torrentLink, fanart, poster, fullShow){
     	var XMLWriter = require('xml-writer');
-		var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?torrentID=" + imdb;
+		var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp;
     	xw = new XMLWriter;
     	xw.startDocument(version='1.0', encoding='UTF-8');
     	xw.startElement('atv')
