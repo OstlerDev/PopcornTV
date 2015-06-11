@@ -490,18 +490,17 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  						.endElement()
 	  						.startElement('row')
 	  							.startElement('mediaBadges')
-	  								.startElement('additionalMediaBadges')
-	  									.startElement('urlBadge')
-	  									.writeAttribute('insertIndex', '0')
-	  									.writeAttribute('required', 'true')
-	  									.writeAttribute('src', 'http://trailers.apple.com/thumbnails/MediaBadges/720.png')
-	  									.endElement()
-	  									.startElement('urlBadge')
-	  									.writeAttribute('insertIndex', '1')
-	  									.writeAttribute('required', 'true')
-	  									.writeAttribute('src', 'http://trailers.apple.com/thumbnails/MediaBadges/1080.png')
-	  									.endElement()
-	  								.endElement()
+	  								.startElement('additionalMediaBadges');
+	  									var num = 0;
+	  									getQualities(movie.torrents).forEach(function(quality){
+											xw.startElement('urlBadge')
+	  										.writeAttribute('insertIndex', num)
+	  										.writeAttribute('required', 'true')
+	  										.writeAttribute('src', 'http://trailers.apple.com/thumbnails/MediaBadges/' + quality + '.png')
+	  										.endElement();
+	  										num += 1;
+	  									})
+	  								xw.endElement()
 	  							.endElement()
 	  						.endElement()
 	  					.endElement()
@@ -1072,9 +1071,12 @@ function nullCheck(string){
 	}
 }
 function getQualities(torrents){
+	var quality = [];
 	torrents.forEach(function(torrent){
-		console.log(torrent.quality);
+		quality.push(torrent.quality);
 	})
+	logger.Debug(quality);
+	return quality;
 }
 
 exports.generatePlayXML = generatePlayXML;
