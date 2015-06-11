@@ -111,6 +111,16 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
+		} else if(pathname.indexOf("allresults.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting allresults.xml Generation ===');
+			xml.generateSearchResults(query.query, function(xmlstring){
+			logger.Debug('=== Starting allresults.xml Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
 		} else if(pathname.indexOf("tvresults.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
@@ -125,7 +135,7 @@ function startWebServer(localIp) {
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting results.xml Generation ===');
-			xml.generateSearchResults(query.query, function(xmlstring){
+			xml.generateMovieSearchResults(query.query, function(xmlstring){
 			logger.Debug('=== Starting results.xml Generation ===');
 				response.write(xmlstring);
 				response.end();

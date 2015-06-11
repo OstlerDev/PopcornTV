@@ -7,7 +7,7 @@
             <title>Search All</title>
           </simpleHeader>
         </header>
-      <baseURL>http://trailers.apple.com/Search/results.xml?query=</baseURL>
+      <baseURL>http://trailers.apple.com/Search/allresults.xml?query=</baseURL>
     </search>
   </body>
 </atv>

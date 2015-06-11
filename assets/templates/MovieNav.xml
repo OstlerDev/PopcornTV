@@ -29,7 +29,7 @@
         </navigationItem>
         <navigationItem id="Search">
           <title>Search</title>
-          <url>http://trailers.apple.com/Search/search.xml</url>
+          <url>http://trailers.apple.com/Search/movieSearch.xml</url>
         </navigationItem>
       </navigation>
     </viewWithNavigationBar>

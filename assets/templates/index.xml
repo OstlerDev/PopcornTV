@@ -11,28 +11,34 @@
         <sections>
           <menuSection>
             <items>
-              <oneLineMenuItem id="popular" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MovieNav.xml');" onSelect="atv.loadURL('http://trailers.apple.com/MovieNav.xml');">
+              <oneLineMenuItem id="movies" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MovieNav.xml');" onSelect="atv.loadURL('http://trailers.apple.com/MovieNav.xml');">
                 <label>Movies</label>
                 <preview>
                   <link>http://trailers.apple.com/Parade.xml?sort_by=seeds&amp;type=movie</link>
                 </preview>
               </oneLineMenuItem>
-              <oneLineMenuItem id="added" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/TVNav.xml');" onSelect="atv.loadURL('http://trailers.apple.com/TVNav.xml');">
+              <oneLineMenuItem id="tvshows" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/TVNav.xml');" onSelect="atv.loadURL('http://trailers.apple.com/TVNav.xml');">
                 <label>TV Shows</label>
                 <preview>
                   <link>http://trailers.apple.com/Parade.xml?sort_by=seeds&amp;type=tv</link>
                 </preview>
               </oneLineMenuItem>
-              <oneLineMenuItem id="released" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Released&amp;sort_by=year');" onSelect="atv.loadURL('http://trailers.apple.com/MoviesGrid.xml?title=Recently%20Released&amp;sort_by=year');">
+              <oneLineMenuItem id="anime" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/AnimeNav.xml');" onSelect="atv.loadURL('http://trailers.apple.com/AnimeNav.xml');">
                 <label>Anime</label>
                 <preview>
-                  <link>http://trailers.apple.com/Parade.xml?sort_by=year</link>
+                  <link>http://trailers.apple.com/Parade.xml?sort_by=seeds&amp;type=movie</link>
                 </preview>
               </oneLineMenuItem>
-              <oneLineMenuItem id="rated" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/Search/search.xml');" onSelect="atv.loadURL('http://trailers.apple.com/Search/search.xml');">
+              <oneLineMenuItem id="favorites" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/Favorites.xml');" onSelect="atv.loadURL('http://trailers.apple.com/Favorites.xml');">
+                <label>Favorites</label>
+                <preview>
+                  <link>http://trailers.apple.com/Parade.xml?sort_by=seeds&amp;type=movie</link>
+                </preview>
+              </oneLineMenuItem>
+              <oneLineMenuItem id="search" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/Search/search.xml');" onSelect="atv.loadURL('http://trailers.apple.com/Search/search.xml');">
                 <label>Search</label>
                 <preview>
-                  <link>http://trailers.apple.com/Parade.xml?sort_by=rating</link>
+                  <link></link>
                 </preview>
               </oneLineMenuItem>
             </items>
