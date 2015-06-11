@@ -56,6 +56,21 @@ function startWebServer(localIp) {
 				response.write(xml.generatePlayXML(torrent.getURL(), query.title, query.desc, query.poster));
 				response.end();
 			});
+			torrent.getStreamer().on('close', function(){
+				var aTVSettings = require('./settings.js');
+				var keepMovies = aTVSettings.checkSetting('keep', query.UDID);
+
+				if (keepMovies == 'Off'){
+					logger.Debug('====== Keep Movies is Off, Deleting Files ======')
+					fs.readdirSync("./").forEach(function(fileName) {
+        				if (path.extname(fileName) === ".mp4") {
+        					logger.Debug('Deleting ' + fileName);
+            				fs.unlinkSync(fileName);
+        				}
+    				});
+    				deleteFolderRecursive('/tmp/torrent-stream/');
+				}
+			})
 			staticFile = false;
 		} else if(pathname.indexOf("MoviesGrid.xml") >= 0){
 			var xml = require('./XMLGenerator');
@@ -438,6 +453,19 @@ function startSSLWebServer(localIp) {
 	});
 	logger.Web("SSL Web: listening on " + localIp + ":443");
 }
-
+var deleteFolderRecursive = function(path) {
+  if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file,index){
+      var curPath = path + "/" + file;
+      if(fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+      	logger.Debug('Deleting ' + curPath);
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+};
 exports.startWebServer = startWebServer;
 exports.startSSLWebServer = startSSLWebServer;

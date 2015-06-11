@@ -38,6 +38,12 @@ function toggleSetting(setting, curSetting)
     } else {
       var newSetting = 'Off';
     }
+  } else if (setting == 'keep'){
+    if (curSetting == 'Off'){
+      var newSetting = 'On';
+    } else {
+      var newSetting = 'Off';
+    }
   }
   // read new XML
   var url = "http://trailers.apple.com/altersetting.xml?setting="+ setting + '&newSetting=' + newSetting + "&UDID="+atv.device.udid

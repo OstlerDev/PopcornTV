@@ -177,10 +177,20 @@ function changeArtwork(PMS_baseURL, accessToken, ratingKey, artURL, shelfName)
 /*
  * Add UDID to URL
  */
- function addUDID(url)
+function addUDID(url)
 {
   fv = atv.device.softwareVersion.split(".");
-  var url = url + "?UDID="+atv.device.udid;
+  var url = url + "?UDID=" + atv.device.udid;
+  atv.loadURL(url);
+}
+
+/*
+ * Add UDID to URL when there are already other query strings.
+ */
+function addUDIDtoQuery(url)
+{
+  fv = atv.device.softwareVersion.split(".");
+  var url = url + "&UDID=" + atv.device.udid;
   atv.loadURL(url);
 }
 

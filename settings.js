@@ -130,6 +130,19 @@ function checkFavorite(type, id, UDID){
         process.exit();
     }
 }
+function checkSetting(setting, UDID){
+    var data = fs.readFileSync('./aTVSettings.json'), settings;
+    try {
+        settings = JSON.parse(data);
+        setting = settings[UDID][setting] || [];
+
+        return setting;
+    } catch (err) {
+        logger.error('There is an error checking settings, please post this on the Github page')
+        logger.error(err);
+        process.exit();
+    }
+}
 function getFavorites(UDID){
     var data = fs.readFileSync('./aTVSettings.json'), settings;
     try {
@@ -144,6 +157,7 @@ function getFavorites(UDID){
 }
 
 exports.loadSettings = loadSettings;
+exports.checkSetting = checkSetting;
 exports.changeSetting = changeSetting;
 exports.addFavorite = addFavorite;
 exports.removeFavorite = removeFavorite;
