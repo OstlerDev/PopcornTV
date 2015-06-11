@@ -105,17 +105,17 @@ function getMsg(tag, domain, ip) {
 function startDnsProxy(localIp) {
 	var dgram = require("dgram");
 	
-	dgram.createSocket("udp4", function(msg, rinfo) {
+	var dns;
+	dns = dgram.createSocket("udp4", function(msg, rinfo) {
 		var domain  = resolveDNSDomain(msg);
 		var server  = this;
 		var address = rinfo.address;
 		var port    = rinfo.port;
-	
+
 		if (domain == DOMAIN_ATV) {
 			var tag = msg.readUInt16BE(0);
 			var ip  = dot2num(localIp);
 			var newMsg = getMsg(tag, domain, ip);
-
 			logger.DNS(DOMAIN_ATV + " change to " + localIp);
 			server.send(newMsg.msg, 0, newMsg.size, port, address);
 			return;
@@ -126,7 +126,22 @@ function startDnsProxy(localIp) {
 			server.send(msg, 0, rinfo.size, port, address);
 			this.close();
 		}).send(msg, 0, rinfo.size, 53, IP_DNS);
-	}).bind(53, localIp);
+	});
+	dns.bind(53, localIp);
+	dns.on('error', function(err){
+		if (err.code == 'EADDRINUSE'){
+			logger.error('========= FATAL ERROR =========');
+			logger.error('Cannot bind to Port 53. Please make sure you are not running a DNS server on your machine!');
+			logger.error('Error Code: ' + err.code);
+			logger.error('===============================');
+			process.exit();
+		}
+		logger.error('========= FATAL ERROR =========');
+		logger.error('Cannot start DNS Server. Please make sure you are using the correct IP!');
+		logger.error('Error Code: ' + err.code);
+		logger.error('===============================');
+		process.exit();
+	})
 	logger.DNS("DnsProxy binding on " + localIp + ":53");
 }
 

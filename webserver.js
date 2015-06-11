@@ -318,6 +318,21 @@ function startWebServer(localIp) {
 		}
 	});
 	server.listen(80);
+	server.on('error', function(err){
+		if (err.code == 'EADDRINUSE'){
+			logger.error('========= FATAL ERROR =========');
+			logger.error('Cannot bind to Port 80. Please make sure you are not running a web server on your machine!');
+			logger.error('Error Code: ' + err.code);
+			logger.error('===============================');
+			process.exit();
+		}
+		logger.error('========= FATAL ERROR =========');
+		logger.error('Cannot start web Server. Please make sure you are using the correct IP!');
+		logger.error('Error Code: ' + err.code);
+		logger.error('===============================');
+		process.exit();
+	})
+	
 	logger.Web("listening on " + localIp + ":80");
 }
 
@@ -342,6 +357,20 @@ function startSSLWebServer(localIp) {
 
 	server = https.createServer(options);
 	server.listen(443);
+	server.on('error', function(err){
+		if (err.code == 'EADDRINUSE'){
+			logger.error('========= FATAL ERROR =========');
+			logger.error('Cannot bind to Port 443. Please make sure you are not running a web server on your machine!');
+			logger.error('Error Code: ' + err.code);
+			logger.error('===============================');
+			process.exit();
+		}
+		logger.error('========= FATAL ERROR =========');
+		logger.error('Cannot start web Server. Please make sure you are using the correct IP!');
+		logger.error('Error Code: ' + err.code);
+		logger.error('===============================');
+		process.exit();
+	})
 	server.on('request', function(request, response) {
 		var pathname = url.parse(request.url).pathname;
 		var staticFile = true;
