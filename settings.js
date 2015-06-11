@@ -130,9 +130,22 @@ function checkFavorite(type, id, UDID){
         process.exit();
     }
 }
+function getFavorites(UDID){
+    var data = fs.readFileSync('./aTVSettings.json'), settings;
+    try {
+        settings = JSON.parse(data);
+        favorites = settings[UDID].favorites || [];
+        return favorites;
+    } catch (err) {
+        logger.error('There is an error getting favorites, please post this on the Github page')
+        logger.error(err);
+        process.exit();
+    }
+}
 
 exports.loadSettings = loadSettings;
 exports.changeSetting = changeSetting;
 exports.addFavorite = addFavorite;
 exports.removeFavorite = removeFavorite;
 exports.checkFavorite = checkFavorite;
+exports.getFavorites = getFavorites;

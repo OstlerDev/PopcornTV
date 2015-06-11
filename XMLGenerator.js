@@ -959,6 +959,79 @@ function generateTVPrePlayXML(imdb, season, episode, callback){
 									callback(xw.toString());
     });		
 }
+function generateFavoritesXML(favorites, callback){
+	var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+    xw.startDocument(version='1.0', encoding='UTF-8');
+    xw.startElement('atv')
+    	.startElement('head')
+    		.startElement('script')
+    			.writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
+    		.endElement()
+    	.endElement()
+    	.startElement('body')
+    		.startElement('scroller').writeAttribute('id', 'com.sample.movie-grid')
+    			.startElement('header')
+    				.startElement('simpleHeader')
+    					.writeElement('title', 'Favorites')
+    				.endElement()
+    			.endElement()
+    			.startElement('items')
+    				.startElement('grid')
+    					.writeAttribute('columnCount', '7').writeAttribute('id', 'grid_0')
+    						.startElement('items');
+    var processed = 0;
+    favorites.forEach(function(favorite){
+    	if (favorite.type == 'movie'){
+    		var API = require('./MoviesAPI');
+    		var movies = API.getMovieNoFanart(favorite.id, function(movie){
+
+			var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movie.id;
+	  		xw.startElement('moviePoster')
+	  			.writeAttribute('id', movie.title.replace(/\s/g, ''))
+	  			.writeAttribute('alwaysShowTitles', 'true')
+	  			.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=' + movie.id + '")')
+	  			.writeElement('title', movie.title)
+	  			.writeElement('subtitle', movie.year)
+	  			.writeElement('image', movie.images.medium_cover_image)
+	  			.writeElement('defaultImage', 'resource://Poster.png')
+	  		.endElement();
+	  		processed += 1;
+	  		if (processed == favorites.length){
+    			xw.endDocument();
+
+    			logger.Debug(xw.toString());
+    			callback(xw.toString());
+    		}
+    		});
+    	} else if (favorite.type == 'tvshow'){
+    		var API = require('./TVApi');
+   	 		var tv = API.getShow(favorite.id, function(show){
+				var url = 'http://trailers.apple.com/seasons.xml?imdb=' + show.imdb_id + '&title=' + show.title.replace(/ /g,"%20");
+	  			xw.startElement('moviePoster')
+	  				.writeAttribute('id', show.title.replace(/\s/g, ''))
+	  				.writeAttribute('alwaysShowTitles', 'true')
+	  				.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
+	  				.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  				.writeAttribute('onHoldSelect', "scrobbleMenu('http://trailers.apple.com/scrobble.xml?type=tvshow&id=" + show.imdb_id + "')")
+	  			.writeElement('title', show.title)
+	  			.writeElement('subtitle', show.year + ' | ' + show.num_seasons + ' Seasons')
+	  			.writeElement('image', show.images.poster)
+	  			.writeElement('defaultImage', 'resource://Poster.png')
+	  			.endElement();
+	  			processed += 1;
+	  			if (processed == favorites.length){
+    				xw.endDocument();
+
+    				logger.Debug(xw.toString());
+    				callback(xw.toString());
+    			}
+    		});
+    	}
+    })
+}
 
 function parseTime(runtime){
 	var hour = parseInt(Math.floor(runtime)/60)
@@ -1006,3 +1079,4 @@ exports.generateTVXML = generateTVXML;
 exports.generateTVSeasons = generateTVSeasons;
 exports.generateTVEpisodes = generateTVEpisodes;
 exports.generateTVPrePlayXML = generateTVPrePlayXML;
+exports.generateFavoritesXML = generateFavoritesXML;

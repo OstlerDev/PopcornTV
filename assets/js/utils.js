@@ -175,6 +175,16 @@ function changeArtwork(PMS_baseURL, accessToken, ratingKey, artURL, shelfName)
 }
 
 /*
+ * Add UDID to URL
+ */
+ function addUDID(url)
+{
+  fv = atv.device.softwareVersion.split(".");
+  var url = url + "?UDID="+atv.device.udid;
+  atv.loadURL(url);
+}
+
+/*
  * xml updater Major Hack :)
  */
 function updateContextXML()

@@ -25,6 +25,26 @@ function getTV(sort_by, amount, callback) {
 	    }
 	})
 }
+function getShow(imdb, callback){
+	var request = require("request")
+
+	var url = "http://eztvapi.re/show/" + imdb;
+	logger.Debug("=== Getting TV results ===")
+	logger.Debug(url);
+	request({
+	    url: url,
+	    json: true
+	}, function (error, response, body) {
+ 	   if (!error && response.statusCode === 200) {
+	        var show = body;
+	        logger.Debug(show);
+	        callback(show);
+	    } else {
+			logger.warning("Error connecting to eztvapi.re and grabbing json: " + url);
+			return;
+	    }
+	})
+}
 function getShowInfo(imdb, callback) {
 	var request = require('request');
 
@@ -338,6 +358,7 @@ function searchShows(query, callback) {
 }
 
 exports.getTV = getTV;
+exports.getShow = getShow;
 exports.getFanart = getFanart;
 exports.getSeasons = getSeasons;
 exports.getEpisodes = getEpisodes;

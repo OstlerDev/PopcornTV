@@ -71,6 +71,27 @@ function getMovie(torrentID, callback) {
 	    }
 	})
 }
+function getMovieNoFanart(torrentID, callback) {
+	var page = 1;
+	var request = require("request")
+
+	var url = "https://yts.to/api/v2/movie_details.json?with_images=true&movie_id=" + torrentID;
+	logger.Debug("=== Getting Movie ===");
+	logger.Debug(url);
+	request({
+	    url: url,
+	    json: true
+	}, function (error, response, body) {
+ 	   if (!error && response.statusCode === 200) {
+	        var movie = body.data;
+	        logger.Debug(movie);
+			callback(movie);
+	    } else {
+			logger.warning("Error connecting to yts.to and grabbing json: " + url);
+			return;
+	    }
+	})
+}
 function searchMovies(query, callback) {
 	var page = 1;
 	var request = require("request")
@@ -143,7 +164,7 @@ function generateScreenSaverJSON(callback){
 	var url = "https://yts.to/api/v2/list_movies.json?sort_by=seeds&limit=50";
 	logger.Debug("=== Getting Movies ===");
 	logger.Debug(url);
-	
+
 	request({
 	    url: url,
 	    json: true
@@ -174,6 +195,7 @@ function generateScreenSaverJSON(callback){
 
 exports.getMovies = getMovies;
 exports.getMovie = getMovie;
+exports.getMovieNoFanart = getMovieNoFanart;
 exports.searchMovies = searchMovies;
 exports.getFanart = getFanart;
 exports.getRelatedMovies = getRelatedMovies;

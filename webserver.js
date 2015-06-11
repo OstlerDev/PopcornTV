@@ -259,6 +259,19 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
+		} else if(pathname.indexOf("Favorites.xml") >= 0){
+			var aTVSettings = require('./settings.js');
+			var favorites = aTVSettings.getFavorites(query.UDID);
+
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting Favorites.xml Generation ===');
+			xml.generateFavoritesXML(favorites, function(xmlstring){
+			logger.Debug('=== Starting Favorites.xml Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
 		} else if(pathname.indexOf(".cer") >= 0){
 			pathname = "certificates/trailers.cer";
 		} else if(pathname.indexOf("/appletv/us/images/icons/trailerslogo.png") >= 0){
@@ -332,7 +345,9 @@ function startWebServer(localIp) {
 		logger.error('===============================');
 		process.exit();
 	})
-	
+	server.setTimeout(1000 * 1000 * 1000, function(response){
+		logger.Debug('Timed Out');
+	})
 	logger.Web("listening on " + localIp + ":80");
 }
 
