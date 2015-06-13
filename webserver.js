@@ -124,8 +124,8 @@ function startWebServer(localIp) {
 				var xml = require('./XMLGenerator');
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
-				xml.generateMoviePrePlayXML(query.torrentID, function(xmlstring){
-				logger.Debug('=== Starting MoviePrePlay.xml Generation ===');
+				xml.generateMoviePrePlayXML(query.torrentID, query.UDID, function(xmlstring){
+					logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();
 				})

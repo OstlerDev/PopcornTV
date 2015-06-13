@@ -421,11 +421,11 @@ function generateTVSearchResults(query, callback){
     });
 }
 
-function generateMoviePrePlayXML(torrentID, callback){
+function generateMoviePrePlayXML(torrentID, UDID, callback){
 	var API = require('./MoviesAPI');
     var movies = API.getMovie(torrentID, function(movie, fanart){
     	var XMLWriter = require('xml-writer');
-		var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movie.id;
+		var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movie.id + '&UDID=' + UDID;
     	xw = new XMLWriter;
     	xw.startDocument(version='1.0', encoding='UTF-8');
     	xw.startElement('atv')
@@ -561,7 +561,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 								  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
 								  			.writeAttribute('alwaysShowTitles', 'true')
 								  			.writeAttribute('related', 'true')
-								  			.writeAttribute('onSelect', "atv.loadURL('" + url + "')")
+								  			.writeAttribute('onSelect', "addUDIDtoQuery('" + url + "')")
 								  		.writeElement('title', movies[i].title)
 								  		.writeElement('subtitle', movies[i].year)
 								  		.writeElement('image', movies[i].medium_cover_image)
@@ -576,7 +576,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 }
 function generateNoFanartXML(torrentID, callback){
 	var API = require('./MoviesAPI');
-    var movies = API.getMovie(torrentID, function(movie){
+    var movies = API.getMovieNoFanart(torrentID, function(movie){
     	var XMLWriter = require('xml-writer');
     	xw = new XMLWriter;
     	xw.startDocument(version='1.0', encoding='UTF-8');
@@ -653,7 +653,7 @@ function generateNoFanartXML(torrentID, callback){
 								  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
 								  			.writeAttribute('alwaysShowTitles', 'true')
 								  			.writeAttribute('related', 'true')
-								  			.writeAttribute('onSelect', "atv.loadURL('" + url + "')")
+								  			.writeAttribute('onSelect', "addUDIDtoQuery('" + url + "')")
 								  		.writeElement('title', movies[i].title)
 								  		.writeElement('subtitle', movies[i].year)
 								  		.writeElement('image', movies[i].medium_cover_image)
