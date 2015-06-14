@@ -35,7 +35,7 @@
               <oneLineMenuItem id="favorites" onHoldSelect="" onPlay="addUDID('http://trailers.apple.com/Favorites.xml');" onSelect="addUDID('http://trailers.apple.com/Favorites.xml');">
                 <label>Favorites</label>
                 <preview>
-                  <link>http://trailers.apple.com/Parade.xml?sort_by=seeds&amp;type=movie</link>
+                  <link></link>
                 </preview>
               </oneLineMenuItem>
               <oneLineMenuItem id="search" onHoldSelect="" onPlay="atv.loadURL('http://trailers.apple.com/Search/search.xml');" onSelect="atv.loadURL('http://trailers.apple.com/Search/search.xml');">

@@ -289,8 +289,8 @@ function generateMovieGenre(genre, callback){
 	  		xw.startElement('moviePoster')
 	  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
 	  			.writeAttribute('alwaysShowTitles', 'true')
-	  			.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
-	  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
+	  			.writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
 	  		.writeElement('title', movies[i].title)
 	  		.writeElement('subtitle', movies[i].year)
 	  		.writeElement('image', movies[i].medium_cover_image)
@@ -308,6 +308,11 @@ function generateSearchResults(query, callback){
     xw = new XMLWriter;
     xw.startDocument(version='1.0', encoding='UTF-8');
     xw.startElement('atv')
+        .startElement('head')
+            .startElement('script')
+                .writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
+            .endElement()
+        .endElement()
     	.startElement('body')
     		.startElement('searchResults').writeAttribute('id', 'searchResults')
     			.startElement('menu')
@@ -329,8 +334,8 @@ function generateSearchResults(query, callback){
 			var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
 	  		xw.startElement('twoLineEnhancedMenuItem')
 	  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
-	  			.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
-	  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
+	  			.writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
 	  		.writeElement('label', movies[i].title)
 	  		.writeElement('image', movies[i].small_cover_image)
 	  		.writeElement('defaultImage', 'resource://Poster.png')
@@ -357,8 +362,8 @@ function generateSearchResults(query, callback){
 				var url = 'http://trailers.apple.com/seasons.xml?imdb=' + shows[i].imdb_id + '&title=' + shows[i].title.replace(/ /g,"%20");
 	  			xw.startElement('twoLineEnhancedMenuItem')
 	  				.writeAttribute('id', shows[i].title.replace(/\s/g, ''))
-	  				.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
-	  				.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  				.writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
+	  				.writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
 	  				.writeAttribute('onHoldSelect', "scrobbleMenu('http://trailers.apple.com/scrobble.xml?type=tvshow&id=" + shows[i].imdb_id + "')")
 	  			.writeElement('label', shows[i].title)
 	  			.writeElement('image', shows[i].images.poster)
@@ -378,6 +383,11 @@ function generateMovieSearchResults(query, callback){
     xw = new XMLWriter;
     xw.startDocument(version='1.0', encoding='UTF-8');
     xw.startElement('atv')
+        .startElement('head')
+            .startElement('script')
+                .writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
+            .endElement()
+        .endElement()
     	.startElement('body')
     		.startElement('searchResults').writeAttribute('id', 'searchResults')
     			.startElement('menu')
@@ -397,8 +407,8 @@ function generateMovieSearchResults(query, callback){
 			var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
 	  		xw.startElement('twoLineEnhancedMenuItem')
 	  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
-	  			.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
-	  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
+	  			.writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
 	  		.writeElement('label', movies[i].title)
 	  		.writeElement('image', movies[i].small_cover_image)
 	  		.writeElement('defaultImage', 'resource://Poster.png')
@@ -416,6 +426,11 @@ function generateTVSearchResults(query, callback){
     xw = new XMLWriter;
     xw.startDocument(version='1.0', encoding='UTF-8');
     xw.startElement('atv')
+        .startElement('head')
+            .startElement('script')
+                .writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
+            .endElement()
+        .endElement()
     	.startElement('body')
     		.startElement('searchResults').writeAttribute('id', 'searchResults')
     			.startElement('menu')
@@ -435,8 +450,8 @@ function generateTVSearchResults(query, callback){
 			var url = 'http://trailers.apple.com/seasons.xml?imdb=' + shows[i].imdb_id + '&title=' + shows[i].title.replace(/ /g,"%20");
 	  		xw.startElement('twoLineEnhancedMenuItem')
 	  			.writeAttribute('id', shows[i].title.replace(/\s/g, ''))
-	  			.writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
-	  			.writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+	  			.writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
+	  			.writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
 	  			.writeAttribute('onHoldSelect', "scrobbleMenu('http://trailers.apple.com/scrobble.xml?type=tvshow&id=" + shows[i].imdb_id + "')")
 	  		.writeElement('label', shows[i].title)
 	  		.writeElement('image', shows[i].images.poster)
