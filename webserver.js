@@ -268,9 +268,7 @@ function startWebServer(localIp) {
 
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
-			logger.Debug('=== Starting error.xml (favorites) Generation ===');
-			xml.errorXML('Favorites', 'Added successfully to your favorites!', function(xmlstring){
-				logger.Debug('=== Ending error.xml (favorites) Generation ===');
+			xml.updateContextXML(function(xmlstring){
 				response.write(xmlstring);
 				response.end();
 			})
@@ -281,9 +279,7 @@ function startWebServer(localIp) {
 
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
-			logger.Debug('=== Starting error.xml (favorites) Generation ===');
-			xml.errorXML('Favorites', 'Successfully removed from Favorites', function(xmlstring){
-				logger.Debug('=== Ending error.xml (favorites) Generation ===');
+			xml.updateContextXML(function(xmlstring){
 				response.write(xmlstring);
 				response.end();
 			})

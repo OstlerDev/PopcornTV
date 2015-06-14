@@ -39,6 +39,35 @@ function errorXML(title, err, callback){
 	callback(xw.toString());
 }
 
+function updateContextXML(callback)
+{
+    /*
+    var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+    xw.startDocument(version='1.0', encoding='UTF-8');
+    xw.startElement('atv')
+        .startElement('body')
+            .startElement('optionList')
+                .writeAttribute('id', 'fakeUpdater')
+                .writeAttribute('autoSelectSingleItem', 'true')
+                .startElement('items')
+                    .startElement('oneLineMenuItem')
+                        .writeAttribute('id', '0')
+                        .writeAttribute('atv.unloadPage()')
+                        .writeElement()
+            .endElement()
+        .endElement()
+    .endElement();
+    xw.endDocument();
+    logger.Debug(xw.toString());
+    callback(xw.toString());
+    */
+    xmlstr = '<atv><body><optionList id="fakeUpdater" autoSelectSingleItem="true"> \
+            <items><oneLineMenuItem id="0" onSelect="atv.unloadPage()"><label></label> \
+            </oneLineMenuItem></items></optionList></body></atv>';
+    callback(xmlstr);
+}
+
 function generatePlayDelay(url){
 
 }
@@ -1083,6 +1112,7 @@ function getQualities(torrents){
 
 exports.generatePlayXML = generatePlayXML;
 exports.errorXML = errorXML;
+exports.updateContextXML = updateContextXML;
 exports.generateSettingsXML = generateSettingsXML;
 exports.generateMovieGenre = generateMovieGenre;
 exports.generateMoviesXML = generateMoviesXML;
