@@ -113,34 +113,44 @@ function removeFavorite(type, id, UDID){
     }
 }
 function checkFavorite(type, id, UDID){
-    var data = fs.readFileSync('./aTVSettings.json'), settings;
-    try {
-        settings = JSON.parse(data);
-        favorites = settings[UDID].favorites || [];
-        var isFavorite = false;
-        favorites.forEach(function(favorite){
-            if (favorite.type == type && favorite.id == id){
-                isFavorite = true;
-            }
-        })
-        return isFavorite;
-    } catch (err) {
-        logger.error('There is an error checking favorites, please post this on the Github page')
-        logger.error(err);
-        process.exit();
+    try{
+        var data = fs.readFileSync('./aTVSettings.json'), settings;
+        try {
+            settings = JSON.parse(data);
+            favorites = settings[UDID].favorites || [];
+            var isFavorite = false;
+            favorites.forEach(function(favorite){
+                if (favorite.type == type && favorite.id == id){
+                    isFavorite = true;
+                }
+            })
+            return isFavorite;
+        } catch (err) {
+            logger.error('There is an error checking favorites, please post this on the Github page')
+            logger.error(err);
+            process.exit();
+        }
+    } catch(e){
+        logger.warning('Settings file does not exist, creating...');
+        createFile(UDID);
     }
 }
 function checkSetting(setting, UDID){
-    var data = fs.readFileSync('./aTVSettings.json'), settings;
-    try {
-        settings = JSON.parse(data);
-        setting = settings[UDID][setting] || [];
+    try{
+        var data = fs.readFileSync('./aTVSettings.json'), settings;
+        try {
+            settings = JSON.parse(data);
+            setting = settings[UDID][setting] || [];
 
-        return setting;
-    } catch (err) {
-        logger.error('There is an error checking settings, please post this on the Github page')
-        logger.error(err);
-        process.exit();
+            return setting;
+        } catch (err) {
+            logger.error('There is an error checking settings, please post this on the Github page')
+            logger.error(err);
+            process.exit();
+        }
+    } catch(e){
+        logger.warning('Settings file does not exist, creating...');
+        createFile(UDID);
     }
 }
 function getFavorites(UDID){
