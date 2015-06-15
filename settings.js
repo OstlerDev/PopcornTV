@@ -80,36 +80,46 @@ function addTV(UDID){
     }
 }
 function addFavorite(type, id, UDID){
-    var data = fs.readFileSync('./aTVSettings.json'), settings;
     try {
-        settings = JSON.parse(data);
-        favorites = settings[UDID].favorites || [];
-        favorites.push({type: type, id: id});
-        settings[UDID].favorites = favorites;
-        fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
-    } catch (err) {
-        logger.error('There is an error adding to favorite, please post this on the Github page')
-        logger.error(err);
-        process.exit();
+        var data = fs.readFileSync('./aTVSettings.json'), settings;
+        try {
+            settings = JSON.parse(data);
+            favorites = settings[UDID].favorites || [];
+            favorites.push({type: type, id: id});
+            settings[UDID].favorites = favorites;
+            fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
+        } catch (err) {
+            logger.error('There is an error adding to favorite, please post this on the Github page')
+            logger.error(err);
+            process.exit();
+        }
+    } catch(e){
+        logger.warning('Settings file does not exist, creating...');
+        createFile(UDID);
     }
 }
 function removeFavorite(type, id, UDID){
-    var data = fs.readFileSync('./aTVSettings.json'), settings;
     try {
-        settings = JSON.parse(data);
-        favorites = settings[UDID].favorites || [];
-        for (var i = 0; i < favorites.length; i++) {
-            if (favorites[i].type == type && favorites[i].id == id){
-                favorites.splice(i, 1);
-            }
-        };
+        var data = fs.readFileSync('./aTVSettings.json'), settings;
+        try {
+            settings = JSON.parse(data);
+            favorites = settings[UDID].favorites || [];
+            for (var i = 0; i < favorites.length; i++) {
+                if (favorites[i].type == type && favorites[i].id == id){
+                    favorites.splice(i, 1);
+                }
+            };
 
-        settings[UDID].favorites = favorites;
-        fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
-    } catch (err) {
-        logger.error('There is an error removing from favorites, please post this on the Github page')
-        logger.error(err);
-        process.exit();
+            settings[UDID].favorites = favorites;
+            fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
+        } catch (err) {
+            logger.error('There is an error removing from favorites, please post this on the Github page')
+            logger.error(err);
+            process.exit();
+        }
+    } catch(e){
+        logger.warning('Settings file does not exist, creating...');
+        createFile(UDID);
     }
 }
 function checkFavorite(type, id, UDID){
@@ -154,15 +164,20 @@ function checkSetting(setting, UDID){
     }
 }
 function getFavorites(UDID){
-    var data = fs.readFileSync('./aTVSettings.json'), settings;
-    try {
-        settings = JSON.parse(data);
-        favorites = settings[UDID].favorites || [];
-        return favorites;
-    } catch (err) {
-        logger.error('There is an error getting favorites, please post this on the Github page')
-        logger.error(err);
-        process.exit();
+    try{
+        var data = fs.readFileSync('./aTVSettings.json'), settings;
+        try {
+            settings = JSON.parse(data);
+            favorites = settings[UDID].favorites || [];
+            return favorites;
+        } catch (err) {
+            logger.error('There is an error getting favorites, please post this on the Github page')
+            logger.error(err);
+            process.exit();
+        }
+    } catch(e){
+        logger.warning('Settings file does not exist, creating...');
+        createFile(UDID);
     }
 }
 
