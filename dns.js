@@ -116,7 +116,7 @@ function startDnsProxy(localIp) {
 			var tag = msg.readUInt16BE(0);
 			var ip  = dot2num(localIp);
 			var newMsg = getMsg(tag, domain, ip);
-			logger.DNS(DOMAIN_ATV + " change to " + localIp);
+			logger.Debug(DOMAIN_ATV + " change to " + localIp);
 			server.send(newMsg.msg, 0, newMsg.size, port, address);
 			return;
 		} else {
