@@ -53,8 +53,16 @@ function startWebServer(localIp) {
 			torrent.startStreamer(query.torrent, query.id, localIp);
 			torrent.getStreamer().on('ready', function (data) {
 				logger.Debug('=== Ending MoviePlay.xml Generation ===');
-				response.write(xml.generatePlayXML(torrent.getURL(), query.title, query.desc, query.poster));
-				response.end();
+				if (data.isMP4){
+					response.write(xml.generatePlayXML(torrent.getURL(), query.title, query.desc, query.poster));
+					response.end();
+				} else {
+					xml.errorXML('Unsupported File Type', 'At this time .' + data.type + ' files are not supported. Please choose a different file/quality.', function(xml){
+						response.write(xml);
+						response.end();
+					});
+					torrent.getStreamer().close();
+				}
 			});
 			torrent.getStreamer().on('close', function(){
 				var aTVSettings = require('./settings.js');

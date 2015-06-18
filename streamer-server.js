@@ -11,6 +11,8 @@ var fs = require('fs');
 var _ = require('underscore');
 var EventEmitter = require("events").EventEmitter;
 var path = require('path');
+var fileType = require('file-type');
+var readChunk = require('read-chunk');
 
 /*
     Credits for Streamer Server go to Popcorn Time, original repository can be found here: https://git.popcorntime.io/popcorntime/streamer-server/
@@ -48,12 +50,21 @@ StreamerServer = function(url, args) {
             // if our buffer is met, we can initialize our web server
             if (progress.downloaded >= args.buffer && !ready) {
 
+                var isMP4 = false;
+                var buffer = readChunk.sync(args.index, 0, 262);
+                var type = fileType(buffer);
+                if (type.ext == 'mp4' || type.ext == 'm4v' || type.ext == 'mov'){
+                    isMP4 = true;
+                }
+
                 // start web server
                 self.webServer.listen(args.port);
 
                 // emit the streamUrl
                 self.emit('ready', {
-                    streamUrl: 'http://'+args.hostname+':'+args.port
+                    streamUrl: 'http://'+args.hostname+':'+args.port,
+                    isMP4: isMP4,
+                    type: type.ext
                 });
 
                 // ok so we are ready :)
