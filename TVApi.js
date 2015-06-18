@@ -88,6 +88,33 @@ function getSeasons(imdb, callback) {
  	   if (!error && response.statusCode === 200) {
 	        logger.Debug(body);
 	        var seasons = body;
+	        getSeasonNumbers(imdb, function(numbers){
+	        	callback(seasons, numbers);
+	        })
+	    } else {
+			logger.warning("Error connecting to trakt.tv and grabbing json: " + url);
+			return;
+	    }
+	})
+}
+function getSeasonsFanart(imdb, callback) {
+	var request = require('request');
+
+	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '/seasons?extended=images';
+	logger.Debug("=== Getting Seasons ===")
+	logger.Debug(url);
+	request({
+	    url: url,
+	    json: true,
+	    headers: {
+	    	'Content-Type': 'application/json',
+	    	'trakt-api-version': '2',
+	    	'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
+	    }
+	}, function (error, response, body) {
+ 	   if (!error && response.statusCode === 200) {
+	        logger.Debug(body);
+	        var seasons = body;
 	        getFanart(imdb, function(url){
 	        	getSeasonNumbers(imdb, function(numbers){
 	        		callback(seasons, numbers, url);
@@ -127,6 +154,56 @@ function getEpisodes(imdb, season, callback) {
 	})
 }
 function getEpisode(imdb, season, episodeNum, callback) {
+	var request = require('request');
+
+	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '/seasons/' + season + '?extended=full,images';
+	logger.Debug("=== Getting Episode ===")
+	logger.Debug(url);
+	request({
+	    url: url,
+	    json: true,
+	    headers: {
+	    	'Content-Type': 'application/json',
+	    	'trakt-api-version': '2',
+	    	'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
+	    }
+	}, function (error, response, body) {
+ 	   if (!error && response.statusCode === 200) {
+	        logger.Debug(body);
+	        var episodes = body;
+	        getEpisodeNumbers(imdb, season, function(numbers){
+	        	var moreEpisodes = [];
+	        	var show;
+	        	episodes.forEach(function(episode){
+	        		//get the single show we want
+	        		if(episode.season == season && episode.number == episodeNum){
+	        			show = episode;
+	        		}
+	        		// get the rest of the shows of the season
+	        		if(episode.season == season){
+	        			moreEpisodes.push(episode);
+	        		}
+	        	})
+	        	//get the torrents for the show
+	        	getTorrents(imdb, season, episodeNum, function(torrents){
+	        		getSeasons(imdb, function (seasons, numbers, url) {
+	        			seasons.forEach(function(seasonNum){
+	        				if (seasonNum.number == season){
+	        					getShowInfo(imdb, function(fullShow){
+	        						callback(show, moreEpisodes, numbers, torrents, seasonNum.images.poster.thumb, fullShow);
+	        					});
+	        				}
+	        			});
+	        		});
+	        	});
+	        });
+	    } else {
+			logger.warning("Error connecting to trakt.tv and grabbing json: " + url);
+			return;
+	    }
+	})
+}
+function getEpisodeFanart(imdb, season, episodeNum, callback) {
 	var request = require('request');
 
 	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '/seasons/' + season + '?extended=full,images';
@@ -361,6 +438,8 @@ exports.getTV = getTV;
 exports.getShow = getShow;
 exports.getFanart = getFanart;
 exports.getSeasons = getSeasons;
+exports.getSeasonsFanart = getSeasonsFanart;
 exports.getEpisodes = getEpisodes;
 exports.getEpisode = getEpisode;
+exports.getEpisodeFanart = getEpisodeFanart;
 exports.searchShows = searchShows;

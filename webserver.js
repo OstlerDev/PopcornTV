@@ -124,7 +124,7 @@ function startWebServer(localIp) {
 				var xml = require('./XMLGenerator');
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
-				xml.generateMoviePrePlayXML(query.torrentID, query.UDID, function(xmlstring){
+				xml.generateMoviePrePlayFanartXML(query.torrentID, query.UDID, function(xmlstring){
 					logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();
@@ -133,7 +133,7 @@ function startWebServer(localIp) {
 				var xml = require('./XMLGenerator');
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Starting MoviePrePlay.xml No Fanart Generation ===');
-				xml.generateNoFanartXML(query.torrentID, function(xmlstring){
+				xml.generateMoviePrePlayXML(query.torrentID, function(xmlstring){
 					logger.Debug('=== Ending MoviePrePlay.xml No Fanart Generation ===');
 					response.write(xmlstring);
 					response.end();
@@ -181,14 +181,26 @@ function startWebServer(localIp) {
 			})
 			staticFile = false;
 		} else if(pathname.indexOf("seasons.xml") >= 0){
+			var aTVSettings = require('./settings.js');
+			var fanart = aTVSettings.checkSetting('fanart', query.UDID);
+
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting seasons.xml Generation ===');
-			xml.generateTVSeasons(query.imdb, query.title, function(xmlstring){
-				logger.Debug('=== Ending seasons.xml Generation ===');
-				response.write(xmlstring);
-				response.end();
-			})
+
+			if (fanart == 'On'){
+				xml.generateTVSeasonsFanart(query.imdb, query.title, function(xmlstring){
+					logger.Debug('=== Ending seasons.xml Generation ===');
+					response.write(xmlstring);
+					response.end();
+				})
+			} else {
+				xml.generateTVSeasons(query.imdb, query.title, function(xmlstring){
+					logger.Debug('=== Ending seasons.xml Generation ===');
+					response.write(xmlstring);
+					response.end();
+				})
+			}
 			staticFile = false;
 		}  else if(pathname.indexOf("episodes.xml") >= 0){
 			var xml = require('./XMLGenerator');
@@ -206,14 +218,25 @@ function startWebServer(localIp) {
 			} catch(e) {
 				logger.Debug('Streamer: No Stream Running');
 			}
+			var aTVSettings = require('./settings.js');
+			var fanart = aTVSettings.checkSetting('fanart', query.UDID);
+
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting TVPrePlay.xml Generation ===');
-			xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, function(xmlstring){
-				logger.Debug('=== Ending TVPrePlay.xml Generation ===');
-				response.write(xmlstring);
-				response.end();
-			})
+			if (fanart == 'On'){
+				xml.generateTVPrePlayFanartXML(query.imdb, query.season, query.episode, function(xmlstring){
+					logger.Debug('=== Ending TVPrePlay.xml Generation ===');
+					response.write(xmlstring);
+					response.end();
+				})
+			} else {
+				xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, function(xmlstring){
+					logger.Debug('=== Ending TVPrePlay.xml Generation ===');
+					response.write(xmlstring);
+					response.end();
+				})
+			}
 			staticFile = false;
 		} else if(pathname.indexOf("settings.xml") >= 0){
 			var xml = require('./XMLGenerator');

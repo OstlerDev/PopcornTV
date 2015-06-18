@@ -171,7 +171,7 @@ function getFavorites(UDID){
             if (settings[UDID] == undefined){
                 addTV(UDID);
                 return [];
-            } else{
+            } else {
                 favorites = settings[UDID].favorites || [];
                 return favorites;
             }
