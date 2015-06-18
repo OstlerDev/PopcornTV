@@ -225,13 +225,13 @@ function startWebServer(localIp) {
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting TVPrePlay.xml Generation ===');
 			if (fanart == 'On'){
-				xml.generateTVPrePlayFanartXML(query.imdb, query.season, query.episode, function(xmlstring){
+				xml.generateTVPrePlayFanartXML(query.imdb, query.season, query.episode, query.UDID, function(xmlstring){
 					logger.Debug('=== Ending TVPrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();
 				})
 			} else {
-				xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, function(xmlstring){
+				xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, query.UDID, function(xmlstring){
 					logger.Debug('=== Ending TVPrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();
