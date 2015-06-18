@@ -9,6 +9,7 @@ var ip;
 function startStreamer(url, torrentID, localIp) {
 	ID = torrentID;
 	ip = localIp;
+	url = decodeURIComponent(url);
 	var streamBuffer = 5 * 1024 * 1024;
 	if (url.indexOf("youtube") >= 0){
 		streamBuffer = 3 * 1024 * 1024;

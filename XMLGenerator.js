@@ -1039,6 +1039,7 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, callback){
     var episode = API.getEpisodeFanart(imdb, season, episode, function(show, moreEpisodes, episodeNumbers, torrentLink, fanart, poster, fullShow){
         var XMLWriter = require('xml-writer');
         var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID;
+        var torrentURL = encodeURIComponent(torrentLink[0].url.replace(/%5B/g, '').replace(/%5D/g, ''));
         xw = new XMLWriter;
         xw.startDocument(version='1.0', encoding='UTF-8');
         xw.startElement('atv')
@@ -1129,7 +1130,7 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, callback){
                                     .startElement('items')
                                         .startElement('actionButton')
                                             .writeAttribute('id', 'play')
-                                            .writeAttribute('onSelect', "addUDIDtoQuery('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=" + encodeURIComponent(torrentLink[0].url) + "&id=" + imdb + "&title=" + show.title.replace(/ /g,"%20") + "&desc=" + show.overview.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + show.images.screenshot.thumb + "')")
+                                            .writeAttribute('onSelect', "atv.loadURL('" + encodeURI("http://trailers.apple.com/Movies/MoviePlay.xml?id=" + imdb + "&UDID=" + UDID + "&title=" + show.title.replace(/ /g,"%20") + "&desc=" + show.overview.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + show.images.screenshot.thumb + "&torrent=" + torrentURL) + "')")
                                             .writeElement('title', 'Play')
                                             .writeElement('image', 'resource://Play.png')
                                             .writeElement('focusedImage', 'resource://PlayFocused.png')
@@ -1180,6 +1181,7 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, callback){
                                     xw.endDocument();
                                     logger.Debug(xw.toString());
                                     logger.Debug(torrentLink[0].url);
+                                    logger.Debug(encodeURI("http://trailers.apple.com/Movies/MoviePlay.xml?id=" + imdb + "&title=" + show.title.replace(/ /g,"%20") + "&desc=" + 'asd' + "&poster=" + show.images.screenshot.thumb + "&torrent=" + torrentURL))
                                     callback(xw.toString());
     });     
 }
