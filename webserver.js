@@ -287,15 +287,23 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("Favorites.xml") >= 0){
 			var aTVSettings = require('./settings.js');
 			var favorites = aTVSettings.getFavorites(query.UDID);
-
+			logger.Debug(favorites);
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting Favorites.xml Generation ===');
-			xml.generateFavoritesXML(favorites, function(xmlstring){
-			logger.Debug('=== Starting Favorites.xml Generation ===');
-				response.write(xmlstring);
-				response.end();
-			})
+			if (favorites != undefined && favorites.length >= 1){
+				xml.generateFavoritesXML(favorites, function(xmlstring){
+					logger.Debug('=== Starting Favorites.xml Generation ===');
+					response.write(xmlstring);
+					response.end();
+				})
+			} else {
+				xml.errorXML('No Favorites', 'Please add some favorites by hovering over a Movie/TV poster and holding the select button.', function(xmlstring){
+					logger.Debug('=== Starting Favorites.xml Generation ===');
+					response.write(xmlstring);
+					response.end();
+				})
+			}
 			staticFile = false;
 		} else if(pathname.indexOf(".cer") >= 0){
 			pathname = "certificates/trailers.cer";

@@ -168,8 +168,13 @@ function getFavorites(UDID){
         var data = fs.readFileSync('./aTVSettings.json'), settings;
         try {
             settings = JSON.parse(data);
-            favorites = settings[UDID].favorites || [];
-            return favorites;
+            if (settings[UDID] == undefined){
+                addTV(UDID);
+                return [];
+            } else{
+                favorites = settings[UDID].favorites || [];
+                return favorites;
+            }
         } catch (err) {
             logger.error('There is an error getting favorites, please post this on the Github page')
             logger.error(err);
@@ -178,6 +183,7 @@ function getFavorites(UDID){
     } catch(e){
         logger.warning('Settings file does not exist, creating...');
         createFile(UDID);
+        return undefined;
     }
 }
 
