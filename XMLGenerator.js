@@ -270,6 +270,7 @@ function generateMovieGenre(genre, callback){
 	  			.writeAttribute('alwaysShowTitles', 'true')
 	  			.writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
 	  			.writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
+                .writeAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=' + movies[i].id + '")')
 	  		.writeElement('title', movies[i].title)
 	  		.writeElement('subtitle', movies[i].year)
 	  		.writeElement('image', movies[i].medium_cover_image)
@@ -315,6 +316,7 @@ function generateSearchResults(query, callback){
 	  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
 	  			.writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
 	  			.writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
+                .writeAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=' + movies[i].id + '")')
 	  		.writeElement('label', movies[i].title)
 	  		.writeElement('image', movies[i].small_cover_image)
 	  		.writeElement('defaultImage', 'resource://Poster.png')
@@ -388,6 +390,7 @@ function generateMovieSearchResults(query, callback){
 	  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
 	  			.writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
 	  			.writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
+                .writeAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=' + movies[i].id + '")')
 	  		.writeElement('label', movies[i].title)
 	  		.writeElement('image', movies[i].small_cover_image)
 	  		.writeElement('defaultImage', 'resource://Poster.png')
@@ -444,9 +447,13 @@ function generateTVSearchResults(query, callback){
     });
 }
 
-function generateMoviePrePlayFanartXML(torrentID, UDID, callback){
+function generateMoviePrePlayFanartXML(torrentID, UDID, resolution, callback){
 	var API = require('./MoviesAPI');
-    var movies = API.getMovie(torrentID, function(movie, fanart){
+    var inset = '690';
+    if (resolution == '720'){
+        inset = '460';
+    }
+    var movies = API.getMovieWithFanart(torrentID, resolution, function(movie, fanart){
     	var XMLWriter = require('xml-writer');
 		var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movie.id + '&UDID=' + UDID;
     	xw = new XMLWriter;
@@ -476,7 +483,7 @@ function generateMoviePrePlayFanartXML(torrentID, UDID, callback){
     				.startElement('header')
     					.startElement('imageHeader')
     						.startElement('image')
-    						.writeAttribute('insets', '0, 0, 690, 0')
+    						.writeAttribute('insets', '0, 0, ' + inset + ', 0')
     						.writeAttribute('required', 'true')
     						.text('http://trailers.apple.com/' + fanart)
     						.endElement()
@@ -585,6 +592,7 @@ function generateMoviePrePlayFanartXML(torrentID, UDID, callback){
 								  			.writeAttribute('alwaysShowTitles', 'true')
 								  			.writeAttribute('related', 'true')
 								  			.writeAttribute('onSelect', "addUDIDtoQuery('" + url + "')")
+                                            .writeAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=' + movies[i].id + '")')
 								  		.writeElement('title', movies[i].title)
 								  		.writeElement('subtitle', movies[i].year)
 								  		.writeElement('image', movies[i].medium_cover_image)
@@ -599,7 +607,7 @@ function generateMoviePrePlayFanartXML(torrentID, UDID, callback){
 }
 function generateMoviePrePlayXML(torrentID, callback){
 	var API = require('./MoviesAPI');
-    var movies = API.getMovieNoFanart(torrentID, function(movie){
+    var movies = API.getMovie(torrentID, function(movie){
     	var XMLWriter = require('xml-writer');
     	xw = new XMLWriter;
     	xw.startDocument(version='1.0', encoding='UTF-8');
@@ -677,6 +685,7 @@ function generateMoviePrePlayXML(torrentID, callback){
 								  			.writeAttribute('alwaysShowTitles', 'true')
 								  			.writeAttribute('related', 'true')
 								  			.writeAttribute('onSelect', "addUDIDtoQuery('" + url + "')")
+                                            .writeAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=' + movies[i].id + '")')
 								  		.writeElement('title', movies[i].title)
 								  		.writeElement('subtitle', movies[i].year)
 								  		.writeElement('image', movies[i].medium_cover_image)
@@ -772,6 +781,7 @@ function generateTVSeasons(imdb, seriesTitle, callback){
                     .writeAttribute('alwaysShowTitles', 'true')
                     .writeAttribute('onPlay', 'atv.loadURL("' + url + '")')
                     .writeAttribute('onSelect', 'atv.loadURL("' + url + '")')
+                    .writeAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=tvshow&id=' + imdb + '")')
                 .writeElement('title', title)
                 .writeElement('image', seasons[i].images.poster.thumb)
                 .writeElement('defaultImage', 'resource://Poster.png')
@@ -792,11 +802,17 @@ function generateTVSeasons(imdb, seriesTitle, callback){
         callback(xw.toString());
     });
 }
-function generateTVSeasonsFanart(imdb, seriesTitle, callback){
+function generateTVSeasonsFanart(imdb, seriesTitle, resolution, callback){
+    var inset1 = '-434';
+    var inset2 = '900';
+    if (resolution == '720'){
+        inset1 =  '-270';
+        inset2 =  '580';
+    }
     var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
     var API = require('./TVApi');
-    var tv = API.getSeasonsFanart(imdb, function(seasons, seasonNumbers, fanart){
+    var tv = API.getSeasonsFanart(imdb, resolution, function(seasons, seasonNumbers, fanart){
         xw.startDocument(version='1.0', encoding='UTF-8');
         xw.startElement('atv')
             .startElement('body')
@@ -804,7 +820,7 @@ function generateTVSeasonsFanart(imdb, seriesTitle, callback){
                     .startElement('header')
                         .startElement('imageHeader')
                             .startElement('image')
-                            .writeAttribute('insets', '-434, 0, 900, 0')
+                            .writeAttribute('insets', inset1 + ', 0, ' + inset2 + ', 0')
                             .writeAttribute('required', 'true')
                             .text(fanart)
                             .endElement()
@@ -873,6 +889,9 @@ function generateTVEpisodes(imdb, season, title, callback){
 				if (episodes[i].title == null){
 					continue;
 				}
+                if (episodes[i].overview == null){
+                    episodes[i].overview = 'No Overview';
+                }
 				logger.Debug(episodes[i]);
 				var url = 'http://trailers.apple.com/TVPrePlay.xml?imdb=' + imdb + '&season=' + season + '&episode=' + episodes[i].number;
 	  			xw.startElement('twoLineEnhancedMenuItem')
@@ -1033,10 +1052,14 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, callback){
 									callback(xw.toString());
     });		
 }
-function generateTVPrePlayFanartXML(imdb, season, episode, UDID, callback){
+function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, callback){
+    var inset = '690';
+    if (resolution == '720'){
+        inset = '460';
+    }
     var API = require('./TVApi');
     var tmpEp = episode;
-    var episode = API.getEpisodeFanart(imdb, season, episode, function(show, moreEpisodes, episodeNumbers, torrentLink, fanart, poster, fullShow){
+    var episode = API.getEpisodeFanart(imdb, season, episode, resolution, function(show, moreEpisodes, episodeNumbers, torrentLink, fanart, poster, fullShow){
         var XMLWriter = require('xml-writer');
         var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID;
         var torrentURL = encodeURIComponent(torrentLink[0].url.replace(/%5B/g, '').replace(/%5D/g, ''));
@@ -1067,7 +1090,7 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, callback){
                     .startElement('header')
                         .startElement('imageHeader')
                             .startElement('image')
-                            .writeAttribute('insets', '0, 0, 690, 0')
+                            .writeAttribute('insets', '0, 0, ' + inset + ', 0')
                             .writeAttribute('required', 'true')
                             .text(fanart)
                             .endElement()

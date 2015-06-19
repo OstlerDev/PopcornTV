@@ -42,7 +42,7 @@ function getMoviesGenre(genre, amount, callback) {
 	    }
 	})
 }
-function getMovie(torrentID, callback) {
+function getMovieWithFanart(torrentID, resolution, callback) {
 	var page = 1;
 	var request = require("request")
 
@@ -58,7 +58,7 @@ function getMovie(torrentID, callback) {
 	        logger.Debug(movie);
 	        var Fan = require('./fanartGenerator')
 	        try {
-	        	Fan.generateFanart(movie.imdb_code, function(url){
+	        	Fan.generateFanart(movie.imdb_code, resolution, function(url){
 					callback(movie, url);
 				});
 	        } catch(e) {
@@ -71,7 +71,7 @@ function getMovie(torrentID, callback) {
 	    }
 	})
 }
-function getMovieNoFanart(torrentID, callback) {
+function getMovie(torrentID, callback) {
 	var page = 1;
 	var request = require("request")
 
@@ -195,7 +195,7 @@ function generateScreenSaverJSON(callback){
 
 exports.getMovies = getMovies;
 exports.getMovie = getMovie;
-exports.getMovieNoFanart = getMovieNoFanart;
+exports.getMovieWithFanart = getMovieWithFanart;
 exports.searchMovies = searchMovies;
 exports.getFanart = getFanart;
 exports.getRelatedMovies = getRelatedMovies;

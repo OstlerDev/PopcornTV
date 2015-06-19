@@ -97,7 +97,7 @@ function getSeasons(imdb, callback) {
 	    }
 	})
 }
-function getSeasonsFanart(imdb, callback) {
+function getSeasonsFanart(imdb, resolution, callback) {
 	var request = require('request');
 
 	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '/seasons?extended=images';
@@ -115,7 +115,7 @@ function getSeasonsFanart(imdb, callback) {
  	   if (!error && response.statusCode === 200) {
 	        logger.Debug(body);
 	        var seasons = body;
-	        getFanart(imdb, function(url){
+	        getFanart(imdb, resolution, function(url){
 	        	getSeasonNumbers(imdb, function(numbers){
 	        		callback(seasons, numbers, url);
 	        	})
@@ -203,7 +203,7 @@ function getEpisode(imdb, season, episodeNum, callback) {
 	    }
 	})
 }
-function getEpisodeFanart(imdb, season, episodeNum, callback) {
+function getEpisodeFanart(imdb, season, episodeNum, resolution, callback) {
 	var request = require('request');
 
 	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '/seasons/' + season + '?extended=full,images';
@@ -237,7 +237,7 @@ function getEpisodeFanart(imdb, season, episodeNum, callback) {
 	        	//get the torrents for the show
 	        	getTorrents(imdb, season, episodeNum, function(torrents){
 	        		// get the fanart for the show
-	        		getScreenshotFanart(imdb, season, episodeNum, function(fanart){
+	        		getScreenshotFanart(imdb, season, episodeNum, resolution, function(fanart){
 	        			getSeasons(imdb, function (seasons, numbers, url) {
 	        				seasons.forEach(function(seasonNum){
 	        					if (seasonNum.number == season){
@@ -256,7 +256,7 @@ function getEpisodeFanart(imdb, season, episodeNum, callback) {
 	    }
 	})
 }
-function getFanart(imdb, callback){
+function getFanart(imdb, resolution, callback){
 	var request = require('request');
 
 	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '?extended=images';
@@ -275,7 +275,7 @@ function getFanart(imdb, callback){
 	        var fanart = body.images.fanart.full;
 	        logger.Debug(fanart);
 	        var gen = require('./fanartGenerator');
-	        gen.generateFanartTV(fanart, imdb, function(url){
+	        gen.generateFanartTV(fanart, imdb, resolution, function(url){
 	        	callback('http://trailers.apple.com/' + url);
 	        });
 	    } else {
@@ -309,7 +309,7 @@ function getScreenshot(imdb, season, episode, callback){
 	    }
 	})
 }
-function getScreenshotFanart(imdb, season, episode, callback){
+function getScreenshotFanart(imdb, season, episode, resolution, callback){
 	var request = require('request');
 
 	var url = 'https://api-v2launch.trakt.tv/shows/' + imdb + '/seasons/' + season + '/episodes/' + episode + '?extended=images';
@@ -328,7 +328,7 @@ function getScreenshotFanart(imdb, season, episode, callback){
 	        var screenshot = body.images.screenshot.full; 
 	        logger.Debug(screenshot);
 	        var gen = require('./fanartGenerator');
-	        gen.generateFanartTV(screenshot, body.ids.tvdb, function(url){
+	        gen.generateFanartTV(screenshot, body.ids.tvdb, resolution, function(url){
 	        	callback('http://trailers.apple.com/' + url);
 	        });
 	    } else {

@@ -132,7 +132,7 @@ function startWebServer(localIp) {
 				var xml = require('./XMLGenerator');
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
-				xml.generateMoviePrePlayFanartXML(query.torrentID, query.UDID, function(xmlstring){
+				xml.generateMoviePrePlayFanartXML(query.torrentID, query.UDID, request.headers['x-apple-tv-resolution'], function(xmlstring){
 					logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();
@@ -197,7 +197,7 @@ function startWebServer(localIp) {
 			logger.Debug('=== Starting seasons.xml Generation ===');
 
 			if (fanart == 'On'){
-				xml.generateTVSeasonsFanart(query.imdb, query.title, function(xmlstring){
+				xml.generateTVSeasonsFanart(query.imdb, query.title, request.headers['x-apple-tv-resolution'], function(xmlstring){
 					logger.Debug('=== Ending seasons.xml Generation ===');
 					response.write(xmlstring);
 					response.end();
@@ -233,7 +233,7 @@ function startWebServer(localIp) {
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting TVPrePlay.xml Generation ===');
 			if (fanart == 'On'){
-				xml.generateTVPrePlayFanartXML(query.imdb, query.season, query.episode, query.UDID, function(xmlstring){
+				xml.generateTVPrePlayFanartXML(query.imdb, query.season, query.episode, query.UDID, request.headers['x-apple-tv-resolution'], function(xmlstring){
 					logger.Debug('=== Ending TVPrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();
