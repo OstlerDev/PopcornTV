@@ -248,38 +248,84 @@ function generateTVParadeXML(sort_by, callback){
 }
 
 function generateMovieGenre(genre, callback){
-	var XMLWriter = require('xml-writer');
+    var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
     xw.startDocument(version='1.0', encoding='UTF-8');
     xw.startElement('atv')
-    	.startElement('body')
-    		.startElement('preview')
-    			.startElement('scrollerPreview').writeAttribute('id', 'com.sample.scrollerPreview')
-    				.startElement('items')
-    					.startElement('grid')
-    						.writeAttribute('id', 'grid_1')
-    						.writeAttribute('columnCount', '5')
-    						.startElement('items')
+        .startElement('head')
+            .startElement('script')
+                .writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
+            .endElement()
+        .endElement()
+        .startElement('body')
+            .startElement('preview')
+                .startElement('scrollerPreview').writeAttribute('id', 'com.sample.scrollerPreview')
+                    .startElement('items')
+                        .startElement('grid')
+                            .writeAttribute('id', 'grid_1')
+                            .writeAttribute('columnCount', '5')
+                            .startElement('items')
     var API = require('./MoviesAPI');
     var movies = API.getMoviesGenre(genre, "50", function(movies){
-    	for(var i = 0; i <= movies.length-1; i++)
-		{
-	  		var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
-	  		xw.startElement('moviePoster')
-	  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
-	  			.writeAttribute('alwaysShowTitles', 'true')
-	  			.writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
-	  			.writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
+        for(var i = 0; i <= movies.length-1; i++)
+        {
+            var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
+            xw.startElement('moviePoster')
+                .writeAttribute('id', movies[i].title.replace(/\s/g, ''))
+                .writeAttribute('alwaysShowTitles', 'true')
+                .writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
+                .writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
                 .writeAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=' + movies[i].id + '")')
-	  		.writeElement('title', movies[i].title)
-	  		.writeElement('subtitle', movies[i].year)
-	  		.writeElement('image', movies[i].medium_cover_image)
-	  		.writeElement('defaultImage', 'resource://Poster.png')
-	  		.endElement();
-		}
-    	xw.endDocument();
-    	logger.Debug(xw.toString());
-    	callback(xw.toString());
+            .writeElement('title', movies[i].title)
+            .writeElement('subtitle', movies[i].year)
+            .writeElement('image', movies[i].medium_cover_image)
+            .writeElement('defaultImage', 'resource://Poster.png')
+            .endElement();
+        }
+        xw.endDocument();
+        logger.Debug(xw.toString());
+        callback(xw.toString());
+    });
+}
+
+function generateMovieExtras(query, callback){
+    var XMLWriter = require('xml-writer');
+    xw = new XMLWriter;
+    xw.startDocument(version='1.0', encoding='UTF-8');
+    xw.startElement('atv')
+        .startElement('head')
+            .startElement('script')
+                .writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
+            .endElement()
+        .endElement()
+        .startElement('body')
+            .startElement('preview')
+                .startElement('scrollerPreview').writeAttribute('id', 'com.sample.scrollerPreview')
+                    .startElement('items')
+                        .startElement('grid')
+                            .writeAttribute('id', 'grid_1')
+                            .writeAttribute('columnCount', '5')
+                            .startElement('items')
+    var API = require('./MoviesAPI');
+    var movies = API.searchMovies(query, function(movies){
+        for(var i = 0; i <= movies.length-1; i++)
+        {
+            var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
+            xw.startElement('moviePoster')
+                .writeAttribute('id', movies[i].title.replace(/\s/g, ''))
+                .writeAttribute('alwaysShowTitles', 'true')
+                .writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
+                .writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
+                .writeAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=' + movies[i].id + '")')
+            .writeElement('title', movies[i].title)
+            .writeElement('subtitle', movies[i].year)
+            .writeElement('image', movies[i].medium_cover_image)
+            .writeElement('defaultImage', 'resource://Poster.png')
+            .endElement();
+        }
+        xw.endDocument();
+        logger.Debug(xw.toString());
+        callback(xw.toString());
     });
 }
 
@@ -577,31 +623,106 @@ function generateMoviePrePlayFanartXML(torrentID, UDID, resolution, callback){
 	  				.endElement()
 	  				.startElement('bottomShelf')
 	  					.startElement('shelf')
-	  					.writeAttribute('columnCount', '7')
-	  					.writeAttribute('id', 'bottomShelf')
-	  					.startElement('sections')
-	  						.startElement('shelfSection')
-	  							.startElement('items');
-	  								var API = require('./MoviesAPI');
-   							 		var movies = API.getRelatedMovies(torrentID, function(movies){
-    								for(var i = 0; i <= movies.length-1; i++)
-									{
-										var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
-								  		xw.startElement('moviePoster')
-								  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
-								  			.writeAttribute('alwaysShowTitles', 'true')
-								  			.writeAttribute('related', 'true')
-								  			.writeAttribute('onSelect', "addUDIDtoQuery('" + url + "')")
-                                            .writeAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=' + movies[i].id + '")')
-								  		.writeElement('title', movies[i].title)
-								  		.writeElement('subtitle', movies[i].year)
-								  		.writeElement('image', movies[i].medium_cover_image)
-								  		.writeElement('defaultImage', 'resource://Poster.png')
-								  		.endElement();
-									}
-									xw.endDocument();
-									logger.Debug(xw.toString());
-									callback(xw.toString());
+    	  					.writeAttribute('columnCount', '7')
+    	  					.writeAttribute('id', 'bottomShelf')
+    	  					.startElement('sections')
+    	  						.startElement('shelfSection')
+    	  							.startElement('items');
+    	  								var API = require('./MoviesAPI');
+       							 		var movies = API.getRelatedMovies(torrentID, function(movies){
+            								for(var i = 0; i <= movies.length-1; i++)
+        									{
+        										var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
+        								  		xw.startElement('moviePoster')
+        								  			.writeAttribute('id', movies[i].title.replace(/\s/g, ''))
+        								  			.writeAttribute('alwaysShowTitles', 'true')
+        								  			.writeAttribute('related', 'true')
+        								  			.writeAttribute('onSelect', "addUDIDtoQuery('" + url + "')")
+                                                    .writeAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=' + movies[i].id + '")')
+        								  		.writeElement('title', movies[i].title)
+        								  		.writeElement('subtitle', movies[i].year)
+        								  		.writeElement('image', movies[i].medium_cover_image)
+        								  		.writeElement('defaultImage', 'resource://Poster.png')
+        								  		.endElement();
+        									}
+                                    xw.endElement()
+                                .endElement()
+                            .endElement()
+                        .endElement()
+                    .endElement()
+                    .startElement('moreInfo')
+                        .startElement('listScrollerSplit')
+                            .writeAttribute('id', 'com.sample.list-scroller-split')
+                            .startElement('menu')
+                                .startElement('sections')
+                                    .startElement('menuSection')
+                                        .startElement('header')
+                                            .startElement('textDivider')
+                                                .writeAttribute('alignment', 'left')
+                                                .writeAttribute('accessibilityLabel', 'Genres')
+                                                .writeElement('title', 'Genres')
+                                            .endElement()
+                                        .endElement()
+                                        .startElement('items');
+                                            movie.genres.forEach(function(genre){
+                                                xw.startElement('oneLineMenuItem')
+                                                    .writeAttribute('id', genre)
+                                                    .writeElement('label', genre)
+                                                    .startElement('preview')
+                                                        .writeElement('link', 'http://trailers.apple.com/MoviesGenreGrid.xml?genre=' + encodeURIComponent(genre))
+                                                    .endElement()
+                                                .endElement();
+                                            })
+                                        xw.endElement()
+                                    .endElement()
+                                    .startElement('menuSection')
+                                        .startElement('header')
+                                            .startElement('textDivider')
+                                                .writeAttribute('alignment', 'left')
+                                                .writeAttribute('accessibilityLabel', 'Directors')
+                                                .writeElement('title', 'Directors')
+                                            .endElement()
+                                        .endElement()
+                                        .startElement('items');
+                                            movie.directors.forEach(function(director){
+                                                xw.startElement('oneLineMenuItem')
+                                                    .writeAttribute('id', director.name)
+                                                    .writeAttribute('accessibilityLabel', director.name)
+                                                    .writeElement('label', director.name)
+                                                    .writeElement('image', director.medium_image)
+                                                    .startElement('preview')
+                                                        .writeElement('link', 'http://trailers.apple.com/extras.xml?query=' + encodeURIComponent(director.name))
+                                                    .endElement()
+                                                .endElement();
+                                            })
+                                        xw.endElement()
+                                    .endElement()
+                                    .startElement('menuSection')
+                                        .startElement('header')
+                                            .startElement('textDivider')
+                                                .writeAttribute('alignment', 'left')
+                                                .writeAttribute('accessibilityLabel', 'Actors')
+                                                .writeElement('title', 'Actors')
+                                            .endElement()
+                                        .endElement()
+                                        .startElement('items');
+                                            movie.actors.forEach(function(actor){
+                                                xw.startElement('twoLineMenuItem')
+                                                    .writeAttribute('id', actor.name)
+                                                    .writeAttribute('accessibilityLabel', actor.name)
+                                                    .writeElement('label', actor.name)
+                                                    .writeElement('label2', actor.character_name)
+                                                    .writeElement('image', actor.medium_image)
+                                                    .startElement('preview')
+                                                        .writeElement('link', 'http://trailers.apple.com/extras.xml?query=' + encodeURIComponent(actor.name))
+                                                    .endElement()
+                                                .endElement();
+                                            })
+                                        xw.endElement()
+                                    .endElement();
+    								xw.endDocument();
+    								logger.Debug(xw.toString());
+    								callback(xw.toString());
 								});
     });		
 }
@@ -628,6 +749,43 @@ function generateMoviePrePlayXML(torrentID, callback){
 	  					.text(movie.images.large_cover_image)
 	  				.endElement()
 	  				.writeElement('defaultImage', 'resource://Poster.png')
+                    .startElement('table')
+                        .startElement('columnDefinitions')
+                            .startElement('columnDefinition')
+                            .writeAttribute('alignment', 'left')
+                            .writeAttribute('width', '50')
+                            .writeElement('title', 'Details')
+                            .endElement()
+                        .endElement()
+                        .startElement('rows')
+                            .startElement('row')
+                               .writeElement('label', parseGenre(movie.genres))
+                            .endElement()
+                            .startElement('row')
+                               .writeElement('label', parseTime(movie.runtime))
+                            .endElement()
+                            .startElement('row')
+                                .startElement('mediaBadges')
+                                    .startElement('additionalMediaBadges');
+                                        var num = 0;
+                                        getQualities(movie.torrents).forEach(function(quality){
+                                            xw.startElement('urlBadge')
+                                            .writeAttribute('insertIndex', num)
+                                            .writeAttribute('required', 'true')
+                                            .writeAttribute('src', 'http://trailers.apple.com/thumbnails/MediaBadges/' + quality + '.png')
+                                            .endElement();
+                                            num += 1;
+                                        })
+                                    xw.endElement()
+                                .endElement()
+                            .endElement()
+                            .startElement('row')
+                                .startElement('starRating')
+                                    .writeElement('percentage', movie.rt_audience_score)
+                                .endElement()
+                            .endElement()
+                        .endElement()
+                    .endElement()
 	  				.startElement('centerShelf')
 	  					.startElement('shelf')
 	  						.writeAttribute('id', 'centerShelf')
@@ -692,6 +850,81 @@ function generateMoviePrePlayXML(torrentID, callback){
 								  		.writeElement('defaultImage', 'resource://Poster.png')
 								  		.endElement();
 									}
+                                    xw.endElement()
+                                .endElement()
+                            .endElement()
+                        .endElement()
+                    .endElement()
+                    .startElement('moreInfo')
+                        .startElement('listScrollerSplit')
+                            .writeAttribute('id', 'com.sample.list-scroller-split')
+                            .startElement('menu')
+                                .startElement('sections')
+                                    .startElement('menuSection')
+                                        .startElement('header')
+                                            .startElement('textDivider')
+                                                .writeAttribute('alignment', 'left')
+                                                .writeAttribute('accessibilityLabel', 'Genres')
+                                                .writeElement('title', 'Genres')
+                                            .endElement()
+                                        .endElement()
+                                        .startElement('items');
+                                            movie.genres.forEach(function(genre){
+                                                xw.startElement('oneLineMenuItem')
+                                                    .writeAttribute('id', genre)
+                                                    .writeElement('label', genre)
+                                                    .startElement('preview')
+                                                        .writeElement('link', 'http://trailers.apple.com/MoviesGenreGrid.xml?genre=' + encodeURIComponent(genre))
+                                                    .endElement()
+                                                .endElement();
+                                            })
+                                        xw.endElement()
+                                    .endElement()
+                                    .startElement('menuSection')
+                                        .startElement('header')
+                                            .startElement('textDivider')
+                                                .writeAttribute('alignment', 'left')
+                                                .writeAttribute('accessibilityLabel', 'Directors')
+                                                .writeElement('title', 'Directors')
+                                            .endElement()
+                                        .endElement()
+                                        .startElement('items');
+                                            movie.directors.forEach(function(director){
+                                                xw.startElement('oneLineMenuItem')
+                                                    .writeAttribute('id', director.name)
+                                                    .writeAttribute('accessibilityLabel', director.name)
+                                                    .writeElement('label', director.name)
+                                                    .writeElement('image', director.medium_image)
+                                                    .startElement('preview')
+                                                        .writeElement('link', 'http://trailers.apple.com/extras.xml?query=' + encodeURIComponent(director.name))
+                                                    .endElement()
+                                                .endElement();
+                                            })
+                                        xw.endElement()
+                                    .endElement()
+                                    .startElement('menuSection')
+                                        .startElement('header')
+                                            .startElement('textDivider')
+                                                .writeAttribute('alignment', 'left')
+                                                .writeAttribute('accessibilityLabel', 'Actors')
+                                                .writeElement('title', 'Actors')
+                                            .endElement()
+                                        .endElement()
+                                        .startElement('items');
+                                            movie.actors.forEach(function(actor){
+                                                xw.startElement('twoLineMenuItem')
+                                                    .writeAttribute('id', actor.name)
+                                                    .writeAttribute('accessibilityLabel', actor.name)
+                                                    .writeElement('label', actor.name)
+                                                    .writeElement('label2', actor.character_name)
+                                                    .writeElement('image', actor.medium_image)
+                                                    .startElement('preview')
+                                                        .writeElement('link', 'http://trailers.apple.com/extras.xml?query=' + encodeURIComponent(actor.name))
+                                                    .endElement()
+                                                .endElement();
+                                            })
+                                        xw.endElement()
+                                    .endElement();
 									xw.endDocument();
 									logger.Debug(xw.toString());
 									callback(xw.toString());
@@ -1233,7 +1466,7 @@ function generateFavoritesXML(favorites, callback){
     favorites.forEach(function(favorite){
     	if (favorite.type == 'movie'){
     		var API = require('./MoviesAPI');
-    		var movies = API.getMovieNoFanart(favorite.id, function(movie){
+    		var movies = API.getMovie(favorite.id, function(movie){
 
 			var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movie.id;
 	  		xw.startElement('moviePoster')
@@ -1340,3 +1573,4 @@ exports.generateTVEpisodes = generateTVEpisodes;
 exports.generateTVPrePlayXML = generateTVPrePlayXML;
 exports.generateTVPrePlayFanartXML = generateTVPrePlayFanartXML;
 exports.generateFavoritesXML = generateFavoritesXML;
+exports.generateMovieExtras = generateMovieExtras;

@@ -148,6 +148,16 @@ function startWebServer(localIp) {
 				})
 			}
 			staticFile = false;
+		} else if(pathname.indexOf("extras.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting allresults.xml Generation ===');
+			xml.generateMovieExtras(query.query, function(xmlstring){
+				logger.Debug('=== Ending allresults.xml Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
 		} else if(pathname.indexOf("allresults.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
