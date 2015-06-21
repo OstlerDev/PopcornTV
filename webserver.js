@@ -54,7 +54,7 @@ function startWebServer(localIp) {
 			torrent.getStreamer().on('ready', function (data) {
 				logger.Debug('=== Ending MoviePlay.xml Generation ===');
 				if (data.isMP4){
-					response.write(xml.generatePlayXML(torrent.getURL(), query.title, query.desc, query.poster));
+					response.write(xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster));
 					response.end();
 				} else {
 					xml.errorXML('Unsupported File Type', 'At this time .' + data.type + ' files are not supported. Please choose a different file/quality.', function(xml){
