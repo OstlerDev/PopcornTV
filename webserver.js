@@ -57,6 +57,9 @@ function startWebServer(localIp) {
 					response.write(xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster));
 					response.end();
 				} else {
+					if (data.type == 'webm'){
+						data.type = 'mkv/webm'
+					}
 					xml.errorXML('Unsupported File Type', 'At this time .' + data.type + ' files are not supported. Please choose a different file/quality.', function(xml){
 						response.write(xml);
 						response.end();
@@ -142,7 +145,7 @@ function startWebServer(localIp) {
 				var xml = require('./XMLGenerator');
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Starting MoviePrePlay.xml No Fanart Generation ===');
-				xml.generateMoviePrePlayXML(query.torrentID, function(xmlstring){
+				xml.generateMoviePrePlayXML(query.torrentID, defaultQuality, function(xmlstring){
 					logger.Debug('=== Ending MoviePrePlay.xml No Fanart Generation ===');
 					response.write(xmlstring);
 					response.end();
@@ -155,6 +158,16 @@ function startWebServer(localIp) {
 			logger.Debug('=== Starting quality.xml Generation ===');
 			xml.generateQuality(query.torrentID, query.UDID, query.qualities, function(xmlstring){
 				logger.Debug('=== Ending quality.xml Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
+		} else if(pathname.indexOf("qualitytv.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting qualitytv.xml Generation ===');
+			xml.generateQualityTV(query.imdb, query.season, query.episode, query.UDID, query.qualities, function(xmlstring){
+				logger.Debug('=== Ending qualitytv.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})
@@ -249,18 +262,19 @@ function startWebServer(localIp) {
 			}
 			var aTVSettings = require('./settings.js');
 			var fanart = aTVSettings.checkSetting('fanart', query.UDID);
+			var defaultQuality = query.quality || aTVSettings.checkSetting('quality', query.UDID);
 
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting TVPrePlay.xml Generation ===');
 			if (fanart == 'On'){
-				xml.generateTVPrePlayFanartXML(query.imdb, query.season, query.episode, query.UDID, request.headers['x-apple-tv-resolution'], function(xmlstring){
+				xml.generateTVPrePlayFanartXML(query.imdb, query.season, query.episode, query.UDID, request.headers['x-apple-tv-resolution'], defaultQuality, function(xmlstring){
 					logger.Debug('=== Ending TVPrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();
 				})
 			} else {
-				xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, query.UDID, function(xmlstring){
+				xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, query.UDID, defaultQuality, function(xmlstring){
 					logger.Debug('=== Ending TVPrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();

@@ -1,6 +1,9 @@
 var fs = require('fs');
 var logger = require('./logger')
 
+/*
+    Change setting for UDID in aTVSettings.json, this is called from the settings page.
+*/
 function changeSetting(UDID, setting, newSetting){
     var data = fs.readFileSync('./aTVSettings.json'), settings;
     try {
@@ -14,6 +17,10 @@ function changeSetting(UDID, setting, newSetting){
         process.exit();
     }
 }
+
+/*
+    Load and return settings for UDID
+*/
 function loadSettings(UDID){
     if (fs.existsSync('aTVSettings.json')) {
         logger.Debug('Loading Settings');
@@ -47,6 +54,10 @@ function loadSettings(UDID){
         return settings[UDID];
     }
 }
+
+/*
+    If the file is null then we need to create it so we call this function, it adds the first TV UDID and basic settings
+*/
 function createFile(UDID){
     var settings = {};
     settings[UDID] = {
@@ -60,6 +71,10 @@ function createFile(UDID){
 
     fs.writeFile('./aTVSettings.json', data, function(err) {});
 }
+
+/*
+    Add a TV to the settings file, used because we need to allow multiple Apple TV's per file.
+*/
 function addTV(UDID){
     logger.Debug('=== Settings ===');
     logger.Debug('TV not in settings file, adding it. UDID: ' + UDID);
@@ -79,6 +94,10 @@ function addTV(UDID){
         logger.error(err);
     }
 }
+
+/*
+    Add a favorite to the settings file for the UDID
+*/
 function addFavorite(type, id, UDID){
     try {
         var data = fs.readFileSync('./aTVSettings.json'), settings;
@@ -98,6 +117,10 @@ function addFavorite(type, id, UDID){
         createFile(UDID);
     }
 }
+
+/*
+    Remove a favorite from the settings file for the UDID
+*/
 function removeFavorite(type, id, UDID){
     try {
         var data = fs.readFileSync('./aTVSettings.json'), settings;
@@ -122,6 +145,10 @@ function removeFavorite(type, id, UDID){
         createFile(UDID);
     }
 }
+
+/*
+    Check to see if the type and ID is a favorite, this is used to generate the scrobble XML and figure out which one is needed to be used.
+*/
 function checkFavorite(type, id, UDID){
     try{
         var data = fs.readFileSync('./aTVSettings.json'), settings;
@@ -145,6 +172,10 @@ function checkFavorite(type, id, UDID){
         createFile(UDID);
     }
 }
+
+/*
+    Check setting for UDID and return it.
+*/
 function checkSetting(setting, UDID){
     try{
         var data = fs.readFileSync('./aTVSettings.json'), settings;
@@ -163,6 +194,10 @@ function checkSetting(setting, UDID){
         createFile(UDID);
     }
 }
+
+/*
+    Get all Favorites for the UDID, this is used in the favorites.xml generation
+*/
 function getFavorites(UDID){
     try{
         var data = fs.readFileSync('./aTVSettings.json'), settings;
