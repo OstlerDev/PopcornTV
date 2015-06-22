@@ -34,3 +34,13 @@ atv.onExecuteQuery = function(query, callback) {
   }
   callback.success(ScreensaverPhotos);
 }
+
+atv.player.didStopPlaying = function()
+{ 
+  // Kill the torrent stream session.
+  var url = 'http://trailers.apple.com/StopStream.xml';
+  var req = new XMLHttpRequest();
+  req.open('GET', url, true);
+  req.send();
+};
+

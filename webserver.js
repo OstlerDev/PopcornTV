@@ -127,12 +127,13 @@ function startWebServer(localIp) {
 			}
 			var aTVSettings = require('./settings.js');
 			var fanart = aTVSettings.checkSetting('fanart', query.UDID);
+			var defaultQuality = query.quality || aTVSettings.checkSetting('quality', query.UDID);
 
 			if (fanart == 'On'){
 				var xml = require('./XMLGenerator');
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
-				xml.generateMoviePrePlayFanartXML(query.torrentID, query.UDID, request.headers['x-apple-tv-resolution'], function(xmlstring){
+				xml.generateMoviePrePlayFanartXML(query.torrentID, query.UDID, request.headers['x-apple-tv-resolution'], defaultQuality, function(xmlstring){
 					logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();
@@ -147,6 +148,16 @@ function startWebServer(localIp) {
 					response.end();
 				})
 			}
+			staticFile = false;
+		} else if(pathname.indexOf("quality.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting quality.xml Generation ===');
+			xml.generateQuality(query.torrentID, query.UDID, query.qualities, function(xmlstring){
+				logger.Debug('=== Ending quality.xml Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
 			staticFile = false;
 		} else if(pathname.indexOf("extras.xml") >= 0){
 			var xml = require('./XMLGenerator');
@@ -348,6 +359,9 @@ function startWebServer(localIp) {
 			staticFile = false;
 		} else if(pathname.indexOf(".cer") >= 0){
 			pathname = "certificates/trailers.cer";
+		} else if(pathname.indexOf("StopStream.xml") >= 0){
+			torrent.getStreamer().close();
+			staticFile = false;
 		} else if(pathname.indexOf("/appletv/us/images/icons/trailerslogo.png") >= 0){
 			pathname = "thumbnails/logo.png";
 		} else if(pathname.indexOf("ScreenSaver.json") >= 0){
