@@ -79,7 +79,7 @@ function startWebServer(localIp) {
             				fs.unlinkSync(fileName);
         				}
     				});
-    				deleteFolderRecursive('/tmp/torrent-stream/');
+    				deleteFolderRecursive('assets/torrent-stream/');
 				}
 			})
 			staticFile = false;
@@ -374,7 +374,11 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf(".cer") >= 0){
 			pathname = "certificates/trailers.cer";
 		} else if(pathname.indexOf("StopStream.xml") >= 0){
-			torrent.getStreamer().close();
+			try {
+				torrent.getStreamer().close();
+			} catch(e){
+				logger.Debug('No Stream to Close.')
+			}
 			staticFile = false;
 		} else if(pathname.indexOf("/appletv/us/images/icons/trailerslogo.png") >= 0){
 			pathname = "thumbnails/logo.png";
