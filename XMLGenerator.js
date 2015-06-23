@@ -1699,11 +1699,16 @@ function selectTorrent(torrents, quality){
     return torrentURL;
 }
 function selectTorrentTV(torrents, quality){
-    var torrentURL = torrents[quality].url;
-    if (torrentURL == undefined && (quality == '3D' || quality == '1080p')){
-        torrentURL = torrents[torrents.length-1].url;
-    } else if (torrentURL == undefined){
-        torrentURL = torrents[0].url;
+    try {
+        var torrentURL = torrents[quality].url;
+    } catch(e){
+        var torrentURL = undefined;
+        if (torrentURL == undefined && (quality == '3D' || quality == '1080p')){
+            torrentURL = torrents[torrents.length-1].url;
+        }
+        if (torrentURL == undefined){
+            torrentURL = torrents[0].url;
+        }
     }
     return torrentURL;
 }
