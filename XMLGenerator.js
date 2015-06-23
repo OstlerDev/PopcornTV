@@ -274,6 +274,16 @@ function generateMoviesXML(title, sort_by, callback){
 	  		.writeElement('defaultImage', 'resource://Poster.png')
 	  		.endElement();
 		}
+            /*xw.startElement('moviePoster')
+                .writeAttribute('id', movies[movies.length-1].id)
+                .writeAttribute('alwaysShowTitles', 'true')
+                .writeAttribute('onPlay', 'loadMore("seeds", "2")')
+                .writeAttribute('onSelect', 'loadMore("seeds", "2")')
+            .writeElement('title', 'View More')
+            .writeElement('subtitle', '')
+            .writeElement('image', 'http://trailers.apple.com/thumbnails/view-more.png')
+            .writeElement('defaultImage', 'resource://Poster.png')
+            .endElement();*/
     	xw.endDocument();
 
     	logger.Debug(xw.toString());
@@ -1704,7 +1714,13 @@ function selectTorrentTV(torrents, quality){
     } catch(e){
         var torrentURL = undefined;
         if (torrentURL == undefined && (quality == '3D' || quality == '1080p')){
-            torrentURL = torrents[torrents.length-1].url;
+            if (torrents['1080p'] != undefined){
+                torrentURL = torrents['1080p'].url;
+            } else if (torrents['720p'] != undefined){
+                torrentURL = torrents['720p'].url;
+            } else if (torrents['480p'] != undefined){
+                torrentURL = torrents['480p'].url;
+            }
         }
         if (torrentURL == undefined){
             torrentURL = torrents[0].url;
