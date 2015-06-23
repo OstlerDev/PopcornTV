@@ -50,77 +50,59 @@ function log(msg, level)
 {
     level = level || 1;
     var req = new XMLHttpRequest();
-    var url = "{{URL(/)}}" + "&PlexConnectATVLogLevel=" + level.toString() + "&PlexConnectLog=" + encodeURIComponent(msg);
+    var url = "http://trailers.apple.com/log.xml?level=" + level.toString() + "&log=" + encodeURIComponent(msg);
     req.open('GET', url, true);
     req.send();
 };
 
 /*
- * Mark a item watched or unwatched
- * Pass action as scrobble or unscrobble 
+ * Load More Results
  */
-function markItem(PMS_baseURL, accessToken, ratingKey, action)
-{
-  var url = PMS_baseURL + "/:/" + action + "?key=" + ratingKey + "&identifier=com.plexapp.plugins.library";
-  if (accessToken!='') url = url + '&X-Plex-Token=' + accessToken;
-    
-	var req = new XMLHttpRequest();
-	req.open('GET', url, false);
-	req.send();
-}
-
-/*
- * Update Plex library with new artwork
- */
-function changeArtwork(PMS_baseURL, accessToken, ratingKey, artURL, shelfName)
-{
-  if (shelfName != '' && shelfName != 'fanart')
-  {
-    // Selector logic for Show/Season level artwork
+function loadMore(type, page){
+    //var elem = atv.Document.prototype.getElementById('more');
     var root = document.rootElement;
-    var shelf = document.getElementById(shelfName);
-    if (shelf == null) return;
-    var items = shelf.getElementsByTagName('moviePoster');
-    if (items == null) return;
-  
+
+    var grid = document.getElementById('grid_0');
+    var items = grid.getElementsByTagName('moviePoster');
+
     for (var i=0; i<items.length; i++)
     {
-      if (items[i].getAttribute('id') == artURL) 
+      if (items[i].getAttribute('onPlay') == 'loadMore("seeds", "2")') 
       {
-      items[i].getElementByTagName('title').textContent = "Selected";
+        items[i].getElementByTagName('title').textContent = "Selected";
+        //items[i].removeFromParent();
       }
       else
       { 
-        items[i].getElementByTagName('title').textContent = "";
+        //items[i].getElementByTagName('title').textContent = "";
       }
     }
-  }
-  
-  // Test if art is from library or external location
-  if (artURL.indexOf('library') !== -1)
-	{
-		var urlParts = artURL.split('=');
-		artURL = urlParts[1];
-	}
-   else
-  {
-    artURL = encodeURIComponent(artURL);
-  }
-  
-  if (shelfName != 'fanart')
-  {
-    var url = PMS_baseURL + "/library/metadata/" + ratingKey + "/poster?url=" + artURL;
-  }
-  else
-  {
-    var url = PMS_baseURL + "/library/metadata/" + ratingKey + "/art?url=" + artURL;
-  }
-  if (accessToken!='') url = url + '&X-Plex-Token=' + accessToken;
+
     
-  var req = new XMLHttpRequest();
-	req.open('PUT', url, true);
-	req.send();
-};
+    var newPoster = grid.createElement("moviePoster");
+    newPoster.setAttribute("id", "0");
+    newPoster.setAttribute('alwaysShowTitles', 'true');
+    newPoster.setAttribute('onPlay', 'addUDIDtoQuery("http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=4212")');
+    newPoster.setAttribute('onSelect', 'addUDIDtoQuery("http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=4212")');
+    newPoster.setAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=4212")');
+    
+    newPoster.createElement('title');
+    newPoster.getElementByTagName('title').textContent = "Test";
+    newPoster.createElement('subtitle');
+    newPoster.getElementByTagName('subtitle').textContent = "Test";
+    newPoster.createElement('image');
+    newPoster.getElementByTagName('image').textContent = "https://s.ynet.io/assets/images/movies/Edge_of_Tomorrow_2014/medium-cover.jpg";
+    newPoster.createElement('defaultImage');
+    newPoster.getElementByTagName('defaultImage').textContent = "resource://Poster.png";
+
+    items[49].replaceChild(newPoster);
+    
+    //log('test', root);
+    var req = new XMLHttpRequest();
+    var url = "http://trailers.apple.com/more.xml";
+    req.open('GET', url, true);
+    req.send();
+}
 
 /*
  * ScrobbleMenu
