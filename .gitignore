@@ -6,3 +6,4 @@ assets/certificates/*.key
 assets/certificates/*.pem
 *.json
 *.log
+assets/torrent-stream/*
