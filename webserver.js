@@ -396,11 +396,11 @@ function startWebServer(localIp) {
 			pathname = "templates" + pathname;
 		}
 		var realPath = path.join("assets", path.normalize(pathname.replace(/\.\./g, "")));
-		logger.Web(pathname);
+		if (pathname.indexOf("log.xml") < 0) logger.Web(pathname);
 		if(staticFile){
 			fs.stat(realPath, function(err, stats) {
 				if (err) {
-					logger.Web('404: ' + pathname)
+					if (pathname.indexOf("log.xml") < 0) logger.Web(pathname);
 					response.writeHead(404, {'Content-Type': 'text/plain'});
 					response.write("This request URL " + pathname + " was not found on this server.");
 					response.end();						

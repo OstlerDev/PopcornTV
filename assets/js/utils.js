@@ -48,7 +48,7 @@ if (!String.prototype.format) {
  */
 function log(msg, level)
 {
-    level = level || 1;
+    level = level || 'Debug';
     var req = new XMLHttpRequest();
     var url = "http://trailers.apple.com/log.xml?level=" + level.toString() + "&log=" + encodeURIComponent(msg);
     req.open('GET', url, true);

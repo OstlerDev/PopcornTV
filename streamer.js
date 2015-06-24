@@ -1,5 +1,6 @@
 var Streamer = require('./streamer-server');
 var logger = require('./logger');
+var format = require('util').format;
 
 var torrent;
 var ready = false;
@@ -10,7 +11,7 @@ function startStreamer(url, torrentID, localIp) {
 	ID = torrentID;
 	ip = localIp;
 	url = decodeURIComponent(url);
-	var streamBuffer = 2.5 * 1024 * 1024;
+	var streamBuffer = 2 * 1024 * 1024;
 	if (url.indexOf("youtube") >= 0){
 		streamBuffer = 3 * 1024 * 1024;
 	}
@@ -35,7 +36,13 @@ function startStreamer(url, torrentID, localIp) {
 		logger.Debug('Streamer: Stream Closed');
 	});
 	torrent.on('progress', function (progress) {
-		logger.Debug(progress);
+		logger.Debug(format('[%d%] Downloaded %dMB - %dMB/s | Peers: %d Seeds: %d | ETA: %dm',
+				progress.progress.toFixed(0),
+				(progress.downloaded / 1024 / 1024).toFixed(2),
+				(progress.downloadSpeed / 1024 / 1024).toFixed(2),
+				progress.peers,
+				progress.seeds,
+				(progress.eta / 60).toFixed(1)));
 	});
 	torrent.on('error', function (e) {
 		logger.error(e);
