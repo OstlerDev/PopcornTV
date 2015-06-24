@@ -189,9 +189,6 @@ function updateSubtitle(time)
         };
         i_view++;
     }
-    
-    //if (time<10000)
-      //log("updateSubtitle done, subtitlePos="+subtitlePos);
 }
 
 function getMetadata()

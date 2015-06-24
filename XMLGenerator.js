@@ -2,7 +2,7 @@ var xml = require('xml');
 var logger = require('./logger');
 var atvSettings = require('./settings.js');
 
-function generatePlayXML(url, title, desc, image) {
+function generatePlayXML(url, title, desc, image, subtitle) {
 	var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
     xw.startDocument(version='1.0', encoding='UTF-8');
@@ -20,7 +20,7 @@ function generatePlayXML(url, title, desc, image) {
                         .writeElement('subtitleSize', '100')
                     .endElement()
                     .startElement('myMetadata')
-                        .writeElement('subtitleURL', 'http://trailers.apple.com/subtitle.json')
+                        .writeElement('subtitleURL', 'http://trailers.apple.com/subtitle.json?url=' + subtitle)
                     .endElement()
                 .endElement()
             .endElement()
@@ -57,7 +57,7 @@ function updateContextXML(callback)
     callback(xmlstr);
 }
 
-function generateQuality(torrentID, UDID, qualities, callback){
+function generateQuality(torrentID, UDID, qualities, subtitle, callback){
     var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
     xw.startDocument(version='1.0', encoding='UTF-8');
@@ -89,7 +89,7 @@ function generateQuality(torrentID, UDID, qualities, callback){
                             qualities.split(",").forEach(function(quality){
                                 xw.startElement('oneLineMenuItem')
                                     .writeAttribute('id', 'item')
-                                    .writeAttribute('onSelect', "atv.unloadPage();atv.loadAndSwapURL('http://trailers.apple.com/MoviePrePlay.xml?torrentID=" + torrentID + '&UDID=' + UDID + '&quality=' + quality + "');")
+                                    .writeAttribute('onSelect', "atv.unloadPage();atv.loadAndSwapURL('http://trailers.apple.com/MoviePrePlay.xml?torrentID=" + torrentID + '&UDID=' + UDID + '&quality=' + quality + '&subtitle=' + subtitle + "');")
                                     .writeElement('label', quality)
                                 .endElement();
                             })
@@ -103,6 +103,67 @@ function generateQuality(torrentID, UDID, qualities, callback){
     xw.endDocument();
     logger.Debug(xw.toString());
     callback(xw.toString());
+}
+
+function generateSubtitles(imdb, torrentID, UDID, quality, callback){
+    var subs = require('./SubtitleAPI');
+    var langConverter = require('./lang');
+    subs.searchMovie({imdbid: imdb}, 'OSTestUserAgent').then(function(subtitles){
+        var subtitles2 = Object.keys(subtitles).sort();
+        var XMLWriter = require('xml-writer');
+        xw = new XMLWriter;
+        xw.startDocument(version='1.0', encoding='UTF-8');
+        xw.startElement('atv')
+            .startElement('head')
+                .startElement('script')
+                    .writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
+                  .endElement()
+            .endElement()
+            .startElement('body')
+                .startElement('optionDialog')
+                    .writeAttribute('id', 'scrobble.optionDialog')
+                    .startElement('header')
+                        .startElement('simpleHeader')
+                            .writeElement('title', 'Select Subtitles')
+                            .writeElement('subtitle', 'Please select your desired language')
+                        .endElement()
+                    .endElement()
+                    .startElement('menu')
+                        .startElement('sections')
+                            .startElement('menuSection')
+                                .startElement('header')
+                                    .startElement('horizontalDivider')
+                                        .writeAttribute('alignment', 'left')
+                                        .writeElement('title', '')
+                                    .endElement()
+                                .endElement()
+                                .startElement('items')
+                                    .startElement('oneLineMenuItem')
+                                        .writeAttribute('id', 'item')
+                                        .writeAttribute('onSelect', "atv.unloadPage();atv.loadAndSwapURL('http://trailers.apple.com/MoviePrePlay.xml?torrentID=" + imdb + '&UDID=' + UDID + '&quality=' + quality + '&subtitle=' + 'Off' + "');")
+                                        .writeElement('label', 'Off')
+                                    .endElement();;
+                                subtitles2.forEach(function(lang){
+                                    logger.Debug(lang);
+                                    xw.startElement('oneLineMenuItem')
+                                        .writeAttribute('id', 'item')
+                                        .writeAttribute('onSelect', "atv.unloadPage();atv.loadAndSwapURL('http://trailers.apple.com/MoviePrePlay.xml?torrentID=" + torrentID + '&UDID=' + UDID + '&quality=' + quality + '&subtitle=' + subtitles[lang].url + "');")
+                                        .writeElement('label', langConverter.getLanguageName(lang))
+                                    .endElement();
+                                })
+                                xw.endElement()
+                            .endElement()
+                        .endElement()
+                    .endElement()
+                .endElement()
+            .endElement()
+        .endElement();
+        xw.endDocument();
+        logger.Debug(xw.toString());
+        callback(xw.toString());
+    }).fail(function(error){
+        logger.error(error);
+    });
 }
 
 function generateQualityTV(imdb, season, episode, UDID, qualities, callback){
@@ -605,7 +666,7 @@ function generateTVSearchResults(query, callback){
     });
 }
 
-function generateMoviePrePlayFanartXML(torrentID, UDID, atvRes, quality, callback){
+function generateMoviePrePlayFanartXML(torrentID, UDID, atvRes, quality, subtitle, callback){
 	var API = require('./MoviesAPI');
     var inset = '690';
     if (atvRes == '720'){
@@ -707,7 +768,7 @@ function generateMoviePrePlayFanartXML(torrentID, UDID, atvRes, quality, callbac
 	  								.startElement('items')
 	  									.startElement('actionButton')
 	  										.writeAttribute('id', 'play')
-	  										.writeAttribute('onSelect', "addUDIDtoQuery('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=" + selectTorrent(movie.torrents, quality) + "&id=" + torrentID + "&title=" + movie.title.replace(/ /g,"%20") + "&desc=" + movie.description_full.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + movie.images.medium_cover_image + "')")
+	  										.writeAttribute('onSelect', "addUDIDtoQuery('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=" + selectTorrent(movie.torrents, quality) + "&id=" + torrentID + "&title=" + movie.title.replace(/ /g,"%20") + "&desc=" + movie.description_full.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + movie.images.medium_cover_image + '&subtitle=' + subtitle + "')")
 	  										.writeElement('title', 'Play')
 	  										.writeElement('image', 'resource://Play.png')
 	  										.writeElement('focusedImage', 'resource://PlayFocused.png')
@@ -720,12 +781,19 @@ function generateMoviePrePlayFanartXML(torrentID, UDID, atvRes, quality, callbac
 	  										.writeElement('focusedImage', 'resource://PreviewFocused.png')
 	  									.endElement()
 	  									.startElement('actionButton')
-	  										.writeAttribute('id', 'select')
-	  										.writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/quality.xml?torrentID=" + torrentID + '&UDID=' + UDID + '&qualities=' + getQualities(movie.torrents) + "')")
-	  										.writeElement('title', 'Select Quality')
-	  										.writeElement('image', 'resource://Queue.png')
-	  										.writeElement('focusedImage', 'resource://QueueFocused.png')
-	  									.endElement()
+                                            .writeAttribute('id', 'select')
+                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/quality.xml?torrentID=" + torrentID + '&UDID=' + UDID + '&qualities=' + getQualities(movie.torrents) + "')")
+                                            .writeElement('title', 'Select Quality')
+                                            .writeElement('image', 'resource://Queue.png')
+                                            .writeElement('focusedImage', 'resource://QueueFocused.png')
+                                        .endElement()
+                                        .startElement('actionButton')
+                                            .writeAttribute('id', 'subtitle')
+                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/subtitles.xml?imdb=" + movie.imdb_code + "&torrentID=" + torrentID + '&UDID=' + UDID + '&quality=' + quality + "')")
+                                            .writeElement('title', 'Subtitles')
+                                            .writeElement('image', 'resource://Queue.png')
+                                            .writeElement('focusedImage', 'resource://QueueFocused.png')
+                                        .endElement()
 	  								.endElement()
 	  							.endElement()
 	  						.endElement()
@@ -1732,6 +1800,7 @@ exports.generatePlayXML = generatePlayXML;
 exports.errorXML = errorXML;
 exports.updateContextXML = updateContextXML;
 exports.generateQuality = generateQuality;
+exports.generateSubtitles = generateSubtitles;
 exports.generateQualityTV = generateQualityTV;
 exports.generateSettingsXML = generateSettingsXML;
 exports.generateMovieGenre = generateMovieGenre;

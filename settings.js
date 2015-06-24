@@ -1,5 +1,5 @@
 var fs = require('fs');
-var logger = require('./logger')
+var logger = require('./logger');
 
 /*
     Change setting for UDID in aTVSettings.json, this is called from the settings page.

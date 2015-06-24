@@ -54,7 +54,7 @@ function startWebServer(localIp) {
 			torrent.getStreamer().on('ready', function (data) {
 				logger.Debug('=== Ending MoviePlay.xml Generation ===');
 				if (data.isMP4){
-					response.write(xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster));
+					response.write(xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off')));
 					response.end();
 				} else {
 					if (data.type == 'webm'){
@@ -83,6 +83,22 @@ function startWebServer(localIp) {
 				}
 			})
 			staticFile = false;
+		} else if(pathname.indexOf("subtitle.json") >= 0){
+			var subs = require('./SubtitleAPI');
+			response.writeHead(200, {'Content-Type': 'text/json'});
+			if (query.url == 'Off'){
+				response.write('{}');
+				response.end();
+				staticFile = false;
+			} else {
+				logger.Debug('=== Starting subtitle.json Generation ===');
+				subs.parseSRT(query.url, function(json){
+					logger.Debug('=== Ending subtitle.json Generation ===');
+					response.write(json);
+					response.end();
+				})
+				staticFile = false;
+			}
 		} else if(pathname.indexOf("MoviesGrid.xml") >= 0){
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
@@ -131,12 +147,13 @@ function startWebServer(localIp) {
 			var aTVSettings = require('./settings.js');
 			var fanart = aTVSettings.checkSetting('fanart', query.UDID);
 			var defaultQuality = query.quality || aTVSettings.checkSetting('quality', query.UDID);
+			var defaultSubtitle = query.subtitle || aTVSettings.checkSetting('subtitle', query.UDID);
 
 			if (fanart == 'On'){
 				var xml = require('./XMLGenerator');
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
-				xml.generateMoviePrePlayFanartXML(query.torrentID, query.UDID, request.headers['x-apple-tv-resolution'], defaultQuality, function(xmlstring){
+				xml.generateMoviePrePlayFanartXML(query.torrentID, query.UDID, request.headers['x-apple-tv-resolution'], defaultQuality, defaultSubtitle, function(xmlstring){
 					logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();
@@ -156,8 +173,18 @@ function startWebServer(localIp) {
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting quality.xml Generation ===');
-			xml.generateQuality(query.torrentID, query.UDID, query.qualities, function(xmlstring){
+			xml.generateQuality(query.torrentID, query.UDID, query.qualities, query.subtitle, function(xmlstring){
 				logger.Debug('=== Ending quality.xml Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
+		} else if(pathname.indexOf("subtitles.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting subtitles.xml Generation ===');
+			xml.generateSubtitles(query.imdb, query.torrentID, query.UDID, query.quality, function(xmlstring){
+				logger.Debug('=== Ending subtitles.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})
