@@ -162,7 +162,7 @@ function startWebServer(localIp) {
 				var xml = require('./XMLGenerator');
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Starting MoviePrePlay.xml No Fanart Generation ===');
-				xml.generateMoviePrePlayXML(query.torrentID, defaultQuality, function(xmlstring){
+				xml.generateMoviePrePlayXML(query.torrentID, defaultQuality, defaultSubtitle, function(xmlstring){
 					logger.Debug('=== Ending MoviePrePlay.xml No Fanart Generation ===');
 					response.write(xmlstring);
 					response.end();

@@ -279,12 +279,6 @@ function generateSettingsXML(UDID, callback){
     									.writeElement('rightLabel', settings.fanart)
     								.endElement()
     								.startElement('oneLineMenuItem')
-    									.writeAttribute('id', 'subtitle')
-    									.writeAttribute('onSelect', "toggleSetting('subtitle', '" + settings.subtitle + "')")
-    									.writeElement('label', 'Enable Subtitle Support')
-    									.writeElement('rightLabel', settings.subtitle)
-    								.endElement()
-    								.startElement('oneLineMenuItem')
     									.writeAttribute('id', 'keep')
     									.writeAttribute('onSelect', "toggleSetting('keep', '" + settings.keep + "')")
     									.writeElement('label', 'Keep Movie Downloads')
@@ -782,7 +776,7 @@ function generateMoviePrePlayFanartXML(torrentID, UDID, atvRes, quality, subtitl
 	  									.endElement()
 	  									.startElement('actionButton')
                                             .writeAttribute('id', 'select')
-                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/quality.xml?torrentID=" + torrentID + '&UDID=' + UDID + '&qualities=' + getQualities(movie.torrents) + "')")
+                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/quality.xml?torrentID=" + torrentID + '&UDID=' + UDID + '&qualities=' + getQualities(movie.torrents) + '&subtitle=' + subtitle + "')")
                                             .writeElement('title', 'Select Quality')
                                             .writeElement('image', 'resource://Queue.png')
                                             .writeElement('focusedImage', 'resource://QueueFocused.png')
@@ -910,7 +904,7 @@ function generateMoviePrePlayFanartXML(torrentID, UDID, atvRes, quality, subtitl
 								});
     });		
 }
-function generateMoviePrePlayXML(torrentID, quality, callback){
+function generateMoviePrePlayXML(torrentID, quality, subtitle, callback){
 	var API = require('./MoviesAPI');
     var movies = API.getMovie(torrentID, function(movie){
     	var XMLWriter = require('xml-writer');
@@ -986,7 +980,7 @@ function generateMoviePrePlayXML(torrentID, quality, callback){
 	  								.startElement('items')
 	  									.startElement('actionButton')
 	  										.writeAttribute('id', 'play')
-                                            .writeAttribute('onSelect', "addUDIDtoQuery('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=" + selectTorrent(movie.torrents, quality) + "&id=" + torrentID + "&title=" + movie.title.replace(/ /g,"%20") + "&desc=" + movie.description_full.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + movie.images.medium_cover_image + "')")
+                                            .writeAttribute('onSelect', "addUDIDtoQuery('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=" + selectTorrent(movie.torrents, quality) + "&id=" + torrentID + "&title=" + movie.title.replace(/ /g,"%20") + "&desc=" + movie.description_full.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + movie.images.medium_cover_image + '&subtitle=' + subtitle + "')")
 	  										.writeElement('title', 'Play')
 	  										.writeElement('image', 'resource://Play.png')
 	  										.writeElement('focusedImage', 'resource://PlayFocused.png')
@@ -999,12 +993,19 @@ function generateMoviePrePlayXML(torrentID, quality, callback){
 	  										.writeElement('focusedImage', 'resource://PreviewFocused.png')
 	  									.endElement()
 	  									.startElement('actionButton')
-	  										.writeAttribute('id', 'select')
-                                            .writeAttribute('onSelect', "addUDIDtoQuery('http://trailers.apple.com/quality.xml?torrentID=" + torrentID + '&qualities=' + getQualities(movie.torrents) + "')")
-	  										.writeElement('title', 'Select Quality')
-	  										.writeElement('image', 'resource://Queue.png')
-	  										.writeElement('focusedImage', 'resource://QueueFocused.png')
-	  									.endElement()
+                                            .writeAttribute('id', 'select')
+                                            .writeAttribute('onSelect', "addUDIDtoQuery('http://trailers.apple.com/quality.xml?torrentID=" + torrentID + '&qualities=' + getQualities(movie.torrents) + '&subtitle=' + subtitle + "')")
+                                            .writeElement('title', 'Select Quality')
+                                            .writeElement('image', 'resource://Queue.png')
+                                            .writeElement('focusedImage', 'resource://QueueFocused.png')
+                                        .endElement()
+                                        .startElement('actionButton')
+                                            .writeAttribute('id', 'subtitle')
+                                            .writeAttribute('onSelect', "addUDIDtoQuery('http://trailers.apple.com/subtitles.xml?imdb=" + movie.imdb_code + "&torrentID=" + torrentID + '&quality=' + quality + "')")
+                                            .writeElement('title', 'Subtitles')
+                                            .writeElement('image', 'resource://Queue.png')
+                                            .writeElement('focusedImage', 'resource://QueueFocused.png')
+                                        .endElement()
 	  								.endElement()
 	  							.endElement()
 	  						.endElement()
