@@ -140,11 +140,10 @@ function generateSubtitles(imdb, torrentID, UDID, quality, callback){
                                 .startElement('items')
                                     .startElement('oneLineMenuItem')
                                         .writeAttribute('id', 'item')
-                                        .writeAttribute('onSelect', "atv.unloadPage();atv.loadAndSwapURL('http://trailers.apple.com/MoviePrePlay.xml?torrentID=" + imdb + '&UDID=' + UDID + '&quality=' + quality + '&subtitle=' + 'Off' + "');")
+                                        .writeAttribute('onSelect', "atv.unloadPage();atv.loadAndSwapURL('http://trailers.apple.com/MoviePrePlay.xml?torrentID=" + torrentID + '&UDID=' + UDID + '&quality=' + quality + '&subtitle=' + 'Off' + "');")
                                         .writeElement('label', 'Off')
                                     .endElement();;
                                 subtitles2.forEach(function(lang){
-                                    logger.Debug(lang);
                                     xw.startElement('oneLineMenuItem')
                                         .writeAttribute('id', 'item')
                                         .writeAttribute('onSelect', "atv.unloadPage();atv.loadAndSwapURL('http://trailers.apple.com/MoviePrePlay.xml?torrentID=" + torrentID + '&UDID=' + UDID + '&quality=' + quality + '&subtitle=' + subtitles[lang].url + "');")
