@@ -84,6 +84,7 @@ var search = function (data) {
                 var tmp = {};
                 tmp.url = sub.SubDownloadLink.replace('.gz', '.srt');
                 tmp.lang = sub.ISO639;
+                tmp.lang = sub.ISO639; // LanguageName
                 tmp.downloads = sub.SubDownloadsCnt;
                 tmp.score = 0;
 
@@ -157,7 +158,9 @@ SubtitleAPI.prototype.parseSRT = function(url, callback){
 
     logger.Debug("=== Getting and Parsing SRT ===")
     logger.Debug(url);
-    request(url, function (error, response, body) {
+    request({
+        url: url
+    }, function (error, response, body) {
        if (!error && response.statusCode === 200) {
             var SRT = body;
 
@@ -166,12 +169,22 @@ SubtitleAPI.prototype.parseSRT = function(url, callback){
             
             var srtParts = [];
             var timeHide_last = 0;
+            var unsupported = false;
             for(var i = 0; i < srtPartTmp.length; i += 2) {  // Remove the un-needed blank spaces from the array. (every other)
                 srtParts.push(srtPartTmp[i]);
             }
             srtParts.forEach(function(Item){
-                ItemPart = Item.split(/\r\n|\n\r|\n|\r/)
-                timePart = ItemPart[1].replace(/\s/g, '').split(/:|,|-->/);
+                ItemPart = Item.split(/\r\n|\n\r|\n|\r/);
+                logger.Debug(ItemPart);
+                try {
+                    timePart = ItemPart[1].replace(/\s/g, '').split(/:|,|-->/);
+                } catch(e) {
+                    subtitle['Timestamp'].push({ 'time': '2000', 'Line': [ {'text': 'This subtitle is not supported currently'}] });
+                    subtitle['Timestamp'].push({ 'time': '6000' });
+                    unsupported = true;
+                    callback(JSON.stringify(subtitle));
+                    return;
+                }
                 
                 timeShow = parseInt(timePart[0])*1000*60*60 +
                            parseInt(timePart[1])*1000*60 +
@@ -214,7 +227,7 @@ SubtitleAPI.prototype.parseSRT = function(url, callback){
                 };
             })
             subtitle['Timestamp'].push({ 'time': timeHide_last });
-            callback(JSON.stringify(subtitle));
+            if (!unsupported) callback(JSON.stringify(subtitle));
         } else {
             logger.warning("Error connecting to URL and grabbing SRT: " + url);
             return;
