@@ -193,8 +193,18 @@ function startWebServer(localIp) {
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting qualitytv.xml Generation ===');
-			xml.generateQualityTV(query.imdb, query.season, query.episode, query.UDID, query.qualities, function(xmlstring){
+			xml.generateQualityTV(query.imdb, query.season, query.episode, query.UDID, query.qualities, query.subtitle, function(xmlstring){
 				logger.Debug('=== Ending qualitytv.xml Generation ===');
+				response.write(xmlstring);
+				response.end();
+			})
+			staticFile = false;
+		} else if(pathname.indexOf("subtitlestv.xml") >= 0){
+			var xml = require('./XMLGenerator');
+			response.writeHead(200, {'Content-Type': 'text/xml'});
+			logger.Debug('=== Starting subtitles.xml Generation ===');
+			xml.generateSubtitlesTV(query.imdb, query.UDID, query.quality, query.episode, query.season, function(xmlstring){
+				logger.Debug('=== Ending subtitles.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
 			})
@@ -290,18 +300,19 @@ function startWebServer(localIp) {
 			var aTVSettings = require('./settings.js');
 			var fanart = aTVSettings.checkSetting('fanart', query.UDID);
 			var defaultQuality = query.quality || aTVSettings.checkSetting('quality', query.UDID);
+			var defaultSubtitle = query.subtitle || aTVSettings.checkSetting('subtitle', query.UDID);
 
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting TVPrePlay.xml Generation ===');
 			if (fanart == 'On'){
-				xml.generateTVPrePlayFanartXML(query.imdb, query.season, query.episode, query.UDID, request.headers['x-apple-tv-resolution'], defaultQuality, function(xmlstring){
+				xml.generateTVPrePlayFanartXML(query.imdb, query.season, query.episode, query.UDID, request.headers['x-apple-tv-resolution'], defaultQuality, defaultSubtitle, function(xmlstring){
 					logger.Debug('=== Ending TVPrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();
 				})
 			} else {
-				xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, query.UDID, defaultQuality, function(xmlstring){
+				xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, query.UDID, defaultQuality, defaultSubtitle, function(xmlstring){
 					logger.Debug('=== Ending TVPrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();

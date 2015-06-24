@@ -165,7 +165,7 @@ function generateSubtitles(imdb, torrentID, UDID, quality, callback){
     });
 }
 
-function generateQualityTV(imdb, season, episode, UDID, qualities, callback){
+function generateQualityTV(imdb, season, episode, UDID, qualities, subtitle, callback){
     var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
     xw.startDocument(version='1.0', encoding='UTF-8');
@@ -197,7 +197,7 @@ function generateQualityTV(imdb, season, episode, UDID, qualities, callback){
                             qualities.split(",").forEach(function(quality){
                                 xw.startElement('oneLineMenuItem')
                                     .writeAttribute('id', 'item')
-                                    .writeAttribute('onSelect', "atv.unloadPage();atv.loadAndSwapURL('http://trailers.apple.com/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + episode + '&UDID=' + UDID + '&quality=' + quality + "');")
+                                    .writeAttribute('onSelect', "atv.unloadPage();atv.loadAndSwapURL('http://trailers.apple.com/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + episode + '&UDID=' + UDID + '&quality=' + quality + '&subtitle=' + subtitle + "');")
                                     .writeElement('label', quality)
                                 .endElement();
                             })
@@ -211,6 +211,66 @@ function generateQualityTV(imdb, season, episode, UDID, qualities, callback){
     xw.endDocument();
     logger.Debug(xw.toString());
     callback(xw.toString());
+}
+
+function generateSubtitlesTV(imdb, UDID, quality, episode, season, callback){
+    var subs = require('./SubtitleAPI');
+    var langConverter = require('./lang');
+    subs.searchMovie({imdbid: imdb, episode: episode, season: season}, 'OSTestUserAgent').then(function(subtitles){
+        var subtitles2 = Object.keys(subtitles).sort();
+        var XMLWriter = require('xml-writer');
+        xw = new XMLWriter;
+        xw.startDocument(version='1.0', encoding='UTF-8');
+        xw.startElement('atv')
+            .startElement('head')
+                .startElement('script')
+                    .writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
+                  .endElement()
+            .endElement()
+            .startElement('body')
+                .startElement('optionDialog')
+                    .writeAttribute('id', 'scrobble.optionDialog')
+                    .startElement('header')
+                        .startElement('simpleHeader')
+                            .writeElement('title', 'Select Subtitles')
+                            .writeElement('subtitle', 'Please select your desired language')
+                        .endElement()
+                    .endElement()
+                    .startElement('menu')
+                        .startElement('sections')
+                            .startElement('menuSection')
+                                .startElement('header')
+                                    .startElement('horizontalDivider')
+                                        .writeAttribute('alignment', 'left')
+                                        .writeElement('title', '')
+                                    .endElement()
+                                .endElement()
+                                .startElement('items')
+                                    .startElement('oneLineMenuItem')
+                                        .writeAttribute('id', 'item')
+                                        .writeAttribute('onSelect', "atv.unloadPage();atv.loadAndSwapURL('http://trailers.apple.com/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + episode + '&UDID=' + UDID + '&quality=' + quality + '&subtitle=' + 'Off' + "');")
+                                        .writeElement('label', 'Off')
+                                    .endElement();;
+                                subtitles2.forEach(function(lang){
+                                    xw.startElement('oneLineMenuItem')
+                                        .writeAttribute('id', 'item')
+                                        .writeAttribute('onSelect', "atv.unloadPage();atv.loadAndSwapURL('http://trailers.apple.com/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + episode + '&UDID=' + UDID + '&quality=' + quality + '&subtitle=' + subtitles[lang].url + "');")
+                                        .writeElement('label', langConverter.getLanguageName(lang))
+                                    .endElement();
+                                })
+                                xw.endElement()
+                            .endElement()
+                        .endElement()
+                    .endElement()
+                .endElement()
+            .endElement()
+        .endElement();
+        xw.endDocument();
+        logger.Debug(xw.toString());
+        callback(xw.toString());
+    }).fail(function(error){
+        logger.error(error);
+    });
 }
 
 function generateSettingsXML(UDID, callback){
@@ -1346,7 +1406,7 @@ function generateTVEpisodes(imdb, season, title, callback){
     	callback(xw.toString());
     });
 }
-function generateTVPrePlayXML(imdb, season, episode, UDID, quality, callback){
+function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, callback){
 	var API = require('./TVApi');
 	var tmpEp = episode;
     var episode = API.getEpisode(imdb, season, episode, function(show, moreEpisodes, episodeNumbers, torrentLink, poster, fullShow){
@@ -1419,19 +1479,26 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, callback){
 	  							.startElement('shelfSection')
 	  								.startElement('items')
 	  									.startElement('actionButton')
-	  										.writeAttribute('id', 'play')
-                                            .writeAttribute('onSelect', "atv.loadURL('" + encodeURI("http://trailers.apple.com/Movies/MoviePlay.xml?id=" + imdb + "&UDID=" + UDID + "&title=" + show.title.replace(/ /g,"%20") + "&desc=" + show.overview.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + show.images.screenshot.thumb + "&torrent=" + torrentURL) + "')")
-	  										.writeElement('title', 'Play')
-	  										.writeElement('image', 'resource://Play.png')
-	  										.writeElement('focusedImage', 'resource://PlayFocused.png')
-	  									.endElement()
-	  									.startElement('actionButton')
-	  										.writeAttribute('id', 'select')
-	  										.writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/qualitytv.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID + '&qualities=' + getQualitiesTV(torrentLink) + "')")
-	  										.writeElement('title', 'Select Quality')
-	  										.writeElement('image', 'resource://Queue.png')
-	  										.writeElement('focusedImage', 'resource://QueueFocused.png')
-	  									.endElement()
+                                            .writeAttribute('id', 'play')
+                                            .writeAttribute('onSelect', "atv.loadURL('" + encodeURI("http://trailers.apple.com/Movies/MoviePlay.xml?id=" + imdb + "&UDID=" + UDID + "&title=" + show.title.replace(/ /g,"%20") + "&desc=" + show.overview.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + show.images.screenshot.thumb + "&torrent=" + torrentURL + '&subtitle=' + subtitle) + "')")
+                                            .writeElement('title', 'Play')
+                                            .writeElement('image', 'resource://Play.png')
+                                            .writeElement('focusedImage', 'resource://PlayFocused.png')
+                                        .endElement()
+                                        .startElement('actionButton')
+                                            .writeAttribute('id', 'select')
+                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/qualitytv.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID + '&qualities=' + getQualitiesTV(torrentLink) + '&subtitle=' + subtitle + "')")
+                                            .writeElement('title', 'Select Quality')
+                                            .writeElement('image', 'resource://Queue.png')
+                                            .writeElement('focusedImage', 'resource://QueueFocused.png')
+                                        .endElement()
+                                        .startElement('actionButton')
+                                            .writeAttribute('id', 'subtitle')
+                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/subtitlestv.xml?imdb=" + imdb + "&episode=" + tmpEp + '&season=' + season + '&UDID=' + UDID + '&quality=' + quality + "')")
+                                            .writeElement('title', 'Subtitles')
+                                            .writeElement('image', 'resource://Queue.png')
+                                            .writeElement('focusedImage', 'resource://QueueFocused.png')
+                                        .endElement()
 	  								.endElement()
 	  							.endElement()
 	  						.endElement()
@@ -1473,7 +1540,7 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, callback){
 									callback(xw.toString());
     });		
 }
-function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, quality, callback){
+function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, quality, subtitle, callback){
     var inset = '690';
     if (resolution == '720'){
         inset = '460';
@@ -1571,15 +1638,22 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
                                     .startElement('items')
                                         .startElement('actionButton')
                                             .writeAttribute('id', 'play')
-                                            .writeAttribute('onSelect', "atv.loadURL('" + encodeURI("http://trailers.apple.com/Movies/MoviePlay.xml?id=" + imdb + "&UDID=" + UDID + "&title=" + show.title.replace(/ /g,"%20") + "&desc=" + show.overview.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + show.images.screenshot.thumb + "&torrent=" + torrentURL) + "')")
+                                            .writeAttribute('onSelect', "atv.loadURL('" + encodeURI("http://trailers.apple.com/Movies/MoviePlay.xml?id=" + imdb + "&UDID=" + UDID + "&title=" + show.title.replace(/ /g,"%20") + "&desc=" + show.overview.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + show.images.screenshot.thumb + "&torrent=" + torrentURL + '&subtitle=' + subtitle) + "')")
                                             .writeElement('title', 'Play')
                                             .writeElement('image', 'resource://Play.png')
                                             .writeElement('focusedImage', 'resource://PlayFocused.png')
                                         .endElement()
                                         .startElement('actionButton')
                                             .writeAttribute('id', 'select')
-                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/qualitytv.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID + '&qualities=' + getQualitiesTV(torrentLink) + "')")
+                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/qualitytv.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID + '&qualities=' + getQualitiesTV(torrentLink) + '&subtitle=' + subtitle + "')")
                                             .writeElement('title', 'Select Quality')
+                                            .writeElement('image', 'resource://Queue.png')
+                                            .writeElement('focusedImage', 'resource://QueueFocused.png')
+                                        .endElement()
+                                        .startElement('actionButton')
+                                            .writeAttribute('id', 'subtitle')
+                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/subtitlestv.xml?imdb=" + imdb + "&episode=" + tmpEp + '&season=' + season + '&UDID=' + UDID + '&quality=' + quality + "')")
+                                            .writeElement('title', 'Subtitles')
                                             .writeElement('image', 'resource://Queue.png')
                                             .writeElement('focusedImage', 'resource://QueueFocused.png')
                                         .endElement()
@@ -1802,6 +1876,7 @@ exports.updateContextXML = updateContextXML;
 exports.generateQuality = generateQuality;
 exports.generateSubtitles = generateSubtitles;
 exports.generateQualityTV = generateQualityTV;
+exports.generateSubtitlesTV = generateSubtitlesTV;
 exports.generateSettingsXML = generateSettingsXML;
 exports.generateMovieGenre = generateMovieGenre;
 exports.generateMoviesXML = generateMoviesXML;

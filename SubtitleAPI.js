@@ -169,7 +169,6 @@ SubtitleAPI.prototype.parseSRT = function(url, callback){
             for(var i = 0; i < srtPartTmp.length; i += 2) {  // Remove the un-needed blank spaces from the array. (every other)
                 srtParts.push(srtPartTmp[i]);
             }
-
             srtParts.forEach(function(Item){
                 ItemPart = Item.split(/\r\n|\n\r|\n|\r/)
                 timePart = ItemPart[1].replace(/\s/g, '').split(/:|,|-->/);
@@ -194,16 +193,18 @@ SubtitleAPI.prototype.parseSRT = function(url, callback){
                 //JSON += '  { "time":'+str(timeHide_last)+', "Line": [\n'
                 
                 // analyse format: <...> - i_talics (light), b_old (heavy), u_nderline (?), font color (?)
-                for (var i = 2; i < ItemPart.length; i++) {
+                for (var j = 2; j < ItemPart.length; j++) {
                     var weight = '';
-                    var group = ItemPart[i].match(/<([^/]*?)>/);
+                    var group = ItemPart[j].match(/<([^/]*?)>/);
                     if (group != null && (group[1] == "i" || group[1] == "I"))
                         weight = 'light';
                     if (group != null && (group[1] == "b" || group[1] == "B"))
                         weight = 'heavy';
 
-                    line = ItemPart[i].replace(/<.*?>/, '');
-                    line = line.replace(/<.*?>/, '');
+                    line = ItemPart[j].replace(/<.*?>/, '');
+                    for (var i = 0; i < 10; i++) {
+                        line = line.replace(/<.*?>/, '');
+                    };
 
                     if (weight == ''){
                         subtitle['Timestamp'][Object.keys(subtitle['Timestamp']).length-1]['Line'].push({ 'text': line });
