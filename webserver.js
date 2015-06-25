@@ -149,6 +149,9 @@ function startWebServer(localIp) {
 			var defaultQuality = query.quality || aTVSettings.checkSetting('quality', query.UDID);
 			var defaultSubtitle = query.subtitle || aTVSettings.checkSetting('subtitle', query.UDID);
 
+			if (parseInt(request.headers['x-apple-tv-version']) < 6)
+				fanart = 'Off';
+
 			if (fanart == 'On'){
 				var xml = require('./XMLGenerator');
 				response.writeHead(200, {'Content-Type': 'text/xml'});
@@ -263,6 +266,9 @@ function startWebServer(localIp) {
 			var aTVSettings = require('./settings.js');
 			var fanart = aTVSettings.checkSetting('fanart', query.UDID);
 
+			if (parseInt(request.headers['x-apple-tv-version']) < 6)
+				fanart = 'Off';
+
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting seasons.xml Generation ===');
@@ -301,6 +307,9 @@ function startWebServer(localIp) {
 			var fanart = aTVSettings.checkSetting('fanart', query.UDID);
 			var defaultQuality = query.quality || aTVSettings.checkSetting('quality', query.UDID);
 			var defaultSubtitle = query.subtitle || aTVSettings.checkSetting('subtitle', query.UDID);
+
+			if (parseInt(request.headers['x-apple-tv-version']) < 6)
+				fanart = 'Off';
 
 			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
