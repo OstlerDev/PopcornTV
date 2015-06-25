@@ -1413,6 +1413,9 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, ca
         if (show.images.screenshot.full == null){
             show.images.screenshot.full = 'resource://16x9.png';
         }
+        if (show.overview == null){
+            show.overview = 'No Overview could be Found.';
+        }
     	var XMLWriter = require('xml-writer');
 		var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID;
         var torrentURL = encodeURIComponent(selectTorrentTV(torrentLink, quality).replace(/%5B/g, '').replace(/%5D/g, ''));
@@ -1525,6 +1528,9 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, ca
                                         if (ep.title == null){
                                             return;
                                         }
+                                        if (ep.images.screenshot.thumb == null){
+                                            ep.images.screenshot.thumb = 'resource://16x9.png';
+                                        }
                                         xw.startElement('moviePoster')
                                             .writeAttribute('id', 'test')
                                             .writeAttribute('alwaysShowTitles', 'true')
@@ -1551,6 +1557,12 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
     var API = require('./TVApi');
     var tmpEp = episode;
     var episode = API.getEpisodeFanart(imdb, season, episode, resolution, function(show, moreEpisodes, episodeNumbers, torrentLink, fanart, poster, fullShow){
+        if (show.images.screenshot.full == null){
+            show.images.screenshot.full = 'resource://16x9.png';
+        }
+        if (show.overview == null){
+            show.overview = 'No Overview could be Found.';
+        }
         var XMLWriter = require('xml-writer');
         var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID;
         var torrentURL = encodeURIComponent(selectTorrentTV(torrentLink, quality).replace(/%5B/g, '').replace(/%5D/g, ''));
@@ -1682,6 +1694,9 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
                                         var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + ep.number;
                                         if (ep.title == null){
                                             return;
+                                        }
+                                        if (ep.images.screenshot.thumb == null){
+                                            ep.images.screenshot.thumb = 'resource://16x9.png';
                                         }
                                         xw.startElement('moviePoster')
                                             .writeAttribute('id', 'test')
