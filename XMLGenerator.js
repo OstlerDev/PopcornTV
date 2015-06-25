@@ -108,7 +108,7 @@ function generateQuality(torrentID, UDID, qualities, subtitle, callback){
 function generateSubtitles(imdb, torrentID, UDID, quality, callback){
     var subs = require('./SubtitleAPI');
     var langConverter = require('./lang');
-    subs.searchMovie({imdbid: imdb}, 'OSTestUserAgent').then(function(subtitles){
+    subs.searchMovie({imdbid: imdb}, 'PopcornTV').then(function(subtitles){
         var subtitles2 = Object.keys(subtitles).sort();
         var XMLWriter = require('xml-writer');
         xw = new XMLWriter;
@@ -216,7 +216,7 @@ function generateQualityTV(imdb, season, episode, UDID, qualities, subtitle, cal
 function generateSubtitlesTV(imdb, UDID, quality, episode, season, callback){
     var subs = require('./SubtitleAPI');
     var langConverter = require('./lang');
-    subs.searchMovie({imdbid: imdb, episode: episode, season: season}, 'OSTestUserAgent').then(function(subtitles){
+    subs.searchMovie({imdbid: imdb, episode: episode, season: season}, 'PopcornTV').then(function(subtitles){
         var subtitles2 = Object.keys(subtitles).sort();
         var XMLWriter = require('xml-writer');
         xw = new XMLWriter;

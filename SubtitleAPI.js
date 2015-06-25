@@ -180,7 +180,7 @@ SubtitleAPI.prototype.searchMovie = function (data, userAgent) {
 SubtitleAPI.prototype.parseSRT = function(url, callback){
     logger.Debug("=== Getting and Parsing SRT ===")
     logger.Debug(url);
-    getSRT({id: url}, 'OSTestUserAgent', function(SRT) {
+    getSRT({id: url}, 'PopcornTV', function(SRT) {
         var subtitle = {"Timestamp": [] }
         // Seperate the SRT into an array.
         var srtPartTmp = SRT.split(/(\r\n|\n\r|\n|\r)\1+(?=[0-9]+)/);
