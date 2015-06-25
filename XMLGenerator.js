@@ -1258,6 +1258,9 @@ function generateTVSeasons(imdb, seriesTitle, callback){
                 } else {
                     var title = 'Season ' + i;
                 }
+                if (seasons[i].images.poster.thumb == null){
+                    seasons[i].images.poster.thumb = 'resource://Poster.png';
+                }
                 var url = 'http://trailers.apple.com/episodes.xml?imdb=' + imdb + '&season=' + i + '&title=' + seriesTitle.replace(/ /g,"%20");
                 xw.startElement('goldenPoster')
                     .writeAttribute('id', i)
@@ -1322,6 +1325,9 @@ function generateTVSeasonsFanart(imdb, seriesTitle, resolution, callback){
                     title = "Specials"
                 } else {
                     var title = 'Season ' + i;
+                }
+                if (seasons[i].images.poster.thumb == null){
+                    seasons[i].images.poster.thumb = 'resource://Poster.png';
                 }
                 var url = 'http://trailers.apple.com/episodes.xml?imdb=' + imdb + '&season=' + i + '&title=' + seriesTitle.replace(/ /g,"%20");
                 xw.startElement('moviePoster')
@@ -1809,6 +1815,9 @@ function parseTime(runtime){
 	}
 }
 function parseGenre(genres){
+    if (genres.length == 0){
+        return 'No Known Genres';
+    }
 	if (genres[1] != undefined){
 		return capitalizeFirstLetter(genres[0]) + '/' + capitalizeFirstLetter(genres[1]); // Trakt.tv Genres are Lowercase so we capitalize them :)
 	} else {
