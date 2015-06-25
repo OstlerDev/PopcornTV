@@ -1416,6 +1416,9 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, ca
         if (show.overview == null){
             show.overview = 'No Overview could be Found.';
         }
+        if (fullShow.certification == null){
+            fullShow.certification = 'Unknown';
+        }
     	var XMLWriter = require('xml-writer');
 		var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID;
         var torrentURL = encodeURIComponent(selectTorrentTV(torrentLink, quality).replace(/%5B/g, '').replace(/%5D/g, ''));
@@ -1562,6 +1565,9 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
         }
         if (show.overview == null){
             show.overview = 'No Overview could be Found.';
+        }
+        if (fullShow.certification == null){
+            fullShow.certification = 'Unknown';
         }
         var XMLWriter = require('xml-writer');
         var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID;
