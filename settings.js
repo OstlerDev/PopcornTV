@@ -49,7 +49,7 @@ function loadSettings(UDID){
 
         var data = JSON.stringify(settings, null, 4);
 
-        fs.writeFile('./aTVSettings.json', data);
+        fs.writeFileSync('./aTVSettings.json', data);
 
         return settings[UDID];
     }
@@ -69,7 +69,7 @@ function createFile(UDID){
 
     var data = JSON.stringify(settings, null, 4);
 
-    fs.writeFile('./aTVSettings.json', data, function(err) {});
+    fs.writeFileSync('aTVSettings.json', data);
 }
 
 /*
