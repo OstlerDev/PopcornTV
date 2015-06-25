@@ -1410,6 +1410,9 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, ca
 	var API = require('./TVApi');
 	var tmpEp = episode;
     var episode = API.getEpisode(imdb, season, episode, function(show, moreEpisodes, episodeNumbers, torrentLink, poster, fullShow){
+        if (show.images.screenshot.full == null){
+            show.images.screenshot.full = 'resource://16x9.png';
+        }
     	var XMLWriter = require('xml-writer');
 		var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID;
         var torrentURL = encodeURIComponent(selectTorrentTV(torrentLink, quality).replace(/%5B/g, '').replace(/%5D/g, ''));
