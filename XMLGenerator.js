@@ -1386,6 +1386,9 @@ function generateTVEpisodes(imdb, season, title, callback){
                 if (episodes[i].overview == null){
                     episodes[i].overview = 'No Overview';
                 }
+                if (episodes[i].images.screenshot.thumb == null){
+                    episodes[i].images.screenshot.thumb = 'resource://16x9.png';
+                }
 				logger.Debug(episodes[i]);
 				var url = 'http://trailers.apple.com/TVPrePlay.xml?imdb=' + imdb + '&season=' + season + '&episode=' + episodes[i].number;
 	  			xw.startElement('twoLineEnhancedMenuItem')
