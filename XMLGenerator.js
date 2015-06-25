@@ -1320,16 +1320,16 @@ function generateTVSeasonsFanart(imdb, seriesTitle, resolution, callback){
                                     .startElement('items');
         for(var i = 0; i <= seasons.length-1; i++)
         {
-            if (seasonNumbers.indexOf(i) > -1){
-                if (i == 0){
+            if (seasonNumbers.indexOf(seasons[i].number) > -1){
+                if (seasons[i].number == 0){
                     title = "Specials"
                 } else {
-                    var title = 'Season ' + i;
+                    var title = 'Season ' + seasons[i].number;
                 }
                 if (seasons[i].images.poster.thumb == null){
                     seasons[i].images.poster.thumb = 'resource://Poster.png';
                 }
-                var url = 'http://trailers.apple.com/episodes.xml?imdb=' + imdb + '&season=' + i + '&title=' + seriesTitle.replace(/ /g,"%20");
+                var url = 'http://trailers.apple.com/episodes.xml?imdb=' + imdb + '&season=' + seasons[i].number + '&title=' + seriesTitle.replace(/ /g,"%20");
                 xw.startElement('moviePoster')
                     .writeAttribute('id', i)
                     .writeAttribute('alwaysShowTitles', 'true')
