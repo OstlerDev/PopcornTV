@@ -1486,7 +1486,7 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, ca
 	  								.startElement('items')
 	  									.startElement('actionButton')
                                             .writeAttribute('id', 'play')
-                                            .writeAttribute('onSelect', "atv.loadURL('" + encodeURI("http://trailers.apple.com/Movies/MoviePlay.xml?id=" + imdb + "&UDID=" + UDID + "&title=" + show.title.replace(/ /g,"%20") + "&desc=" + show.overview.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + show.images.screenshot.thumb + "&torrent=" + torrentURL + '&subtitle=' + subtitle) + "')")
+                                            .writeAttribute('onSelect', "atv.loadURL('" + encodeURI("http://trailers.apple.com/Movies/MoviePlay.xml?id=" + imdb + "&UDID=" + UDID + "&title=" + show.title.replace(/ /g,"%20").replace('#', '') + "&desc=" + show.overview.replace(/ /g,"%20").replace(/['"]+/g, '') + "&poster=" + show.images.screenshot.thumb + "&torrent=" + torrentURL + '&subtitle=' + subtitle) + "')")
                                             .writeElement('title', 'Play')
                                             .writeElement('image', 'resource://Play.png')
                                             .writeElement('focusedImage', 'resource://PlayFocused.png')
