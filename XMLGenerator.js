@@ -1352,6 +1352,11 @@ function generateTVEpisodes(imdb, season, title, callback){
     xw = new XMLWriter;
     var API = require('./TVApi');
     var tv = API.getEpisodes(imdb, season, function(episodes, episodeNumbers, fanart){
+        if (season == '0'){
+            var subtitle = 'Specials'
+        } else {
+            var subtitle = 'Season ' + season;
+        }
     	xw.startDocument(version='1.0', encoding='UTF-8');
     	xw.startElement('atv')
             .startElement('head')
@@ -1364,7 +1369,7 @@ function generateTVEpisodes(imdb, season, title, callback){
     				.startElement('header')
     					.startElement('simpleHeader')
     						.writeElement('title', title)
-    						.writeElement('subtitle', 'Season ' + season)
+    						.writeElement('subtitle', subtitle)
     					.endElement()
     				.endElement()
     				.startElement('menu')
