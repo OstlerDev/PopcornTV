@@ -224,23 +224,33 @@ SubtitleAPI.prototype.parseSRT = function(url, callback){
                 
             // analyse format: <...> - i_talics (light), b_old (heavy), u_nderline (?), font color (?)
             for (var j = 2; j < ItemPart.length; j++) {
-                var weight = '';
+                var weight = 'normal';
+                var color = {
+                    r: 1,
+                    g: 1,
+                    b: 1
+                };
                 var group = ItemPart[j].match(/<([^/]*?)>/);
                 if (group != null && (group[1] == "i" || group[1] == "I"))
                     weight = 'light';
                 if (group != null && (group[1] == "b" || group[1] == "B"))
                     weight = 'heavy';
+                if (group != null && group[1].indexOf('font') > -1){
+                    color = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(group[1].replace('font color=', ''));
+                    color = {
+                        r: parseInt(color[1], 16)/255,
+                        g: parseInt(color[2], 16)/255,
+                        b: parseInt(color[3], 16)/255
+                    }
+                    logger.Debug(color);
+                }
 
                 line = ItemPart[j].replace(/<.*?>/, '');
                 for (var i = 0; i < 10; i++) {
                     line = line.replace(/<.*?>/, '');
                 };
 
-                if (weight == ''){
-                    subtitle['Timestamp'][Object.keys(subtitle['Timestamp']).length-1]['Line'].push({ 'text': line });
-                } else {
-                    subtitle['Timestamp'][Object.keys(subtitle['Timestamp']).length-1]['Line'].push({ 'text': line, "weight": weight});
-                }
+                subtitle['Timestamp'][Object.keys(subtitle['Timestamp']).length-1]['Line'].push({ 'text': line, 'weight': weight, color: color});
             };
         })
         subtitle['Timestamp'].push({ 'time': timeHide_last });

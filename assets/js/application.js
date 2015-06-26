@@ -181,7 +181,7 @@ function updateSubtitle(time)
         subtitleView['subtitle'][i_view].attributedString = {
             string: subtitle.Timestamp[subtitlePos].Line[i].text,
             attributes: { pointSize: 40.0 * subtitleSize/100,
-                          color: {red: 1, blue: 1, green: 1, alpha: 1.0},
+                          color: {red: subtitle.Timestamp[subtitlePos].Line[i].color.r, blue: subtitle.Timestamp[subtitlePos].Line[i].color.b, green: subtitle.Timestamp[subtitlePos].Line[i].color.g, alpha: 1.0},
                           weight: subtitle.Timestamp[subtitlePos].Line[i].weight || 'normal',
                           alignment: "center",
                           breakMode: "clip"
