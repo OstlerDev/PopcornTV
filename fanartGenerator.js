@@ -21,15 +21,15 @@ function generateFanart(imdb, resolution, callback) {
             } else {
                 var http = require('https');
                 var file = fs.createWriteStream("tmp.jpg");
-                var request = http.get(url, function(error, response, body) {
-                    if (!error && response.statusCode === 200) {
-                        response.pipe(file);
-                        file.on('finish', function() {
-                            images('tmp.jpg').resize(width, height).draw(images('assets/thumbnails/gradient_' + resolution + '.png'), 0, 0).save('assets/cache/' + imdb + '-' + resolution + '.jpg');
-                            callback('cache/' + imdb + '-' + resolution + '.jpg');
-                            fs.unlink('tmp.jpg');
-                        });
-                    }
+                var request = http.get(url, function(response) {
+                    response.pipe(file);
+                    file.on('finish', function() {
+                        images('tmp.jpg').resize(width, height).draw(images('assets/thumbnails/gradient_' + resolution + '.png'), 0, 0).save('assets/cache/' + imdb + '-' + resolution + '.jpg');
+                        callback('cache/' + imdb + '-' + resolution + '.jpg');
+                        fs.unlink('tmp.jpg');
+                    });
+                }).on('error', function(e){
+                  logger.error(e);
                 });
             }
         });
