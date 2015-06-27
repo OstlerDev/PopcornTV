@@ -35,7 +35,6 @@ function startWebServer(localIp) {
 	var fs     = require("fs");
 	var querystring = require("querystring");
 	var torrent = require('./streamer');
-	var PreviousID = "0";
 
 	var mime   = require("./mime").types;
 	var server = http.createServer(function(request, response) {
