@@ -482,7 +482,7 @@ function startWebServer(localIp) {
 			});
 		}
 	});
-	server.listen(80);
+	server.listen(80, localIp);
 	server.on('error', function(err){
 		if (err.code == 'EADDRINUSE'){
 			logger.error('========= FATAL ERROR =========');
@@ -496,9 +496,6 @@ function startWebServer(localIp) {
 		logger.error('Error Code: ' + err.code);
 		logger.error('===============================');
 		process.exit();
-	})
-	server.setTimeout(1000 * 1000 * 1000, function(response){
-		logger.Debug('Timed Out');
 	})
 	logger.Web("listening on " + localIp + ":80");
 }
@@ -523,7 +520,7 @@ function startSSLWebServer(localIp) {
 	};
 
 	server = https.createServer(options);
-	server.listen(443);
+	server.listen(443, localIp);
 	server.on('error', function(err){
 		if (err.code == 'EADDRINUSE'){
 			logger.error('========= FATAL ERROR =========');
