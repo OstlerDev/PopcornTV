@@ -10,7 +10,7 @@ function generatePlayXML(url, title, desc, image, subtitle) {
         .startElement('body')
             .startElement('videoPlayer')
                 .writeAttribute('id', 'com.sample.video-player')
-                .startElement('httpFileVideoAsset')
+                .startElement('httpLiveStreamingVideoAsset')
                     .writeAttribute('id', title)
                     .writeElement('mediaURL', url)
                     .writeElement('title', title)
@@ -306,8 +306,8 @@ function generateSettingsXML(UDID, callback){
     							.writeElement('label', 'Forum')
     						.endElement()
     						.startElement('metadataValues')
-    							.writeElement('label', 'PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from yts.to as well as the Popcorn Time TV API to allow for a smooth interface and ease of use.')
     							.writeElement('label', '0.1.5 dev')
+    							.writeElement('label', 'PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents.')
     							.writeElement('label', 'OstlerDev')
     							.writeElement('label', 'https://popcorntv.io')
     							.writeElement('label', 'https://discuss.popcorntime.io/t/popcorntv-bringing-popcorn-time-to-your-apple-tv/')
@@ -385,7 +385,7 @@ function generateMoviesXML(title, sort_by, callback){
 	  		.writeElement('title', movies[i].title)
 	  		.writeElement('subtitle', movies[i].year)
 	  		.writeElement('image', movies[i].medium_cover_image)
-	  		.writeElement('defaultImage', 'resource://Poster.png')
+	  		.writeElement('defaultImage', 'http://trailers.apple.com/thumbnails/movie-large.png')
 	  		.endElement();
 		}
             /*xw.startElement('moviePoster')

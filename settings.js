@@ -185,11 +185,11 @@ function checkSetting(setting, UDID){
 
             return setting;
         } catch (err) {
-            logger.error('There is an error checking settings, please post this on the Github page')
-            logger.error(err);
-            process.exit();
+            settings = addTV(UDID);
+            return settings[UDID][setting];
         }
     } catch(e){
+        logger.Debug(e);
         logger.warning('Settings file does not exist, creating...');
         createFile(UDID);
     }

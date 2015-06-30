@@ -14,7 +14,8 @@ var startTime = 0;  // milli-sec
 atv.config = { 
     "doesJavaScriptLoadRoot": true,
     "DEBUG_LEVEL": 4,
-    "ROOT_URL": "http://trailers.apple.com/appletv/index.xml"
+    "ROOT_URL": "http://trailers.apple.com/appletv/index.xml",
+    "DEFAULT_POSTER": "http://trailers.apple.com/appletv/us/images/movie_large.png"
 };
 
 /*
@@ -31,7 +32,28 @@ function log(msg, level)
 
 atv.onAppEntry = function()
 {
-    atv.loadURL('http://trailers.apple.com/navbar.xml');
+  atv.sessionStorage.setItem("DEFAULT_POSTER", "http://trailers.apple.com/thumbnails/movie_large.png");
+  atv.loadURL('http://trailers.apple.com/navbar.xml');
+}
+
+atv.player.loadRelatedPlayback = function(a, callback){
+  var o = atv.player.asset.getElementByTagName("myMetadata"),
+    t = o && o.getElementByTagName("relatedPlaybackURL"),
+    url = t && t.textContent;
+  handlePostPlay(url, callback);
+}
+
+function handlePostPlay(url, callback) {
+  // Load the Preplay XML
+  var req = new XMLHttpRequest();
+  req.open('GET', url, false);
+  req.send();
+
+  // Pull the document and get the XML
+  var doc=req.responseXML;
+
+  // Return the XML to the Apple TV
+  callback.success(doc);
 }
 
 atv.onScreensaverPhotosSelectionEntry = function() {
