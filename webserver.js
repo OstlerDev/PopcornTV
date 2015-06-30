@@ -35,6 +35,7 @@ function startWebServer(localIp) {
 	var fs     = require("fs");
 	var querystring = require("querystring");
 	var torrent = require('./streamer');
+	var port   = process.env.PORT != undefined ? process.env.PORT : 80;
 
 	var mime   = require("./mime").types;
 	var server = http.createServer(function(request, response) {
@@ -482,7 +483,7 @@ function startWebServer(localIp) {
 			});
 		}
 	});
-	server.listen(80, localIp);
+	server.listen(port, localIp);
 	server.on('error', function(err){
 		if (err.code == 'EADDRINUSE'){
 			logger.error('========= FATAL ERROR =========');
@@ -497,7 +498,7 @@ function startWebServer(localIp) {
 		logger.error('===============================');
 		process.exit();
 	})
-	logger.Web("listening on " + localIp + ":80");
+	logger.Web("listening on " + localIp + ":" + port);
 }
 
 function startSSLWebServer(localIp) {
@@ -506,6 +507,7 @@ function startSSLWebServer(localIp) {
 	var https   = require("https");
 	var path   = require("path");
 	var mime   = require("./mime").types;
+	var port   = process.env.SSLPORT != undefined ? process.env.SSLPORT : 443;
 
 	//
 	// SSL Certificates
@@ -520,7 +522,7 @@ function startSSLWebServer(localIp) {
 	};
 
 	server = https.createServer(options);
-	server.listen(443, localIp);
+	server.listen(port, localIp);
 	server.on('error', function(err){
 		if (err.code == 'EADDRINUSE'){
 			logger.error('========= FATAL ERROR =========');
@@ -585,7 +587,7 @@ function startSSLWebServer(localIp) {
 			});
 		}
 	});
-	logger.Web("SSL Web: listening on " + localIp + ":443");
+	logger.Web("SSL Web: listening on " + localIp + ":" + port);
 }
 var deleteFolderRecursive = function(path) {
   if( fs.existsSync(path) ) {
