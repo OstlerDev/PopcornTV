@@ -16,6 +16,8 @@ function generatePlayXML(url, title, desc, image, subtitle) {
                     .writeElement('title', title)
                     .writeElement('description', desc)
                     .writeElement('image', image)
+                    .writeElement('upNextPresentationTime', '5')
+                    .writeElement('upNextPresentationDuration', '20')
                     .startElement('videoPlayerSettings')
                         .writeElement('subtitleSize', '100')
                     .endElement()

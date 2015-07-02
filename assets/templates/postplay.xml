@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atv> 
+	<body> 
+		<relatedPlayback> 
+			<upNextItem id="AtvPostPlayVideoAssetView" onSelect="atv.loadURL('http://trailer.apple.com/test.xml')">
+				<httpLiveStreamingVideoAsset id="70276702"> 
+					<mediaURL>http://trailer.apple.com/test.xml</mediaURL> 
+					<title>Dodger</title> 
+					<description>Oliver asks Det. McKenna Hall on a date. Meanwhile, a jewel thief named Dodger hits Starling City and targets someone close to Oliver.</description> 
+					<image>http://so0.akam.nflximg.com/soa1/618/1413328618.jpg</image> 
+					<upNextPresentationTime>2500</upNextPresentationTime> 
+					<upNextPresentationDuration>20</upNextPresentationDuration>
+					<bookmarkTime>0</bookmarkTime> 
+					<subtitleStylesURL>http://webvtt.nflxvideo.net/4/WebVTTStyle.plist</subtitleStylesURL> 
+				</httpLiveStreamingVideoAsset> 
+			</upNextItem> 
+			<optionsMenu> 
+				<sections> 
+					<menuSection> 
+						<items> 
+							<oneLineMenuItem id="nextEpisode" onSelect=""> 
+								<label>Play Next Episode</label> 
+							</oneLineMenuItem> 
+							<oneLineMenuItem id="moreEpisodes" onSelect=""> 
+								<label>More Episodes</label> 
+							</oneLineMenuItem> 
+						</items> 
+					</menuSection> 
+				</sections> 
+			</optionsMenu> 
+		</relatedPlayback> 
+	</body> 
+</atv>
