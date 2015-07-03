@@ -33,6 +33,8 @@ function startWebServer(localIp) {
 	var http   = require("http");
 	var path   = require("path");
 	var fs     = require("fs");
+
+	var xml = require('./XMLGenerator');
 	var querystring = require("querystring");
 	var torrent = require('./streamer');
 	var port   = process.env.PORT != undefined ? process.env.PORT : 80;
@@ -46,15 +48,17 @@ function startWebServer(localIp) {
 		if (pathname.charAt(pathname.length - 1) == "/") {
 			pathname += "index.html";
 		} else if(pathname.indexOf("MoviePlay.xml") >= 0){
+			var aTVSettings = require('./settings.js');
+			var subtitleSize = aTVSettings.checkSetting('subSize', query.UDID) || '100';
+
 			logger.Debug('=== Starting MoviePlay.xml Generation ===');
-			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Streamer('Streamer: Starting Stream... Please wait for stream to be ready.');
 			torrent.startStreamer(query.torrent, query.id, localIp);
 			torrent.getStreamer().on('ready', function (data) {
 				logger.Debug('=== Ending MoviePlay.xml Generation ===');
 				if (data.isMP4){
-					response.write(xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off')));
+					response.write(xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize));
 					response.end();
 				} else {
 					if (data.type == 'webm'){
@@ -100,7 +104,6 @@ function startWebServer(localIp) {
 				staticFile = false;
 			}
 		} else if(pathname.indexOf("MoviesGrid.xml") >= 0){
-			var xml = require('./XMLGenerator');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting MoviesGrid.xml Generation ===');
 			xml.generateMoviesXML(query.title, query.sort_by, function(xmlstring){
@@ -109,8 +112,7 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
-		} else if(pathname.indexOf("Parade.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		} else if(pathname.indexOf("Parade.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			if (query.type == 'movie'){
 				logger.Debug('=== Starting Parade.xml Movie Generation ===');
@@ -128,8 +130,7 @@ function startWebServer(localIp) {
 				})
 			}
 			staticFile = false;
-		} else if(pathname.indexOf("MoviesGenreGrid.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		} else if(pathname.indexOf("MoviesGenreGrid.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting MoviesGenreGrid.xml Generation ===');
 			xml.generateMovieGenre(query.genre, function(xmlstring){
@@ -152,8 +153,7 @@ function startWebServer(localIp) {
 			if (parseInt(request.headers['x-apple-tv-version']) < 6)
 				fanart = 'Off';
 
-			if (fanart == 'On'){
-				var xml = require('./XMLGenerator');
+			if (fanart == 'On'){				
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
 				xml.generateMoviePrePlayFanartXML(query.torrentID, query.UDID, request.headers['x-apple-tv-resolution'], defaultQuality, defaultSubtitle, function(xmlstring){
@@ -161,8 +161,7 @@ function startWebServer(localIp) {
 					response.write(xmlstring);
 					response.end();
 				})
-			} else {
-				var xml = require('./XMLGenerator');
+			} else {				
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Starting MoviePrePlay.xml No Fanart Generation ===');
 				xml.generateMoviePrePlayXML(query.torrentID, defaultQuality, defaultSubtitle, function(xmlstring){
@@ -172,8 +171,7 @@ function startWebServer(localIp) {
 				})
 			}
 			staticFile = false;
-		} else if(pathname.indexOf("quality.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		} else if(pathname.indexOf("quality.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting quality.xml Generation ===');
 			xml.generateQuality(query.torrentID, query.UDID, query.qualities, query.subtitle, function(xmlstring){
@@ -182,8 +180,7 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
-		} else if(pathname.indexOf("subtitles.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		} else if(pathname.indexOf("subtitles.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting subtitles.xml Generation ===');
 			xml.generateSubtitles(query.imdb, query.torrentID, query.UDID, query.quality, function(xmlstring){
@@ -192,8 +189,7 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
-		} else if(pathname.indexOf("qualitytv.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		} else if(pathname.indexOf("qualitytv.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting qualitytv.xml Generation ===');
 			xml.generateQualityTV(query.imdb, query.season, query.episode, query.UDID, query.qualities, query.subtitle, function(xmlstring){
@@ -202,8 +198,7 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
-		} else if(pathname.indexOf("subtitlestv.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		} else if(pathname.indexOf("subtitlestv.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting subtitles.xml Generation ===');
 			xml.generateSubtitlesTV(query.imdb, query.UDID, query.quality, query.episode, query.season, function(xmlstring){
@@ -212,8 +207,7 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
-		} else if(pathname.indexOf("extras.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		} else if(pathname.indexOf("extras.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting allresults.xml Generation ===');
 			xml.generateMovieExtras(query.query, function(xmlstring){
@@ -222,8 +216,7 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
-		} else if(pathname.indexOf("allresults.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		} else if(pathname.indexOf("allresults.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting allresults.xml Generation ===');
 			xml.generateSearchResults(query.query, function(xmlstring){
@@ -232,8 +225,7 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
-		} else if(pathname.indexOf("tvresults.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		} else if(pathname.indexOf("tvresults.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting tvresults.xml Generation ===');
 			xml.generateTVSearchResults(query.query, function(xmlstring){
@@ -242,8 +234,7 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
-		} else if(pathname.indexOf("results.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		} else if(pathname.indexOf("results.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting results.xml Generation ===');
 			xml.generateMovieSearchResults(query.query, function(xmlstring){
@@ -252,8 +243,7 @@ function startWebServer(localIp) {
 				response.end();
 			})
 			staticFile = false;
-		} else if(pathname.indexOf("TVGrid.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		} else if(pathname.indexOf("TVGrid.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting TVGrid.xml Generation ===');
 			xml.generateTVXML(query.title, query.sort_by, function(xmlstring){
@@ -268,8 +258,7 @@ function startWebServer(localIp) {
 
 			if (parseInt(request.headers['x-apple-tv-version']) < 6)
 				fanart = 'Off';
-
-			var xml = require('./XMLGenerator');
+			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting seasons.xml Generation ===');
 
@@ -287,8 +276,7 @@ function startWebServer(localIp) {
 				})
 			}
 			staticFile = false;
-		}  else if(pathname.indexOf("episodes.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		}  else if(pathname.indexOf("episodes.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting episodes.xml Generation ===');
 			xml.generateTVEpisodes(query.imdb, query.season, query.title, function(xmlstring){
@@ -310,8 +298,7 @@ function startWebServer(localIp) {
 
 			if (parseInt(request.headers['x-apple-tv-version']) < 6)
 				fanart = 'Off';
-
-			var xml = require('./XMLGenerator');
+			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting TVPrePlay.xml Generation ===');
 			if (fanart == 'On'){
@@ -328,8 +315,7 @@ function startWebServer(localIp) {
 				})
 			}
 			staticFile = false;
-		} else if(pathname.indexOf("settings.xml") >= 0){
-			var xml = require('./XMLGenerator');
+		} else if(pathname.indexOf("settings.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting settings.xml Generation ===');
 			xml.generateSettingsXML(query.UDID, function(xmlstring){
@@ -342,8 +328,7 @@ function startWebServer(localIp) {
 			var aTVSettings = require('./settings.js');
 			var checkFavorite = aTVSettings.checkFavorite(query.type, query.id, query.UDID);
 
-			if (checkFavorite){
-				var xml = require('./XMLGenerator');
+			if (checkFavorite){				
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Starting scrobble.xml Generation ===');
 				xml.generateScrobbleXML(query.type, query.id, query.UDID, 'removeFavorite.xml', 'Remove from Favorites', function(xmlstring){
@@ -351,8 +336,7 @@ function startWebServer(localIp) {
 					response.write(xmlstring);
 					response.end();
 				})
-			} else {
-				var xml = require('./XMLGenerator');
+			} else {				
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Starting scrobble.xml Generation ===');
 				xml.generateScrobbleXML(query.type, query.id, query.UDID, 'addFavorite.xml', 'Add to Favorites', function(xmlstring){
@@ -365,8 +349,7 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("altersetting.xml") >= 0){
 			var aTVSettings = require('./settings.js');
 			aTVSettings.changeSetting(query.UDID, query.setting, query.newSetting);
-
-			var xml = require('./XMLGenerator');
+			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting settings.xml Generation ===');
 			xml.generateSettingsXML(query.UDID, function(xmlstring){
@@ -378,8 +361,7 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("addFavorite.xml") >= 0){
 			var aTVSettings = require('./settings.js');
 			aTVSettings.addFavorite(query.type, query.id, query.UDID);
-
-			var xml = require('./XMLGenerator');
+			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			xml.updateContextXML(function(xmlstring){
 				response.write(xmlstring);
@@ -389,8 +371,7 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("removeFavorite.xml") >= 0){
 			var aTVSettings = require('./settings.js');
 			aTVSettings.removeFavorite(query.type, query.id, query.UDID);
-
-			var xml = require('./XMLGenerator');
+			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			xml.updateContextXML(function(xmlstring){
 				response.write(xmlstring);
@@ -401,7 +382,7 @@ function startWebServer(localIp) {
 			var aTVSettings = require('./settings.js');
 			var favorites = aTVSettings.getFavorites(query.UDID);
 			logger.Debug(favorites);
-			var xml = require('./XMLGenerator');
+			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting Favorites.xml Generation ===');
 			if (favorites != undefined && favorites.length >= 1){

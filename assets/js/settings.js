@@ -32,11 +32,28 @@ function toggleSetting(setting, curSetting)
     } else {
       var newSetting = 'On';
     }
-  } else if (setting == 'subtitle'){
-    if (curSetting == 'Off'){
-      var newSetting = 'On';
-    } else {
-      var newSetting = 'Off';
+  } else if (setting == 'subSize'){
+     switch(curSetting){
+      case '25':
+        var newSetting = '50';
+        break;
+      case '50':
+        var newSetting = '75';
+        break;
+      case '75':
+        var newSetting = '100';
+        break;
+      case '100':
+        var newSetting = '125';
+        break;
+      case '125':
+        var newSetting = '150';
+        break;
+      case '150':
+        var newSetting = '25';
+        break;
+      default:
+        var newSetting = '100';
     }
   } else if (setting == 'keep'){
     if (curSetting == 'Off'){
@@ -50,9 +67,19 @@ function toggleSetting(setting, curSetting)
   var req = new XMLHttpRequest();
   req.open('GET', url, false);
   req.send();
-  doc=req.responseXML;
+
+  var doc = req.responseXML;
+
+  var displayValue = document.getElementById(setting).getElementByTagName("rightLabel");
+  var newValue = doc.getElementById(setting).getElementByTagName("rightLabel");
+  if (!newValue) return undefined;  // error - element not found
   
-  atv.loadAndSwapXML(doc);
+  displayValue.textContent = newValue.textContent;
+
+  var newURL = doc.getElementById(setting).getAttribute("onSelect");
+  if (!newURL) return undefined;  // error - element not found
+  
+  document.getElementById(setting).setAttribute("onSelect", newURL);
 };
 
 /* 

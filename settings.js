@@ -39,19 +39,7 @@ function loadSettings(UDID){
             logger.error(err);
         }
     } else {
-        var settings = {};
-        settings[UDID] = {
-            quality: '720p',
-            fanart: 'On',
-            subtitle: 'Off',
-            keep: 'Off'
-        };
-
-        var data = JSON.stringify(settings, null, 4);
-
-        fs.writeFileSync('./aTVSettings.json', data);
-
-        return settings[UDID];
+        return createFile(UDID);
     }
 }
 
@@ -64,12 +52,15 @@ function createFile(UDID){
         quality: '720p',
         fanart: 'On',
         subtitle: 'Off',
-        keep: 'Off'
+        keep: 'Off',
+        subSize: '100'
     };
 
     var data = JSON.stringify(settings, null, 4);
 
     fs.writeFileSync('aTVSettings.json', data);
+
+    return settings;
 }
 
 /*
@@ -85,7 +76,8 @@ function addTV(UDID){
             quality: '720p',
             fanart: 'On',
             subtitle: 'Off',
-            keep: 'Off'
+            keep: 'Off',
+            subSize: '100'
         };
         fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
         return settings[UDID];

@@ -126,7 +126,7 @@ function getSRT(data, userAgent, callback){
                     ]
                 ], function (err, res) {
                     if (err || res.data === false) {
-                        
+
                     } else {
                         var decoded = new Buffer(res.data[0].data, 'base64');
                         var unzipped = zlib.gunzipSync(decoded);
@@ -184,7 +184,7 @@ SubtitleAPI.prototype.parseSRT = function(url, callback){
         var subtitle = {"Timestamp": [] }
         // Seperate the SRT into an array.
         var srtPartTmp = SRT.split(/(\r\n|\n\r|\n|\r)\1+(?=[0-9]+)/);
-            
+
         var srtParts = [];
         var timeHide_last = 0;
         var unsupported = false;
@@ -197,12 +197,12 @@ SubtitleAPI.prototype.parseSRT = function(url, callback){
                timePart = ItemPart[1].replace(/\s/g, '').split(/:|,|-->/);
            } catch(e) {
                 subtitle['Timestamp'].push({ 'time': '2000', 'Line': [ {'text': 'This subtitle is not supported currently'}] });
-                 subtitle['Timestamp'].push({ 'time': '6000' });
+                subtitle['Timestamp'].push({ 'time': '6000' });
                 unsupported = true;
                 callback(JSON.stringify(subtitle));
                 return;
             }
-            
+
             timeShow = parseInt(timePart[0])*1000*60*60 +
                        parseInt(timePart[1])*1000*60 +
                        parseInt(timePart[2])*1000 +
@@ -221,7 +221,7 @@ SubtitleAPI.prototype.parseSRT = function(url, callback){
             // current Time
             subtitle['Timestamp'].push({ 'time': timeShow, 'Line': [] });
             //JSON += '  { "time":'+str(timeHide_last)+', "Line": [\n'
-                
+
             // analyse format: <...> - i_talics (light), b_old (heavy), u_nderline (?), font color (?)
             for (var j = 2; j < ItemPart.length; j++) {
                 var weight = 'normal';

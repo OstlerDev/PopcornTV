@@ -2,7 +2,7 @@ var xml = require('xml');
 var logger = require('./logger');
 var atvSettings = require('./settings.js');
 
-function generatePlayXML(url, title, desc, image, subtitle) {
+function generatePlayXML(url, title, desc, image, subtitle, subtitleSize) {
 	var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
     xw.startDocument(version='1.0', encoding='UTF-8');
@@ -19,7 +19,7 @@ function generatePlayXML(url, title, desc, image, subtitle) {
                     .writeElement('upNextPresentationTime', '5')
                     .writeElement('upNextPresentationDuration', '20')
                     .startElement('videoPlayerSettings')
-                        .writeElement('subtitleSize', '100')
+                        .writeElement('subtitleSize', subtitleSize)
                     .endElement()
                     .startElement('myMetadata')
                         .writeElement('subtitleURL', 'http://trailers.apple.com/subtitle.json?url=' + subtitle)
@@ -285,8 +285,11 @@ function generateSettingsXML(UDID, callback){
     	xw.startElement('atv')
     		.startElement('head')
     			.startElement('script')
-    				.writeAttribute('src', 'http://trailers.apple.com/js/settings.js')
+    				.writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
     			.endElement()
+                .startElement('script')
+                    .writeAttribute('src', 'http://trailers.apple.com/js/settings.js')
+                .endElement()
     		.endElement()
     		.startElement('body')
     			.startElement('listWithPreview')
@@ -329,22 +332,38 @@ function generateSettingsXML(UDID, callback){
     							.startElement('items')
     								.startElement('oneLineMenuItem')
     									.writeAttribute('id', 'quality')
-    									.writeAttribute('onSelect', "toggleSetting('quality', '" + settings.quality + "')")
+    									.writeAttribute('onSelect', "toggleSetting('quality', '" + (settings.quality || "720p") + "')")
     									.writeElement('label', 'Prefered Quality')
-    									.writeElement('rightLabel', settings.quality)
+    									.writeElement('rightLabel', (settings.quality || "720p"))
     								.endElement()
     								.startElement('oneLineMenuItem')
     									.writeAttribute('id', 'fanart')
-    									.writeAttribute('onSelect', "toggleSetting('fanart', '" + settings.fanart + "')")
+    									.writeAttribute('onSelect', "toggleSetting('fanart', '" + (settings.fanart || 'On') + "')")
     									.writeElement('label', 'Fanart')
-    									.writeElement('rightLabel', settings.fanart)
+    									.writeElement('rightLabel', (settings.fanart || 'On'))
     								.endElement()
     								.startElement('oneLineMenuItem')
     									.writeAttribute('id', 'keep')
-    									.writeAttribute('onSelect', "toggleSetting('keep', '" + settings.keep + "')")
+    									.writeAttribute('onSelect', "toggleSetting('keep', '" + (settings.keep || 'On') + "')")
     									.writeElement('label', 'Keep Movie Downloads')
-    									.writeElement('rightLabel', settings.keep)
-    								.endElement();
+    									.writeElement('rightLabel', (settings.keep || 'On'))
+    								.endElement()
+                                .endElement()
+                            .endElement()
+                            .startElement('menuSection')
+                                .startElement('header')
+                                    .startElement('horizontalDivider')
+                                        .writeAttribute('alignment', 'left')
+                                        .writeElement('title', 'Subtitles')
+                                    .endElement()
+                                .endElement()
+                                .startElement('items')
+                                    .startElement('oneLineMenuItem')
+                                        .writeAttribute('id', 'subSize')
+                                        .writeAttribute('onSelect', "toggleSetting('subSize', '" + (settings.subSize || '100') + "')")
+                                        .writeElement('label', 'Subtitle Size')
+                                        .writeElement('rightLabel', settings.subSize || '100')
+                                    .endElement();
 
     								xw.endDocument();
 
