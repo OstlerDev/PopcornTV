@@ -963,7 +963,7 @@ function generateMoviePrePlayFanartXML(torrentID, UDID, atvRes, quality, subtitl
     								logger.Debug(xw.toString());
     								callback(xw.toString());
 								});
-    });		
+    });
 }
 function generateMoviePrePlayXML(torrentID, quality, subtitle, callback){
 	var API = require('./MoviesAPI');
@@ -1181,7 +1181,7 @@ function generateMoviePrePlayXML(torrentID, quality, subtitle, callback){
 									logger.Debug(xw.toString());
 									callback(xw.toString());
 								});
-    });			
+    });
 }
 
 function generateTVXML(title, sort_by, callback){
@@ -1566,7 +1566,7 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, ca
 									logger.Debug(xw.toString());
                                     logger.Debug(selectTorrentTV(torrentLink, quality));
 									callback(xw.toString());
-    });		
+    });
 }
 function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, quality, subtitle, callback){
     var inset = '690';
@@ -1732,12 +1732,12 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
                                         .writeElement('defaultImage', 'resource://16x9.png')
                                         .endElement();
                                     })
-                                    
+
                                     xw.endDocument();
                                     logger.Debug(xw.toString());
                                     logger.Debug(selectTorrentTV(torrentLink, quality));
                                     callback(xw.toString());
-    });     
+    });
 }
 function generateFavoritesXML(favorites, callback){
 	var XMLWriter = require('xml-writer');

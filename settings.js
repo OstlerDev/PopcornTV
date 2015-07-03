@@ -27,7 +27,7 @@ function loadSettings(UDID){
         var data = fs.readFileSync('./aTVSettings.json'), config;
         try {
             settings = JSON.parse(data);
-            
+
             if (settings[UDID] == undefined) {
                 logger.Debug("Adding TV " + UDID);
                 return addTV(UDID);
