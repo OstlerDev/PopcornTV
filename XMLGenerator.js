@@ -312,7 +312,7 @@ function generateSettingsXML(UDID, callback){
     						.endElement()
     						.startElement('metadataValues')
     							.writeElement('label', 'PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents.')
-    							.writeElement('label', '0.1.5')
+    							.writeElement('label', '0.1.6 dev')
     							.writeElement('label', 'OstlerDev')
     							.writeElement('label', 'https://popcorntv.io')
     							.writeElement('label', 'https://discuss.popcorntime.io/t/popcorntv-bringing-popcorn-time-to-your-apple-tv/')
