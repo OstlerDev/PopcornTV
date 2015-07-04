@@ -51,6 +51,9 @@ function startWebServer(localIp) {
 			var aTVSettings = require('./settings.js');
 			var subtitleSize = aTVSettings.checkSetting('subSize', query.UDID) || '100';
 
+			if (subtitleSize == '')
+				subtitleSize = '100';
+
 			logger.Debug('=== Starting MoviePlay.xml Generation ===');
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Streamer('Streamer: Starting Stream... Please wait for stream to be ready.');

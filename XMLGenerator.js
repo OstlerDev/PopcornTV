@@ -19,7 +19,7 @@ function generatePlayXML(url, title, desc, image, subtitle, subtitleSize) {
                     .writeElement('upNextPresentationTime', '5')
                     .writeElement('upNextPresentationDuration', '20')
                     .startElement('videoPlayerSettings')
-                        .writeElement('subtitleSize', subtitleSize)
+                        .writeElement('subtitleSize', (subtitleSize || '100'))
                     .endElement()
                     .startElement('myMetadata')
                         .writeElement('subtitleURL', 'http://trailers.apple.com/subtitle.json?url=' + subtitle)
