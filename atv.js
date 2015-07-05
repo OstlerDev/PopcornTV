@@ -8,8 +8,14 @@ if (!fs.existsSync('assets/certificates/trailers.cer')){
     var pem = require('pem');
     logger.warning('SSL Certificate does not exist, Please restart PopcornTV once the process ends!');
     pem.createCertificate({days:720, selfSigned:true, country: 'US', commonName: 'trailers.apple.com'}, function(err, keys){
-        fs.writeFile('assets/certificates/trailers.cer', keys.certificate+ '\n' + keys.serviceKey);
-        fs.writeFile('assets/certificates/trailers.pem', keys.certificate+ '\n' + keys.serviceKey);
+        try{
+            fs.writeFile('assets/certificates/trailers.cer', keys.certificate + '\n' + keys.serviceKey);
+            fs.writeFile('assets/certificates/trailers.pem', keys.certificate + '\n' + keys.serviceKey);
+        } catch(e){
+            logger.warning('Unable to create certificates, please create them manually.');
+            if (/^win/.test(process.platform)) // Untested but should work.
+                logger.warning('If you are on Windows, please follow this workaround: http://bit.ly/1H7qfJZ')
+        }
     });
 } else if (fs.existsSync('config.json')) {
     var data = fs.readFileSync('./config.json'), config;

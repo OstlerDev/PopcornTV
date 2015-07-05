@@ -237,12 +237,13 @@ SubtitleAPI.prototype.parseSRT = function(url, callback){
                     weight = 'heavy';
                 if (group != null && group[1].indexOf('font') > -1){
                     color = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(group[1].replace('font color=', ''));
-                    color = {
-                        r: parseInt(color[1], 16)/255,
-                        g: parseInt(color[2], 16)/255,
-                        b: parseInt(color[3], 16)/255
+                    if (color){
+                        color = {
+                            r: parseInt(color[1], 16)/255,
+                            g: parseInt(color[2], 16)/255,
+                            b: parseInt(color[3], 16)/255
+                        }
                     }
-                    logger.Debug(color);
                 }
 
                 line = ItemPart[j].replace(/<.*?>/, '');

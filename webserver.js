@@ -581,10 +581,19 @@ var deleteFolderRecursive = function(path) {
         deleteFolderRecursive(curPath);
       } else { // delete file
       	logger.Debug('Deleting ' + curPath);
-        fs.unlinkSync(curPath);
-      }
+        try {
+        	fs.unlinkSync(curPath);
+        } catch(e){
+        	logger.warning('Cannot delete file.'); // Omit sending the file as then it is proof that the user downloaded the file.
+        }
+
+       }
     });
-    fs.rmdirSync(path);
+    try{
+    	fs.rmdirSync(path);
+    } catch (e) {
+    	logger.warning('Unable to delete path.'); // Omit sending path so that it is not logged to server.
+    }
   }
 };
 exports.startWebServer = startWebServer;
