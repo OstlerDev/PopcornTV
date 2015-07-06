@@ -10,7 +10,7 @@ function generatePlayXML(url, title, desc, image, subtitle, subtitleSize) {
         .startElement('body')
             .startElement('videoPlayer')
                 .writeAttribute('id', 'com.sample.video-player')
-                .startElement('httpLiveStreamingVideoAsset')
+                .startElement('httpFileVideoAsset')
                     .writeAttribute('id', title)
                     .writeElement('mediaURL', url)
                     .writeElement('title', title)
