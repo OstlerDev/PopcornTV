@@ -7,10 +7,12 @@ var ready = false;
 var boundURL = "not ready";
 var ID;
 var ip;
+var port;
 function startStreamer(url, torrentID, localIp) {
 	ID = torrentID;
 	ip = localIp;
 	url = decodeURIComponent(url);
+	port = parseInt(Math.random() * (8000 - 6000) + 6000);
 	var streamBuffer = 5 * 1024 * 1024;
 	if (url.indexOf("youtube") >= 0){
 		streamBuffer = 3 * 1024 * 1024;
@@ -23,7 +25,7 @@ function startStreamer(url, torrentID, localIp) {
 		hostname: ip,
 		progressInterval: 200,
 		buffer: streamBuffer,
-		port: 9999,
+		port: port,
 		writeDir: '',
 		index: torrentID + '.mp4'
 	});
@@ -50,7 +52,7 @@ function startStreamer(url, torrentID, localIp) {
 }
 
 function getURL(){
-	return "http://" + ip + ":9999/" + ID + '.mp4';
+	return "http://" + ip + ":" + port + "/" + ID + '.mp4';
 }
 
 function getStreamer(){
