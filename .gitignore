@@ -9,3 +9,4 @@ assets/certificates/*.pem
 assets/torrent-stream/*
 *.ts
 *.m3u8
+ffmpeg

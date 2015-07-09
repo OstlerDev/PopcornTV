@@ -641,8 +641,16 @@ function convertFile(hash){
 	}
 
 	var file = path.join('assets', 'converted', hash);
-    ffmpeg = spawn('ffmpeg', ['-re', '-i', torrentFile, '-max_delay', '50000', '-map', '0', '-c', 'copy', '-c:v', 'libx264', '-profile:v', 'baseline', '-flags', '-global_header', '-f', 'segment', '-segment_time', '5', '-segment_wrap', '0', '-segment_list', file + '.m3u8', '-segment_format', 'mpegts', file + '_%05d.ts']);
-        
+	var args = ['-re', '-i', torrentFile, '-max_delay', '50000', '-map', '0', '-c', 'copy', '-c:v', 'libx264', '-profile:v', 'baseline', '-flags', '-global_header', '-f', 'segment', '-segment_time', '5', '-segment_wrap', '0', '-segment_list', file + '.m3u8', '-segment_format', 'mpegts', file + '_%05d.ts']
+
+	if (fs.existsSync('ffmpeg.exe')){
+    	ffmpeg = spawn('ffmpeg.exe', args);
+	} else if (fs.existsSync('ffmpeg')){
+    	ffmpeg = spawn('./ffmpeg', args);
+	} else {
+		ffmpeg = spawn('ffmpeg', args);
+	}
+
     ffmpeg.stderr.on('data', function(data) {
         ffmpeg.stdin.setEncoding('utf8');
         logger.Debug(data.toString());
