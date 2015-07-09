@@ -44,13 +44,13 @@ We do always reply, though sometimes it takes a little longer to respond if we a
 
 ## Donations
 
-![Donate Bitcoin](https://blockchain.info/Resources/buttons/donate_64.png)
-Do to the request of a few users I have setup a Bitcoin wallet to accept donations, if you wish to donate, send Bitcoin to the address below. Any amount, large or small really does help :)
-![](https://blockchain.info/qr?data=1MyQuMeJuzrG2XZmot4vub6WKVHnan5N3v&size=200)
-Address: 1MyQuMeJuzrG2XZmot4vub6WKVHnan5N3v
+![Donate Bitcoin](https://blockchain.info/Resources/buttons/donate_64.png)  
+Do to the request of a few users I have setup a Bitcoin wallet to accept donations, if you wish to donate, send Bitcoin to the address below. Any amount, large or small really does help :)  
+![](http://i.imgur.com/gX80gAQ.png)  
+Address: 1MyQuMeJuzrG2XZmot4vub6WKVHnan5N3v  
 
-Don't know how to buy or send Bitcoin? Take a look [here (how to buy),](https://www.coinbase.com/buy-bitcoin) and [here (how to send).](https://support.coinbase.com/customer/portal/articles/971437-how-do-i-send-bitcoin-to-somebody-else-)
-(p.s. I cannot accept Paypal donations because of legal reasons, sorry!)
+Don't know how to buy or send Bitcoin? Take a look [here (how to buy),](https://www.coinbase.com/buy-bitcoin) and [here (how to send).](https://support.coinbase.com/customer/portal/articles/971437-how-do-i-send-bitcoin-to-somebody-else-)  
+(p.s. I cannot accept Paypal donations because of legal reasons, sorry!)  
 
 ## Development
 
