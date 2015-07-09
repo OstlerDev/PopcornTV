@@ -22,106 +22,78 @@
       <h1>
 <a id="what-is-popcorntv" class="anchor" href="#what-is-popcorntv" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is PopcornTV?</h1>
 
-<p>PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from yts.to as well as the Popcorn Time TV API to allow for a smooth interface and ease of use.</p>
+<p>PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from <a href="yts.to">yts.to</a> as well as the <a href="https://git.popcorntime.io/popcorntime/eztv-api/tree/master">Popcorn Time TV API</a> to allow users to watch most Movies and TV Shows Instantly.</p>
 
-<h3>
-<a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>How it works</h3>
+<h2>
+<a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>How it works</h2>
 
-<p>PopcornTV works by hijacking the Trailers application on the Apple TV. In order to do this effectively we change the DNS server on the Apple TV to point to your own computer/server. I created this application in 24 hours as a proof of concept that you are able to stream torrents directly to an Apple TV by generating valid XML for it to read from.</p>
+<p>PopcornTV works by hijacking the Trailers application on the Apple TV. In order to do this effectively we change the DNS server on the Apple TV to point to your own computer/server. This application was initially created in 24 hours as a proof of concept that you are able to stream torrents directly to an Apple TV by generating valid XML for it to read from. It has since grown into a much more full fledged application.</p>
 
 <p>We pull all of our Movies from <a href="https://yts.to/">YTS</a> by using the API that they provide. All TV shows use the <a href="https://git.popcorntime.io/popcorntime/eztv-api/tree/master">Popcorn Time TV API</a></p>
 
-<h3>
-<a id="preview" class="anchor" href="#preview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preview</h3>
-
-<h4>
-<a id="preview-video" class="anchor" href="#preview-video" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preview Video</h4>
-
-<p><a href="https://www.youtube.com/watch?v=s9R24DIXkQk">Watch the latest video here! (v0.1.4a)</a></p>
-
-<h4>
-<a id="preview-images" class="anchor" href="#preview-images" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preview Images</h4>
-
-<p><img src="http://i.imgur.com/Q8eQt73.jpg" alt="">
-<img src="http://i.imgur.com/pW7xqmT.jpg" alt="">
-<img src="http://i.imgur.com/uMBZnkS.png" alt="">
-<img src="http://i.imgur.com/UXQcWfp.jpg" alt="">
-<img src="http://i.imgur.com/OPS9vtR.jpg" alt="">
-<img src="http://i.imgur.com/rwmXmir.png" alt="">
-<img src="http://i.imgur.com/oD0n1NA.jpg" alt=""></p>
+<h2>
+<a id="preview" class="anchor" href="#preview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preview</h2>
 
 <h3>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
+<a id="preview-video" class="anchor" href="#preview-video" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preview Video</h3>
+
+<p><a href="https://www.youtube.com/watch?v=s9R24DIXkQk">Watch a video preview here (v0.1.4a)</a></p>
+
+<h3>
+<a id="preview-images" class="anchor" href="#preview-images" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preview Images</h3>
+
+<p><img src="http://i.imgur.com/7dB9zGp.jpg" alt="">
+<img src="http://i.imgur.com/vigyOsZ.jpg" alt="">
+<img src="http://i.imgur.com/296kywf.jpg" alt="">
+<img src="http://i.imgur.com/S0yrFHo.jpg" alt="">
+<a href="http://imgur.com/a/bKobV">More Screenshots</a></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>Please take a look at the Wiki for installation details <a href="https://github.com/OstlerDev/PopcornTV/wiki/How-to-Install">here!</a></p>
 
-<h3>
-<a id="bug-reporting" class="anchor" href="#bug-reporting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bug Reporting</h3>
+<h2>
+<a id="bugs--bug-reporting" class="anchor" href="#bugs--bug-reporting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bugs &amp; Bug Reporting</h2>
 
-<p>If you find a bug please let me know of it by submitting an "Issue" on the <a href="https://github.com/OstlerDev/PopcornTV/issues">Github page</a>. Be sure to include what you were doing, steps to reproduce the bug, and the crash log.</p>
+<p>Before reporting a bug, please take a look at our <a href="https://github.com/OstlerDev/PopcornTV/issues">Bug Tracker</a> for current known issues, if you cannot find your bug on there, please open up a new bug report by following <a href="https://github.com/OstlerDev/PopcornTV/wiki/How-to-report-an-issue">these steps.</a></p>
 
-<h3>
-<a id="what-works" class="anchor" href="#what-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>What Works?</h3>
-
-<pre><code>[X] Display Movies from yts.to
-[X] Stream the movies directly from the torrents to the Apple TV
-[X] Display Fanart and information about the movie including related Movies
-[X] Display TV Shows and Information about them
-[X] Watch Movie Trailers instantly
-</code></pre>
-
-<h3>
-<a id="roadmap" class="anchor" href="#roadmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Roadmap</h3>
-
-<p>Please view the <a href="https://github.com/OstlerDev/PopcornTV/wiki/Roadmap">roadmap</a> for Planned features and ideas! </p>
-
-<h3>
-<a id="bugs" class="anchor" href="#bugs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bugs</h3>
-
-<p>Please take a look <a href="https://github.com/OstlerDev/PopcornTV/issues">here</a> for the latest information on Bugs. Please submit all new bugs here as well.</p>
-
-<h4>
-<a id="workflow" class="anchor" href="#workflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Workflow</h4>
+<h2>
+<a id="version-history" class="anchor" href="#version-history" aria-hidden="true"><span class="octicon octicon-link"></span></a>Version History</h2>
 
 <ul>
-<li>Select Trailers application on Apple TV</li>
-<li>Intercept the DNS request on our server, if it is requesting 'trailers.apple.com' redirect the request to our own internal webserver, if not redirect the request to Googles Public DNS server.</li>
-<li>Generate XML and serve it to the Apple TV</li>
-<li>Once a Movie is selected to be played, use Popcorn Times streamer-server to download and stream the movie to a local port.</li>
+<li><a href="https://github.com/OstlerDev/PopcornTV/releases/tag/v0.1.5">0.1.5 - Quality Selection, Subtitles, Favorites</a></li>
+<li><a href="https://github.com/OstlerDev/PopcornTV/releases/tag/v0.1.4">0.1.4 - Clean up Code, Implement Certificate Generation. Initial Release</a></li>
+<li>0.1.3 - Add TV Show Support (broken)</li>
+<li>0.1.2 - Redesign UI</li>
+<li>0.1.1 - Implement VideoAPI</li>
+<li>0.1.0 - Initial Testing</li>
 </ul>
 
-<h3>
-<a id="version-history" class="anchor" href="#version-history" aria-hidden="true"><span class="octicon octicon-link"></span></a>Version History</h3>
+<h2>
+<a id="irc" class="anchor" href="#irc" aria-hidden="true"><span class="octicon octicon-link"></span></a>IRC</h2>
 
-<pre><code>0.1.4a - Clean up Code, Implement Certificate Generation. Initial Release
-0.1.3a - Add TV Show Support (broken)
-0.1.2a - Redesign UI
-0.1.1a - Implement VideoAPI
-0.1.0a - Initial Testing
-</code></pre>
+<p>Have a burning question that you need answered, or just want to chat with the developers? The developers and some bug testers are hanging on IRC at #PopcornTV on Freenode (<a href="http://webchat.freenode.net/?channels=PopcornTV">Click here if you do not have an IRC Client</a>).</p>
 
-<h3>
-<a id="tech" class="anchor" href="#tech" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tech</h3>
+<p>We do always reply, though sometimes it takes a little longer to respond if we are watching movies or coding.</p>
 
-<p>PopcornTV uses several API's and libraries.</p>
+<h2>
+<a id="donations" class="anchor" href="#donations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Donations</h2>
 
-<ul>
-<li>
-<a href="https://nodejs.org/">NodeJS</a> - Node.js® is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications.</li>
-<li>
-<a href="https://git.popcorntime.io/popcorntime/streamer-server">Popcorn Streamer Server</a> - Download torrents and stream them on the fly to a URL</li>
-<li>
-<a href="https://git.popcorntime.io/popcorntime/eztv-api/tree/master">Popcorn Time TV API</a> - Grab any and all TV shows that you may desire!</li>
-<li>
-<a href="https://yts.to/api">YTS API</a> - An extensive database with over 5.6k movies.</li>
-<li>
-<a href="https://github.com/iBaa/PlexConnect">PlexConnect</a> - For giving me some example source code that I used before moving to Node.js</li>
-</ul>
+<p><img src="https://blockchain.info/Resources/buttons/donate_64.png" alt="Donate Bitcoin"><br>
+Do to the request of a few users I have setup a Bitcoin wallet to accept donations, if you wish to donate, send Bitcoin to the address below. Any amount, large or small really does help :)<br>
+<img src="http://i.imgur.com/gX80gAQ.png" alt=""><br>
+Address: 1MyQuMeJuzrG2XZmot4vub6WKVHnan5N3v  </p>
 
-<h3>
-<a id="development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h3>
+<p>Don't know how to buy or send Bitcoin? Take a look <a href="https://www.coinbase.com/buy-bitcoin">here (how to buy),</a> and <a href="https://support.coinbase.com/customer/portal/articles/971437-how-do-i-send-bitcoin-to-somebody-else-">here (how to send).</a><br>
+(p.s. I cannot accept Paypal donations because of legal reasons, sorry!)  </p>
 
-<p>Want to contribute? Great! Add the features that you want and submit a <a href="https://github.com/OstlerDev/PopcornTV/pulls">pull request</a>! If you have a suggestion or comment, please post it on the <a href="https://github.com/OstlerDev/PopcornTV/issues/new">Github</a> and tag it with "enhancement" or reply to this thread :)</p>
+<h2>
+<a id="development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h2>
+
+<p>Want to contribute? Great! Add the features that you want and submit a <a href="https://github.com/OstlerDev/PopcornTV/pulls">pull request</a>! </p>
+
+<p>Don't know how to code but still want to help? We need help with our Wiki, as well as help Bug Testing. If you still do not know exactly what to help with, join us on the IRC and we will give you a few ideas!</p>
 
 <h2>
 <a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
