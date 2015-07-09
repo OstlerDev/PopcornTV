@@ -1,80 +1,62 @@
 # What is PopcornTV?
 
-PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from yts.to as well as the Popcorn Time TV API to allow for a smooth interface and ease of use.
+PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from [yts.to](yts.to) as well as the [Popcorn Time TV API](https://git.popcorntime.io/popcorntime/eztv-api/tree/master) to allow users to watch most Movies and TV Shows Instantly.
 
-### How it works
+## How it works
 
-PopcornTV works by hijacking the Trailers application on the Apple TV. In order to do this effectively we change the DNS server on the Apple TV to point to your own computer/server. I created this application in 24 hours as a proof of concept that you are able to stream torrents directly to an Apple TV by generating valid XML for it to read from.
+PopcornTV works by hijacking the Trailers application on the Apple TV. In order to do this effectively we change the DNS server on the Apple TV to point to your own computer/server. This application was initially created in 24 hours as a proof of concept that you are able to stream torrents directly to an Apple TV by generating valid XML for it to read from. It has since grown into a much more full fledged application.
 
 We pull all of our Movies from [YTS](https://yts.to/) by using the API that they provide. All TV shows use the [Popcorn Time TV API](https://git.popcorntime.io/popcorntime/eztv-api/tree/master)
 
-### Preview
-#### Preview Video
-[Watch the latest video here! (v0.1.4a)](https://www.youtube.com/watch?v=s9R24DIXkQk)
+## Preview
+### Preview Video
+[Watch a video preview here (v0.1.4a)](https://www.youtube.com/watch?v=s9R24DIXkQk)
 
-#### Preview Images
-![](http://i.imgur.com/Q8eQt73.jpg)
-![](http://i.imgur.com/pW7xqmT.jpg)
-![](http://i.imgur.com/uMBZnkS.png)
-![](http://i.imgur.com/UXQcWfp.jpg)
-![](http://i.imgur.com/OPS9vtR.jpg)
-![](http://i.imgur.com/rwmXmir.png)
-![](http://i.imgur.com/oD0n1NA.jpg)
+### Preview Images
+![](http://i.imgur.com/7dB9zGp.jpg)
+![](http://i.imgur.com/vigyOsZ.jpg)
+![](http://i.imgur.com/296kywf.jpg)
+![](http://i.imgur.com/S0yrFHo.jpg)
+[More Screenshots](http://imgur.com/a/bKobV)
 
-### Installation
+## Installation
 
 Please take a look at the Wiki for installation details [here!](https://github.com/OstlerDev/PopcornTV/wiki/How-to-Install)
 
-### Bug Reporting
-If you find a bug please let me know of it by submitting an "Issue" on the [Github page](https://github.com/OstlerDev/PopcornTV/issues). Be sure to include what you were doing, steps to reproduce the bug, and the crash log.
+## Bugs & Bug Reporting
+Before reporting a bug, please take a look at our [Bug Tracker](https://github.com/OstlerDev/PopcornTV/issues) for current known issues, if you cannot find your bug on there, please open up a new bug report by following [these steps.](https://github.com/OstlerDev/PopcornTV/wiki/How-to-report-an-issue)
 
 
-### What Works?
+## Version History
+- [0.1.5 - Quality Selection, Subtitles, Favorites](https://github.com/OstlerDev/PopcornTV/releases/tag/v0.1.5)
+- [0.1.4 - Clean up Code, Implement Certificate Generation. Initial Release](https://github.com/OstlerDev/PopcornTV/releases/tag/v0.1.4)
+- 0.1.3 - Add TV Show Support (broken)
+- 0.1.2 - Redesign UI
+- 0.1.1 - Implement VideoAPI
+- 0.1.0 - Initial Testing
 
-```
-[X] Display Movies from yts.to
-[X] Stream the movies directly from the torrents to the Apple TV
-[X] Display Fanart and information about the movie including related Movies
-[X] Display TV Shows and Information about them
-[X] Watch Movie Trailers instantly
-```
+## IRC
 
-### Roadmap
-Please view the [roadmap](https://github.com/OstlerDev/PopcornTV/wiki/Roadmap) for Planned features and ideas! 
+Have a burning question that you need answered, or just want to chat with the developers? The developers and some bug testers are hanging on IRC at #popcorntime on Freenode ([Click here if you do not have an IRC Client](http://webchat.freenode.net/?channels=PopcornTV)).
 
-### Bugs
-
-Please take a look [here](https://github.com/OstlerDev/PopcornTV/issues) for the latest information on Bugs. Please submit all new bugs here as well.
-
-#### Workflow
-- Select Trailers application on Apple TV
-- Intercept the DNS request on our server, if it is requesting 'trailers.apple.com' redirect the request to our own internal webserver, if not redirect the request to Googles Public DNS server.
-- Generate XML and serve it to the Apple TV
-- Once a Movie is selected to be played, use Popcorn Times streamer-server to download and stream the movie to a local port.
+We do always reply, though sometimes it takes a little longer to respond if we are watching movies or coding.
 
 
-### Version History
-```
-0.1.4a - Clean up Code, Implement Certificate Generation. Initial Release
-0.1.3a - Add TV Show Support (broken)
-0.1.2a - Redesign UI
-0.1.1a - Implement VideoAPI
-0.1.0a - Initial Testing
-```
+## Donations
 
-### Tech
+![Donate Bitcoin](https://blockchain.info/Resources/buttons/donate_64.png)
+Do to the request of a few users I have setup a Bitcoin wallet to accept donations, if you wish to donate, send Bitcoin to the address below. Any amount, large or small really does help :)
+![](https://blockchain.info/qr?data=1MyQuMeJuzrG2XZmot4vub6WKVHnan5N3v&size=200)
+Address: 1MyQuMeJuzrG2XZmot4vub6WKVHnan5N3v
 
-PopcornTV uses several API's and libraries.
+Don't know how to buy or send Bitcoin? Take a look [here (how to buy),](https://www.coinbase.com/buy-bitcoin) and [here (how to send).](https://support.coinbase.com/customer/portal/articles/971437-how-do-i-send-bitcoin-to-somebody-else-)
+(p.s. I cannot accept Paypal donations because of legal reasons, sorry!)
 
-* [NodeJS](https://nodejs.org/) - Node.js® is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications.
-* [Popcorn Streamer Server](https://git.popcorntime.io/popcorntime/streamer-server) - Download torrents and stream them on the fly to a URL
-* [Popcorn Time TV API](https://git.popcorntime.io/popcorntime/eztv-api/tree/master) - Grab any and all TV shows that you may desire!
-* [YTS API](https://yts.to/api) - An extensive database with over 5.6k movies.
-* [PlexConnect](https://github.com/iBaa/PlexConnect) - For giving me some example source code that I used before moving to Node.js
+## Development
 
-### Development
+Want to contribute? Great! Add the features that you want and submit a [pull request](https://github.com/OstlerDev/PopcornTV/pulls)! 
 
-Want to contribute? Great! Add the features that you want and submit a [pull request](https://github.com/OstlerDev/PopcornTV/pulls)! If you have a suggestion or comment, please post it on the [Github](https://github.com/OstlerDev/PopcornTV/issues/new) and tag it with "enhancement" or reply to this thread :)
+Don't know how to code but still want to help? We need help with our Wiki, as well as help Bug Testing. If you still do not know exactly what to help with, join us on the IRC and we will give you a few ideas!
 
 License
 ----
