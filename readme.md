@@ -37,7 +37,7 @@ Before reporting a bug, please take a look at our [Bug Tracker](https://github.c
 
 ## IRC
 
-Have a burning question that you need answered, or just want to chat with the developers? The developers and some bug testers are hanging on IRC at #popcorntime on Freenode ([Click here if you do not have an IRC Client](http://webchat.freenode.net/?channels=PopcornTV)).
+Have a burning question that you need answered, or just want to chat with the developers? The developers and some bug testers are hanging on IRC at #PopcornTV on Freenode ([Click here if you do not have an IRC Client](http://webchat.freenode.net/?channels=PopcornTV)).
 
 We do always reply, though sometimes it takes a little longer to respond if we are watching movies or coding.
 
