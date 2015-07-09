@@ -65,19 +65,23 @@ function startWebServer(localIp) {
 					response.write(xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize));
 					response.end();
 				} else {
-					if (data.type == 'webm'){
-						data.type = 'mkv/webm'
-					}
-					xml.errorXML('Unsupported File Type', 'At this time .' + data.type + ' files are not supported. Please choose a different file/quality.', function(xml){
-						response.write(xml);
+					// Start the conversion using FFMPEG
+					convertFile(query.hash);
+
+					// After 10 seconds send the XML to play the converted file, this should give us enough time to convert at least 1 .ts file.
+					setTimeout(function(){
+						response.write(xml.generatePlayXML('http://trailers.apple.com/converted/' + query.hash + '.m3u8', decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize));
 						response.end();
-					});
-					torrent.getStreamer().close();
+					}, 10000);
 				}
 			});
 			torrent.getStreamer().on('close', function(){
 				var aTVSettings = require('./settings.js');
 				var keepMovies = aTVSettings.checkSetting('keep', query.UDID);
+
+				try{
+					ffmpeg.kill();
+				} catch(e){}
 
 				if (keepMovies == 'Off'){
 					logger.Debug('====== Keep Movies is Off, Deleting Files ======')
@@ -92,6 +96,7 @@ function startWebServer(localIp) {
         				}
     				});
     				deleteFolderRecursive(path.join('assets', 'torrent-stream'));
+    				deleteFolderRecursive(path.join('assets', 'converted'));
 				}
 			})
 			staticFile = false;
@@ -601,5 +606,47 @@ var deleteFolderRecursive = function(locpath) {
     }
   }
 };
+
+var spawn = require('child_process').spawn;
+var ffmpeg;
+
+function convertFile(hash){
+	logger.warning('=============== WARNING ===============');
+	logger.warning('Attempting to convert non-supported file using FFMPEG.');
+	logger.warning('This is VERY Unstable and most likely WILL NOT WORK!');
+	logger.warning('=======================================');
+	var torrentFile;
+	var torPath = path.join('assets', 'torrent-stream', hash);
+
+	fs.readdirSync(torPath).forEach(function(file, index){
+		var curPath = path.join(torPath, file);
+		if(fs.lstatSync(curPath).isDirectory()){
+			fs.readdirSync(curPath).forEach(function(file2, index){
+				logger.Debug(file2);
+				var ext = path.extname(file2);
+				if (ext == '.mkv' || ext == '.avi'){
+					torrentFile = path.join(curPath, file2);
+				}
+			})
+		} else {
+			logger.Debug(file);
+			var ext = path.extname(file);
+			if (ext == '.mkv' || ext == '.avi'){
+				torrentFile = path.join(torPath, file);
+			}
+		}
+	})
+	if (!fs.existsSync(path.join('assets', 'converted'))){
+	    fs.mkdirSync(path.join('assets', 'converted'));
+	}
+
+	var file = path.join('assets', 'converted', hash);
+    ffmpeg = spawn('ffmpeg', ['-re', '-i', torrentFile, '-max_delay', '50000', '-map', '0', '-c', 'copy', '-c:v', 'libx264', '-profile:v', 'baseline', '-flags', '-global_header', '-f', 'segment', '-segment_time', '5', '-segment_wrap', '0', '-segment_list', file + '.m3u8', '-segment_format', 'mpegts', file + '_%05d.ts']);
+        
+    ffmpeg.stderr.on('data', function(data) {
+        ffmpeg.stdin.setEncoding('utf8');
+        logger.Debug(data.toString());
+    });
+}
 exports.startWebServer = startWebServer;
 exports.startSSLWebServer = startSSLWebServer;

@@ -1606,7 +1606,10 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
         }
         var XMLWriter = require('xml-writer');
         var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID;
+        var parseTorrent = require('parse-torrent');
+        var infoHash = parseTorrent(selectTorrentTV(torrentLink, quality)).infoHash;
         var torrentURL = encodeURIComponent(selectTorrentTV(torrentLink, quality).replace(/%5B/g, '').replace(/%5D/g, ''));
+
         xw = new XMLWriter;
         xw.startDocument(version='1.0', encoding='UTF-8');
         xw.startElement('atv')
@@ -1694,7 +1697,7 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
                                     .startElement('items')
                                         .startElement('actionButton')
                                             .writeAttribute('id', 'play')
-                                            .writeAttribute('onSelect', "atv.loadURL('" + encodeURI("http://trailers.apple.com/Movies/MoviePlay.xml?id=" + imdb + "&UDID=" + UDID + "&title=" + encodeURIComponent(show.title.replace(/'/g, '')) + "&desc=" + encodeURIComponent(show.overview.replace(/'/g, '')) + "&poster=" + show.images.screenshot.thumb + "&torrent=" + torrentURL + '&subtitle=' + subtitle) + "')")
+                                            .writeAttribute('onSelect', "atv.loadURL('" + encodeURI("http://trailers.apple.com/Movies/MoviePlay.xml?id=" + imdb + "&UDID=" + UDID + "&title=" + encodeURIComponent(show.title.replace(/'/g, '')) + "&desc=" + encodeURIComponent(show.overview.replace(/'/g, '')) + "&poster=" + show.images.screenshot.thumb + "&torrent=" + torrentURL + '&subtitle=' + subtitle + '&hash=' + infoHash) + "')")
                                             .writeElement('title', 'Play')
                                             .writeElement('image', 'resource://Play.png')
                                             .writeElement('focusedImage', 'resource://PlayFocused.png')
@@ -1754,7 +1757,6 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
 
                                     xw.endDocument();
                                     logger.Debug(xw.toString());
-                                    logger.Debug(selectTorrentTV(torrentLink, quality));
                                     callback(xw.toString());
     });
 }
