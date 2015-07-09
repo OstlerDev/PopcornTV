@@ -7,3 +7,5 @@ assets/certificates/*.pem
 *.json
 *.log
 assets/torrent-stream/*
+*.ts
+*.m3u8

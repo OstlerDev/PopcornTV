@@ -1,4 +1,5 @@
 var logger = require('./logger');
+var path = require('path');
 
 function parseRange(str, size) {
     if (str.indexOf(",") != -1) {
@@ -83,10 +84,14 @@ function startWebServer(localIp) {
 					fs.readdirSync("./").forEach(function(fileName) {
         				if (path.extname(fileName) === ".mp4") {
         					logger.Debug('Deleting ' + fileName);
-            				fs.unlinkSync(fileName);
+            				try{
+            					fs.unlinkSync(fileName);
+            				}catch(e){
+            					logger.warning('Unable to delete file.');
+            				}
         				}
     				});
-    				deleteFolderRecursive('assets/torrent-stream/');
+    				deleteFolderRecursive(path.join('assets', 'torrent-stream'));
 				}
 			})
 			staticFile = false;
@@ -573,10 +578,10 @@ function startSSLWebServer(localIp) {
 	});
 	logger.Web("SSL Web: listening on " + localIp + ":" + port);
 }
-var deleteFolderRecursive = function(path) {
-  if( fs.existsSync(path) ) {
-    fs.readdirSync(path).forEach(function(file,index){
-      var curPath = path + "/" + file;
+var deleteFolderRecursive = function(locpath) {
+  if( fs.existsSync(locpath) ) {
+    fs.readdirSync(locpath).forEach(function(file,index){
+      var curPath = path.join(locpath, file);
       if(fs.lstatSync(curPath).isDirectory()) { // recurse
         deleteFolderRecursive(curPath);
       } else { // delete file
@@ -590,7 +595,7 @@ var deleteFolderRecursive = function(path) {
        }
     });
     try{
-    	fs.rmdirSync(path);
+    	fs.rmdirSync(locpath);
     } catch (e) {
     	logger.warning('Unable to delete path.'); // Omit sending path so that it is not logged to server.
     }
