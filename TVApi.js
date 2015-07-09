@@ -180,7 +180,7 @@ function getEpisode(imdb, season, episodeNum, callback) {
 	        			show = episode;
 	        		}
 	        		// get the rest of the shows of the season
-	        		if(episode.season == season){
+	        		if(episode.season == season && numbers.indexOf(episode.number) > -1){
 	        			moreEpisodes.push(episode);
 	        		}
 	        	})
@@ -230,7 +230,7 @@ function getEpisodeFanart(imdb, season, episodeNum, resolution, callback) {
 	        			show = episode;
 	        		}
 	        		// get the rest of the shows of the season
-	        		if(episode.season == season){
+	        		if(episode.season == season && numbers.indexOf(episode.number) > -1){
 	        			moreEpisodes.push(episode);
 	        		}
 	        	})
