@@ -1587,28 +1587,23 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, ca
 									callback(xw.toString());
     });
 }
-function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, quality, subtitle, callback){
+function generatePrePlayFanartXML(show, options, quality, subtitle, callback){
     var inset = '690';
-    if (resolution == '720'){
+    if (options.resolution == '720'){
         inset = '460';
     }
-    var API = require('./TVApi');
-    var tmpEp = episode;
-    var episode = API.getEpisodeFanart(imdb, season, episode, resolution, function(show, moreEpisodes, episodeNumbers, torrentLink, fanart, poster, fullShow){
-        if (show.images.screenshot.full == null){
-            show.images.screenshot.full = 'resource://16x9.png';
+        logger.warning(show);
+        if (show.description == null){
+            show.description = 'No Overview could be Found.';
         }
-        if (show.overview == null){
-            show.overview = 'No Overview could be Found.';
-        }
-        if (fullShow.certification == null){
-            fullShow.certification = 'Unknown';
+        if (show.rating == null){
+            show.rating = 'Unknown';
         }
         var XMLWriter = require('xml-writer');
-        var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID;
+        var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + options.imdb + '&season=' + options.season + '&episode=' + options.episode + '&UDID=' + options.UDID;
         var parseTorrent = require('parse-torrent');
-        var infoHash = parseTorrent(selectTorrentTV(torrentLink, quality)).infoHash;
-        var torrentURL = encodeURIComponent(selectTorrentTV(torrentLink, quality).replace(/%5B/g, '').replace(/%5D/g, ''));
+        var infoHash = parseTorrent(selectTorrentTV(show.torrents, quality)).infoHash;
+        var torrentURL = encodeURIComponent(selectTorrentTV(show.torrents, quality).replace(/%5B/g, '').replace(/%5D/g, ''));
 
         xw = new XMLWriter;
         xw.startDocument(version='1.0', encoding='UTF-8');
@@ -1637,22 +1632,22 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
                             .startElement('image')
                             .writeAttribute('insets', '0, 0, ' + inset + ', 0')
                             .writeAttribute('required', 'true')
-                            .text(fanart)
+                            .text(show.images.fanart)
                             .endElement()
                         .endElement()
                     .endElement()
                     .writeElement('title', show.title)
-                    .writeElement('footnote', fullShow.network)
-                    .writeElement('rating', fullShow.certification)
-                    .writeElement('summary', show.overview)
+                    .writeElement('footnote', show.year)
+                    .writeElement('rating', show.rating)
+                    .writeElement('summary', show.description)
                     .startElement('userRatings')
                         .startElement('starRating')
-                        .writeElement('percentage', Math.round(show.rating * 10))
+                        .writeElement('percentage', show.rt_rating)
                         .endElement()
                     .endElement()
                     .startElement('image')
                         .writeAttribute('style', 'moviePoster')
-                        .text(poster)
+                        .text(show.images.poster)
                     .endElement()
                     .writeElement('defaultImage', 'resource://Poster.png')
                     .startElement('table')
@@ -1665,16 +1660,16 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
                         .endElement()
                         .startElement('rows')
                             .startElement('row')
-                            .writeElement('label', parseGenre(fullShow.genres))
+                            .writeElement('label', parseGenre(show.genres))
                             .endElement()
                             .startElement('row')
-                            .writeElement('label', parseTime(fullShow.runtime))
+                            .writeElement('label', parseTime(show.runtime))
                             .endElement()
                             .startElement('row')
                                 .startElement('mediaBadges')
                                     .startElement('additionalMediaBadges')
                                         var num = 0;
-                                        getQualitiesTV(torrentLink).forEach(function(quality){
+                                        getQualitiesTV(show.torrents).forEach(function(quality){
                                             xw.startElement('urlBadge')
                                             .writeAttribute('insertIndex', num)
                                             .writeAttribute('required', 'true')
@@ -1697,21 +1692,21 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
                                     .startElement('items')
                                         .startElement('actionButton')
                                             .writeAttribute('id', 'play')
-                                            .writeAttribute('onSelect', "atv.loadURL('" + encodeURI("http://trailers.apple.com/Movies/MoviePlay.xml?id=" + imdb + "&UDID=" + UDID + "&title=" + encodeURIComponent(show.title.replace(/'/g, '')) + "&desc=" + encodeURIComponent(show.overview.replace(/'/g, '')) + "&poster=" + show.images.screenshot.thumb + "&torrent=" + torrentURL + '&subtitle=' + subtitle + '&hash=' + infoHash) + "')")
+                                            .writeAttribute('onSelect', "atv.loadURL('" + encodeURI("http://trailers.apple.com/Movies/MoviePlay.xml?id=" + options.imdb + "&UDID=" + options.UDID + "&title=" + encodeURIComponent(show.title.replace(/'/g, '')) + "&desc=" + encodeURIComponent(show.description.replace(/'/g, '')) + "&poster=" + show.images.poster + "&torrent=" + torrentURL + '&subtitle=' + subtitle + '&hash=' + infoHash) + "')")
                                             .writeElement('title', 'Play')
                                             .writeElement('image', 'resource://Play.png')
                                             .writeElement('focusedImage', 'resource://PlayFocused.png')
                                         .endElement()
                                         .startElement('actionButton')
                                             .writeAttribute('id', 'select')
-                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/qualitytv.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID + '&qualities=' + getQualitiesTV(torrentLink) + '&subtitle=' + subtitle + "')")
+                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/qualitytv.xml?imdb=" + options.imdb + '&season=' + options.season + '&episode=' + options.episode + '&UDID=' + options.UDID + '&qualities=' + getQualitiesTV(show.torrents) + '&subtitle=' + subtitle + "')")
                                             .writeElement('title', 'Select Quality')
                                             .writeElement('image', 'resource://Queue.png')
                                             .writeElement('focusedImage', 'resource://QueueFocused.png')
                                         .endElement()
                                         .startElement('actionButton')
                                             .writeAttribute('id', 'subtitle')
-                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/subtitlestv.xml?imdb=" + imdb + "&episode=" + tmpEp + '&season=' + season + '&UDID=' + UDID + '&quality=' + quality + "')")
+                                            .writeAttribute('onSelect', "atv.loadURL('http://trailers.apple.com/subtitlestv.xml?imdb=" + options.imdb + "&episode=" + options.episode + '&season=' + options.season + '&UDID=' + options.UDID + '&quality=' + quality + "')")
                                             .writeElement('title', 'Subtitles')
                                             .writeElement('image', 'resource://Queue.png')
                                             .writeElement('focusedImage', 'resource://QueueFocused.png')
@@ -1734,13 +1729,13 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
                         .startElement('sections')
                             .startElement('shelfSection')
                                 .startElement('items');
-                                    moreEpisodes.forEach(function(ep){
-                                        var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + ep.number;
+                                    show.related.forEach(function(ep){
+                                        var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + options.imdb + '&season=' + options.season + '&episode=' + ep.number;
                                         if (ep.title == null){
                                             return;
                                         }
-                                        if (ep.images.screenshot.thumb == null){
-                                            ep.images.screenshot.thumb = 'resource://16x9.png';
+                                        if (ep.screenshot == null){
+                                            ep.screenshot = 'resource://16x9.png';
                                         }
                                         xw.startElement('moviePoster')
                                             .writeAttribute('id', 'test')
@@ -1750,7 +1745,7 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
                                             .writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
                                         .writeElement('title', ep.title)
                                         .writeElement('subtitle', 'Episode ' + ep.number)
-                                        .writeElement('image', ep.images.screenshot.thumb)
+                                        .writeElement('image', ep.screenshot)
                                         .writeElement('defaultImage', 'resource://16x9.png')
                                         .endElement();
                                     })
@@ -1758,7 +1753,6 @@ function generateTVPrePlayFanartXML(imdb, season, episode, UDID, resolution, qua
                                     xw.endDocument();
                                     logger.Debug(xw.toString());
                                     callback(xw.toString());
-    });
 }
 function generateFavoritesXML(favorites, callback){
 	var XMLWriter = require('xml-writer');
@@ -1957,6 +1951,6 @@ exports.generateTVSeasons = generateTVSeasons;
 exports.generateTVSeasonsFanart = generateTVSeasonsFanart;
 exports.generateTVEpisodes = generateTVEpisodes;
 exports.generateTVPrePlayXML = generateTVPrePlayXML;
-exports.generateTVPrePlayFanartXML = generateTVPrePlayFanartXML;
+exports.generatePrePlayFanartXML = generatePrePlayFanartXML;
 exports.generateFavoritesXML = generateFavoritesXML;
 exports.generateMovieExtras = generateMovieExtras;

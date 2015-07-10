@@ -315,10 +315,20 @@ function startWebServer(localIp) {
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting TVPrePlay.xml Generation ===');
 			if (fanart == 'On'){
-				xml.generateTVPrePlayFanartXML(query.imdb, query.season, query.episode, query.UDID, request.headers['x-apple-tv-resolution'], defaultQuality, defaultSubtitle, function(xmlstring){
-					logger.Debug('=== Ending TVPrePlay.xml Generation ===');
-					response.write(xmlstring);
-					response.end();
+				var API = require('./TVApi');
+    			API.getEpisodeFanart(query.imdb, query.season, query.episode, request.headers['x-apple-tv-resolution'], function(show){
+    				var options = {
+    					imdb: query.imdb,
+    					season: query.season,
+    					episode: query.episode,
+    					UDID: query.UDID,
+    					resolution: request.headers['x-apple-tv-resolution']
+    				}
+					xml.generatePrePlayFanartXML(show, options, defaultQuality, defaultSubtitle, function(xmlstring){
+						logger.Debug('=== Ending TVPrePlay.xml Generation ===');
+						response.write(xmlstring);
+						response.end();
+					})
 				})
 			} else {
 				xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, query.UDID, defaultQuality, defaultSubtitle, function(xmlstring){
