@@ -221,6 +221,13 @@ function getEpisodeFanart(imdb, season, episodeNum, resolution, callback) {
  	   if (!error && response.statusCode === 200) {
 	        logger.Debug(body);
 	        var episodes = body;
+	        var response = {
+	        	type: 'TV',
+	        	imdb: imdb,
+	        	youtube: undefined,
+	        	images: {},
+	        	related: []
+	        };
 	        getEpisodeNumbers(imdb, season, function(numbers){
 	        	var moreEpisodes = [];
 	        	var show;
@@ -228,27 +235,45 @@ function getEpisodeFanart(imdb, season, episodeNum, resolution, callback) {
 	        		//get the single show we want
 	        		if(episode.season == season && episode.number == episodeNum){
 	        			show = episode;
+	        			response.title = show.title;
+	        			response.description = show.overview;
+	        			response.rt_rating = Math.round(show.rating*10);
 	        		}
 	        		// get the rest of the shows of the season
 	        		if(episode.season == season && numbers.indexOf(episode.number) > -1){
-	        			moreEpisodes.push(episode);
+	        			response.related[episode.number] = {
+	        				title: episode.title,
+	        				number: episode.number,
+	        				screenshot: episode.images.screenshot.thumb
+	        			}
 	        		}
 	        	})
-	        	//get the torrents for the show
-	        	getTorrents(imdb, season, episodeNum, function(torrents){
-	        		// get the fanart for the show
-	        		getScreenshotFanart(imdb, season, episodeNum, resolution, function(fanart){
-	        			getSeasons(imdb, function (seasons, numbers, url) {
-	        				seasons.forEach(function(seasonNum){
-	        					if (seasonNum.number == season){
-	        						getShowInfo(imdb, function(fullShow){
-	        							callback(show, moreEpisodes, numbers, torrents, fanart, seasonNum.images.poster.thumb, fullShow);
-	        						});
-	        					}
-	        				});
-	        			});
-	        		});
+	        	if (isReady(response)) callback(response);
+	        });
+	        //get the torrents for the show
+	        getTorrents(imdb, season, episodeNum, function(torrents){
+	        	response.torrents = torrents;
+	        	if (isReady(response)) callback(response);
+	        });
+	        // get the fanart for the show
+	        getScreenshotFanart(imdb, season, episodeNum, resolution, function(fanart){
+	       		response.images.fanart = fanart;
+	       		if (isReady(response)) callback(response);	
+	        });
+	        getSeasons(imdb, function (seasons, numbers, url) {
+	        	seasons.forEach(function(seasonNum){
+	        		if (seasonNum.number == season){
+	        			response.images.poster = seasonNum.images.poster.full;
+	        			if (isReady(response)) callback(response);
+	        		}
 	        	});
+	        });
+	        getShowInfo(imdb, function(fullShow){
+	        	response.rating = fullShow.certification;
+	        	response.year = fullShow.network;
+	        	response.runtime = fullShow.runtime;
+	        	response.genres = fullShow.genres;
+	        	if (isReady(response)) callback(response);
 	        });
 	    } else {
 			logger.warning("Error connecting to trakt.tv and grabbing json: " + url);
@@ -328,7 +353,7 @@ function getScreenshotFanart(imdb, season, episode, resolution, callback){
 	        var screenshot = body.images.screenshot.full; 
 	        logger.Debug(screenshot);
 	        var gen = require('./fanartGenerator');
-	        gen.generateFanartTV(screenshot, body.ids.tvdb, resolution, function(url){
+	        gen.generateFanartTV(screenshot, body.ids.imdb, resolution, function(url){
 	        	callback('http://trailers.apple.com/' + url);
 	        });
 	    } else {
@@ -432,6 +457,13 @@ function searchShows(query, callback) {
 			return;
 	    }
 	})
+}
+
+function isReady(response){
+	if (response.title != undefined && response.year != undefined && response.torrents != undefined && response.images.fanart != undefined && response.images.poster != undefined)
+		return true;
+	else
+		return false;
 }
 
 exports.getTV = getTV;
