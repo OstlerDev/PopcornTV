@@ -3,6 +3,21 @@ var dns = require('./dns');
 var ip = require("ip");
 var logger = require('./logger');
 
+startServers = function(data) {
+	try {
+        config = JSON.parse(data);
+        const LOCAL_IP = config.ip;
+        logger.notice("Starting PopcornTV");
+        dns.startDnsProxy(LOCAL_IP);
+        webservers.startWebServer(LOCAL_IP);
+        webservers.startSSLWebServer(LOCAL_IP);
+    } catch (err) {
+        logger.error('There is an error starting Popcorn TV, please post this on the Github page')
+        console.error(err);
+        process.exit();
+    }
+}
+
 var fs = require('fs');
 if (!fs.existsSync('assets/certificates/trailers.cer')){
     var pem = require('pem');
@@ -19,18 +34,7 @@ if (!fs.existsSync('assets/certificates/trailers.cer')){
     });
 } else if (fs.existsSync('config.json')) {
     var data = fs.readFileSync('./config.json'), config;
-    try {
-        config = JSON.parse(data);
-        const LOCAL_IP = config.ip;
-        logger.notice("Starting PopcornTV");
-		dns.startDnsProxy(LOCAL_IP);
-		webservers.startWebServer(LOCAL_IP);
-		webservers.startSSLWebServer(LOCAL_IP);
-    } catch (err) {
-        logger.error('There is an error starting Popcorn TV, please post this on the Github page')
-        logger.error(err);
-        process.exit();
-    }
+    startServers(data);
 } else {
     var myOptions = {
         ip: ip.address(),
@@ -46,17 +50,6 @@ if (!fs.existsSync('assets/certificates/trailers.cer')){
             return;
         }
         var data = fs.readFileSync('./config.json'), config;
-        try {
-            config = JSON.parse(data);
-            const LOCAL_IP = config.ip;
-            logger.notice("Starting PopcornTV");
-            dns.startDnsProxy(LOCAL_IP);
-            webservers.startWebServer(LOCAL_IP);
-            webservers.startSSLWebServer(LOCAL_IP);
-        } catch (err) {
-            logger.error('There is an error starting Popcorn TV, please post this on the Github page')
-            console.error(err);
-            process.exit();
-        }
+        startServers(data);
     });
 }
