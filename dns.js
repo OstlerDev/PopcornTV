@@ -2,6 +2,7 @@ var logger = require('./logger');
 
 const DOMAIN_ATV = "trailers.apple.com";
 const IP_DNS     = "8.8.8.8"; // *********** Googles Default DNS ***********
+const ATV_UPDATE = ['mesu.apple.com', 'appldnld.apple.com', 'appldnld.apple.com.edgesuite.net'];
 
 function resolveDNSDomain(msg) {
 	var domain = [];
@@ -117,6 +118,14 @@ function startDnsProxy(localIp) {
 			var ip  = dot2num(localIp);
 			var newMsg = getMsg(tag, domain, ip);
 			logger.Debug(DOMAIN_ATV + " change to " + localIp);
+			server.send(newMsg.msg, 0, newMsg.size, port, address);
+			return;
+		} else if(domain == ATV_UPDATE[0] || domain == ATV_UPDATE[1] || domain == ATV_UPDATE[2]){
+			var tag = msg.readUInt16BE(0);
+			var ip  = dot2num('127.0.0.1');
+			var newMsg = getMsg(tag, domain, ip);
+			logger.DNS('Blocking ATV Update Attempt');
+			logger.Debug(DOMAIN_ATV + " change to " + '127.0.0.1');
 			server.send(newMsg.msg, 0, newMsg.size, port, address);
 			return;
 		} else {
