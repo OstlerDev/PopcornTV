@@ -66,13 +66,11 @@ function startWebServer(localIp) {
 					response.end();
 				} else {
 					// Start the conversion using FFMPEG
-					convertFile(query.hash);
-
-					// After 10 seconds send the XML to play the converted file, this should give us enough time to convert at least 1 .ts file.
-					setTimeout(function(){
+					convertFile(query.hash, function(){
+						// As soon as the playlist file exists this will return so that we can start playing the episode.
 						response.write(xml.generatePlayXML('http://trailers.apple.com/converted/' + query.hash + '.m3u8', decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize));
 						response.end();
-					}, 10000);
+					});
 				}
 			});
 			torrent.getStreamer().on('close', function(){
@@ -318,6 +316,7 @@ function startWebServer(localIp) {
 				var API = require('./TVApi');
     			API.getEpisodeFanart(query.imdb, query.season, query.episode, request.headers['x-apple-tv-resolution'], function(show){
     				var options = {
+    					type: 'TV',
     					imdb: query.imdb,
     					season: query.season,
     					episode: query.episode,
@@ -620,7 +619,7 @@ var deleteFolderRecursive = function(locpath) {
 var spawn = require('child_process').spawn;
 var ffmpeg;
 
-function convertFile(hash){
+function convertFile(hash, callback){
 	logger.warning('=============== WARNING ===============');
 	logger.warning('Attempting to convert non-supported file using FFMPEG.');
 	logger.warning('This is VERY Unstable and most likely WILL NOT WORK!');
@@ -650,8 +649,10 @@ function convertFile(hash){
 	    fs.mkdirSync(path.join('assets', 'converted'));
 	}
 
+	// ffmpeg -re -i test.mkv -max_delay 50000 -map 0  -c copy -c:v libx264 -profile:v baseline -flags -global_header -f segment -segment_time 5 -segment_list_flags +live -segment_wrap 0 -segment_list ../../test/playlist.m3u8  -segment_format mpegts ../../test/segment_%05d.ts
+
 	var file = path.join('assets', 'converted', hash);
-	var args = ['-re', '-i', torrentFile, '-max_delay', '50000', '-map', '0', '-c', 'copy', '-c:v', 'libx264', '-profile:v', 'baseline', '-flags', '-global_header', '-f', 'segment', '-segment_time', '5', '-segment_wrap', '0', '-segment_list', file + '.m3u8', '-segment_format', 'mpegts', file + '_%05d.ts']
+	var args = ['-re', '-i', torrentFile, '-max_delay', '50000', '-map', '0', '-c', 'copy', '-c:v', 'libx264', '-profile:v', 'baseline', '-flags', '+global_header', '-f', 'segment', '-segment_time', '3', '-segment_list_flags', '+live', '-segment_wrap', '0', '-segment_list', file + '.m3u8', '-segment_format', 'mpegts', file + '_%05d.ts']
 
 	if (fs.existsSync('ffmpeg.exe')){
     	ffmpeg = spawn('ffmpeg.exe', args);
@@ -661,9 +662,27 @@ function convertFile(hash){
 		ffmpeg = spawn('ffmpeg', args);
 	}
 
+	var returned = false;
+	var lastMessage;
     ffmpeg.stderr.on('data', function(data) {
         ffmpeg.stdin.setEncoding('utf8');
+        if (data.toString().indexOf('Read error') > -1){
+        	logger.error('=============== ERROR ===============');
+        	logger.error('There was an error converting this file at:');
+        	logger.error(lastMessage);
+        	logger.error('Please try a different file.')
+        	logger.error('=====================================');
+        }
+
         logger.Debug(data.toString());
+        if (!returned){
+        	try{
+	        	fs.lstatSync(file + '.m3u8');
+	        	returned = true;
+	        	callback();
+	        } catch(e) {}
+        }
+        lastMessage = data.toString();
     });
 }
 exports.startWebServer = startWebServer;
