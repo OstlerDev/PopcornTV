@@ -22,14 +22,26 @@ var fs = require('fs');
 if (!fs.existsSync('assets/certificates/trailers.cer')){
     var pem = require('pem');
     logger.warning('SSL Certificate does not exist, Please restart PopcornTV once the process ends!');
-    pem.createCertificate({days:720, selfSigned:true, country: 'US', commonName: 'trailers.apple.com'}, function(err, keys){
+    pem.createCertificate({days:7200, selfSigned:true, country: 'US', commonName: 'trailers.apple.com'}, function(err, keys){
         try{
             fs.writeFile('assets/certificates/trailers.cer', keys.certificate + '\n' + keys.serviceKey);
             fs.writeFile('assets/certificates/trailers.pem', keys.certificate + '\n' + keys.serviceKey);
+            logger.notice('Certificate successfully saved, please restart PopcornTV using the same command that you just ran.');
         } catch(e){
-            logger.warning('Unable to create certificates, please create them manually.');
-            if (/^win/.test(process.platform)) // Untested but should work.
-                logger.warning('If you are on Windows, please follow this workaround: http://bit.ly/1H7qfJZ')
+            logger.warning('Unable to create certificates, generating them on the server, please wait...');
+            var http = require('http');
+            var cer = fs.createWriteStream("assets/certificates/trailers.cer");
+            var pem = fs.createWriteStream("assets/certificates/trailers.pem");
+            var request = http.get('http://popcorntv.io/createCert.php', function(response) {
+                response.pipe(cer);
+                response.pipe(pem);
+                file.on('finish', function() {
+                   logger.notice('Certificate successfully saved, please restart PopcornTV using the same command that you just ran.');
+                });
+            }).on('error', function(e){
+                logger.warning('Unable to create or download certificates, please report this bug on Github.')
+              logger.error(e);
+            });
         }
     });
 } else if (fs.existsSync('config.json')) {
