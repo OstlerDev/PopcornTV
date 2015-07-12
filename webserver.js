@@ -59,20 +59,40 @@ function startWebServer(localIp) {
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Streamer('Streamer: Starting Stream... Please wait for stream to be ready.');
 			torrent.startStreamer(query.torrent, query.id, localIp);
+
+			var responded = false;
 			torrent.getStreamer().on('ready', function (data) {
 				logger.Debug('=== Ending MoviePlay.xml Generation ===');
 				if (data.isMP4){
-					response.write(xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize));
-					response.end();
+					if (!responded){
+						response.write(xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize));
+						response.end();
+						responded = true;
+					}
 				} else {
 					// Start the conversion using FFMPEG
 					convertFile(query.hash, function(){
 						// As soon as the playlist file exists this will return so that we can start playing the episode.
-						response.write(xml.generatePlayXML('http://trailers.apple.com/converted/' + query.hash + '.m3u8', decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize));
-						response.end();
+						if (!responded){
+							response.write(xml.generatePlayXML('http://trailers.apple.com/converted/' + query.hash + '.m3u8', decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize));
+							response.end();
+							responded = true;
+						}
 					});
 				}
 			});
+			setTimeout(function(){
+				if (!responded){
+					xml.errorXML('Playback Error', 'Unable to download file fast enough, aborting stream attempt. Please try again with another quality/file.', function(errXML){
+						response.write(errXML);
+						response.end();
+						responded = true;
+						try{
+							torrent.getStreamer.close();
+						} catch(e) {}
+					})
+				}
+			}, 59000)
 			torrent.getStreamer().on('close', function(){
 				var aTVSettings = require('./settings.js');
 				var keepMovies = aTVSettings.checkSetting('keep', query.UDID);
