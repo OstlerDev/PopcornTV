@@ -76,7 +76,9 @@ function start(){
 }
 
 function stop(){
-    
+    dns.stop();
+    webservers.stop();
+    logger.notice('PopcornTV Stopped.');
 }
 
 exports.start = start;
