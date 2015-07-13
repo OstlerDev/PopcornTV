@@ -1,12 +1,12 @@
 node_modules/*
 *.mp4
 assets/cache/*.jpg
-assets/certificates/*.cer
-assets/certificates/*.key
-assets/certificates/*.pem
+assets/certificates/*
 *.json
 *.log
 assets/torrent-stream/*
 *.ts
 *.m3u8
 ffmpeg
+*.crt
+*.mobileconfig
