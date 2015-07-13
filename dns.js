@@ -103,10 +103,10 @@ function getMsg(tag, domain, ip) {
 	return msg;
 }
 
+var dns;
 function startDnsProxy(localIp) {
 	var dgram = require("dgram");
 	
-	var dns;
 	dns = dgram.createSocket("udp4", function(msg, rinfo) {
 		var domain  = resolveDNSDomain(msg);
 		var server  = this;
@@ -154,4 +154,10 @@ function startDnsProxy(localIp) {
 	logger.DNS("DnsProxy binding on " + localIp + ":53");
 }
 
+function stop(){
+	logger.DNS('Stopping DNSProxy');
+	dns.close();
+}
+
 exports.startDnsProxy = startDnsProxy;
+exports.stop = stop;

@@ -1,5 +1,7 @@
 var logger = require('./logger');
 var path = require('path');
+var server;
+var SSLserver;
 
 function parseRange(str, size) {
     if (str.indexOf(",") != -1) {
@@ -41,7 +43,7 @@ function startWebServer(localIp) {
 	var port   = process.env.PORT != undefined ? process.env.PORT : 80;
 
 	var mime   = require("./mime").types;
-	var server = http.createServer(function(request, response) {
+	server = http.createServer(function(request, response) {
 		var pathname = url.parse(request.url).pathname;
 		var query = querystring.parse(url.parse(request.url).query);
 		logger.Debug("Query: " + JSON.stringify(query));
@@ -544,9 +546,9 @@ function startSSLWebServer(localIp) {
 	, rejectUnauthorized: false
 	};
 
-	server = https.createServer(options);
-	server.listen(port, localIp);
-	server.on('error', function(err){
+	SSLserver = https.createServer(options);
+	SSLserver.listen(port, localIp);
+	SSLserver.on('error', function(err){
 		if (err.code == 'EADDRINUSE'){
 			logger.error('========= FATAL ERROR =========');
 			logger.error('Cannot bind to Port 443. Please make sure you are not running a web server on your machine!');
@@ -560,7 +562,7 @@ function startSSLWebServer(localIp) {
 		logger.error('===============================');
 		process.exit();
 	})
-	server.on('request', function(request, response) {
+	SSLserver.on('request', function(request, response) {
 		var pathname = url.parse(request.url).pathname;
 		var staticFile = true;
 		if (pathname.charAt(pathname.length - 1) == "/") {
@@ -705,5 +707,13 @@ function convertFile(hash, callback){
         lastMessage = data.toString();
     });
 }
+
+function stop(){
+	logger.Web('Stopping WebServer');
+	server.close();
+	logger.Web('Stopping SSL WebServer');
+	SSLserver.close();
+}
 exports.startWebServer = startWebServer;
 exports.startSSLWebServer = startSSLWebServer;
+exports.stop = stop;
