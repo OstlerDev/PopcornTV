@@ -465,12 +465,12 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf(".xml") >= 0){
 			pathname = "templates" + pathname;
 		}
-		var realPath = path.join("assets", path.normalize(pathname.replace(/\.\./g, "")));
+		var realPath = path.join(__dirname, "assets", path.normalize(pathname.replace(/\.\./g, "")));
 		if (pathname.indexOf("log.xml") < 0) logger.Web(pathname);
 		if(staticFile){
 			fs.stat(realPath, function(err, stats) {
 				if (err) {
-					if (pathname.indexOf("log.xml") < 0) logger.Web(pathname);
+					if (pathname.indexOf("log.xml") < 0) logger.Web('404: ' + pathname);
 					response.writeHead(404, {'Content-Type': 'text/plain'});
 					response.write("This request URL " + pathname + " was not found on this server.");
 					response.end();						
@@ -568,7 +568,7 @@ function startSSLWebServer(localIp) {
 		} else if(pathname == "/appletv/us/js/application.js"){
 			pathname = "js/application.js";
 		}
-		var realPath = path.join("assets", path.normalize(pathname.replace(/\.\./g, "")));
+		var realPath = path.join(__dirname, "assets", path.normalize(pathname.replace(/\.\./g, "")));
 		logger.Web("SSL: " + pathname);
 		
 		if(staticFile){
