@@ -746,8 +746,8 @@
 			"nativeName":"Saɯ cueŋƅ, Saw cuengh"
 		},
 		"pb":{
-			"name":"Portuguese",
-			"nativeName":"Portuguese"
+			"name":"Portuguese - Brazil",
+			"nativeName":"Português - Brasil"
 		}
 	}
 	
