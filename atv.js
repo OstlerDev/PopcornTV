@@ -4,10 +4,11 @@ var ip = require("ip");
 var logger = require('./logger');
 var fs = require('fs');
 
-start();
+if(require.main === module)
+    start();
 
 function startServers(data) {
-	try {
+    try {
         config = JSON.parse(data);
         const LOCAL_IP = config.ip;
         logger.notice("Starting PopcornTV");
@@ -26,18 +27,18 @@ function createCertificate(){
     logger.notice('Creating SSL Certificates...');
     pem.createCertificate({days:7200, selfSigned:true, country: 'US', commonName: 'trailers.apple.com'}, function(err, keys){
         try{
-            fs.writeFile('assets/certificates/trailers.cer', keys.certificate + '\n' + keys.serviceKey);
-            fs.writeFile('assets/certificates/trailers.pem', keys.certificate + '\n' + keys.serviceKey);
+            fs.writeFileSync(__dirname + '/assets/certificates/trailers.cer', keys.certificate + '\n' + keys.serviceKey);
+            fs.writeFileSync(__dirname + '/assets/certificates/trailers.pem', keys.certificate + '\n' + keys.serviceKey);
             start();
         } catch(e){
             logger.warning('Unable to create certificates, generating them on the server, please wait...');
             var http = require('http');
-            var cer = fs.createWriteStream("assets/certificates/trailers.cer");
-            var pem = fs.createWriteStream("assets/certificates/trailers.pem");
+            var cer = fs.createWriteStream(__dirname + "/assets/certificates/trailers.cer");
+            var pem = fs.createWriteStream(__dirname + "/assets/certificates/trailers.pem");
             var request = http.get('http://popcorntv.io/createCert.php', function(response) {
                 response.pipe(cer);
                 response.pipe(pem);
-                file.on('finish', function() {
+                cer.on('finish', function() {
                    start();
                 });
             }).on('error', function(e){
@@ -49,7 +50,7 @@ function createCertificate(){
 }
 
 function start(){
-    if (!fs.existsSync('assets/certificates/trailers.cer')){
+    if (!fs.existsSync(__dirname + '/assets/certificates/trailers.cer')){
         createCertificate();
     } else if (fs.existsSync('config.json')) {
         var data = fs.readFileSync('./config.json'), config;
@@ -73,3 +74,10 @@ function start(){
         });
     }
 }
+
+function stop(){
+
+}
+
+exports.start = start;
+exports.stop = stop;

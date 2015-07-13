@@ -537,9 +537,9 @@ function startSSLWebServer(localIp) {
 	//
 	fs = require('fs');
 	options = {
-	  key: fs.readFileSync('./assets/certificates/trailers.pem')
-	, ca: [ fs.readFileSync('./assets/certificates/trailers.pem') ]
-	, cert: fs.readFileSync('./assets/certificates/trailers.pem')
+	  key: fs.readFileSync(__dirname + '/assets/certificates/trailers.pem')
+	, ca: [ fs.readFileSync(__dirname + '/assets/certificates/trailers.pem') ]
+	, cert: fs.readFileSync(__dirname + '/assets/certificates/trailers.pem')
 	, requestCert: false
 	, rejectUnauthorized: false
 	};
