@@ -229,7 +229,6 @@ function getEpisodeFanart(imdb, season, episodeNum, resolution, callback) {
 	        	related: []
 	        };
 	        getEpisodeNumbers(imdb, season, function(numbers){
-	        	var moreEpisodes = [];
 	        	var show;
 	        	episodes.forEach(function(episode){
 	        		//get the single show we want
@@ -243,7 +242,7 @@ function getEpisodeFanart(imdb, season, episodeNum, resolution, callback) {
 	        		if(episode.season == season && numbers.indexOf(episode.number) > -1){
 	        			response.related[episode.number] = {
 	        				title: episode.title,
-	        				number: episode.number,
+	        				subtitle: "Episode " + episode.number,
 	        				screenshot: episode.images.screenshot.thumb
 	        			}
 	        		}
