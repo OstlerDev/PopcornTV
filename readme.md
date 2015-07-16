@@ -10,7 +10,7 @@ We pull all of our Movies from [YTS](https://yts.to/) by using the API that they
 
 ## Preview
 ### Preview Video
-[Watch a video preview here (v0.1.4a)](https://www.youtube.com/watch?v=s9R24DIXkQk)
+[Watch a video preview here (v0.1.6)](https://www.youtube.com/watch?v=yPEuLzNiCEo)
 
 ### Preview Images
 ![](http://i.imgur.com/7dB9zGp.jpg)

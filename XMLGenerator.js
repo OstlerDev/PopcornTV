@@ -1576,7 +1576,7 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, ca
                                             .writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
                                             .writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
                                         .writeElement('title', ep.title)
-                                        .writeElement('subtitle', 'Episode ' + ep.number)
+                                        .writeElement('subtitle', ep.subtitle)
                                         .writeElement('image', ep.images.screenshot.thumb)
                                         .writeElement('defaultImage', 'resource://16x9.png')
                                         .endElement();
@@ -1744,7 +1744,7 @@ function generatePrePlayFanartXML(show, options, quality, subtitle, callback){
                                             .writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
                                             .writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
                                         .writeElement('title', ep.title)
-                                        .writeElement('subtitle', 'Episode ' + ep.number)
+                                        .writeElement('subtitle', ep.subtitle)
                                         .writeElement('image', ep.screenshot)
                                         .writeElement('defaultImage', 'resource://16x9.png')
                                         .endElement();
