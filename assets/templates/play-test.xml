@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atv>
+   <body>
+      <videoPlayer id="com.sample.video-player">
+         <httpFileVideoAsset id="test">
+            <mediaURL>http://trailers.apple.com/out.mp4</mediaURL>
+            <title>Test</title>
+            <description>test Desc</description>
+            <image>https://s.ynet.io/assets/images/movies/The_Hobbit_An_Unexpected_Journey_2012/medium-cover.jpg</image>
+         </httpFileVideoAsset>
+      </videoPlayer>
+   </body>
+</atv>
