@@ -50,7 +50,7 @@ StreamerServer = function(url, args) {
                 webStarted = true;
             }
             // if our buffer is met, we can initialize our web server
-            if (progress.downloaded >= args.buffer && !ready) {
+            if ((progress.downloaded >= args.buffer || progress.eta >= args.runtime) && !ready) {
 
                 var isMP4 = false;
                 var buffer = readChunk.sync(args.index, 0, 262);
