@@ -984,7 +984,7 @@ function generateMoviePrePlayFanartXML(torrentID, UDID, atvRes, quality, subtitl
 								});
     });
 }
-function generateMoviePrePlayXML(torrentID, quality, subtitle, callback){
+function generateMoviePrePlayXML(torrentID, quality, subtitle, aTVversion, callback){
 	var API = require('./MoviesAPI');
     var movies = API.getMovie(torrentID, function(movie){
     	var XMLWriter = require('xml-writer');
@@ -1021,8 +1021,9 @@ function generateMoviePrePlayXML(torrentID, quality, subtitle, callback){
                             .endElement()
                             .startElement('row')
                                .writeElement('label', parseTime(movie.runtime))
-                            .endElement()
-                            .startElement('row')
+                            .endElement();
+                            if (aTVversion >= 6){
+                            xw.startElement('row')
                                 .startElement('mediaBadges')
                                     .startElement('additionalMediaBadges');
                                        var num = 0;
@@ -1042,8 +1043,9 @@ function generateMoviePrePlayXML(torrentID, quality, subtitle, callback){
                                         })
                                     xw.endElement()
                                 .endElement()
-                            .endElement()
-                            .startElement('row')
+                            .endElement();
+                            }
+                            xw.startElement('row')
                                 .startElement('starRating')
                                     .writeElement('percentage', movie.rt_audience_score)
                                 .endElement()
@@ -1441,7 +1443,7 @@ function generateTVEpisodes(imdb, season, title, callback){
     	callback(xw.toString());
     });
 }
-function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, callback){
+function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, aTVversion, callback){
 	var API = require('./TVApi');
 	var tmpEp = episode;
     var episode = API.getEpisode(imdb, season, episode, function(show, moreEpisodes, episodeNumbers, torrentLink, poster, fullShow){
@@ -1491,10 +1493,11 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, ca
 	  						.endElement()
 	  						.startElement('row')
 	  						   .writeElement('label', parseTime(fullShow.runtime))
-	  						.endElement()
-	  						.startElement('row')
+	  						.endElement();
+                            if (parseInt(aTVversion) >= 6){
+	  						xw.startElement('row')
 	  							.startElement('mediaBadges')
-	  								.startElement('additionalMediaBadges')
+	  								.startElement('additionalMediaBadges');
 	  									var num = 0;
                                         getQualitiesTV(torrentLink).forEach(function(quality){
                                             xw.startElement('urlBadge')
@@ -1506,8 +1509,9 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, ca
                                         })
 	  								xw.endElement()
 	  							.endElement()
-	  						.endElement()
-                            .startElement('row')
+	  						.endElement();
+                            }
+                            xw.startElement('row')
                                 .startElement('starRating')
                                     .writeElement('percentage', Math.round(show.rating * 10))
                                 .endElement()
@@ -1576,7 +1580,7 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, ca
                                             .writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
                                             .writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
                                         .writeElement('title', ep.title)
-                                        .writeElement('subtitle', ep.subtitle)
+                                        .writeElement('subtitle', "Episode " + ep.number)
                                         .writeElement('image', ep.images.screenshot.thumb)
                                         .writeElement('defaultImage', 'resource://16x9.png')
                                         .endElement();
