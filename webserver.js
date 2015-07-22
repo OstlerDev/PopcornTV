@@ -182,8 +182,9 @@ function startWebServer(localIp) {
 			var fanart = aTVSettings.checkSetting('fanart', query.UDID);
 			var defaultQuality = query.quality || aTVSettings.checkSetting('quality', query.UDID);
 			var defaultSubtitle = query.subtitle || aTVSettings.checkSetting('subtitle', query.UDID);
+			var version = parseInt(request.headers['x-apple-tv-version']);
 
-			if (parseInt(request.headers['x-apple-tv-version']) < 6)
+			if (version < 6)
 				fanart = 'Off';
 
 			if (fanart == 'On'){				
@@ -197,7 +198,7 @@ function startWebServer(localIp) {
 			} else {				
 				response.writeHead(200, {'Content-Type': 'text/xml'});
 				logger.Debug('=== Starting MoviePrePlay.xml No Fanart Generation ===');
-				xml.generateMoviePrePlayXML(query.torrentID, defaultQuality, defaultSubtitle, function(xmlstring){
+				xml.generateMoviePrePlayXML(query.torrentID, defaultQuality, defaultSubtitle, version, function(xmlstring){
 					logger.Debug('=== Ending MoviePrePlay.xml No Fanart Generation ===');
 					response.write(xmlstring);
 					response.end();
@@ -328,8 +329,9 @@ function startWebServer(localIp) {
 			var fanart = aTVSettings.checkSetting('fanart', query.UDID);
 			var defaultQuality = query.quality || aTVSettings.checkSetting('quality', query.UDID);
 			var defaultSubtitle = query.subtitle || aTVSettings.checkSetting('subtitle', query.UDID);
+			var version = parseInt(request.headers['x-apple-tv-version']);
 
-			if (parseInt(request.headers['x-apple-tv-version']) < 6)
+			if (version < 6)
 				fanart = 'Off';
 			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
@@ -352,7 +354,7 @@ function startWebServer(localIp) {
 					})
 				})
 			} else {
-				xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, query.UDID, defaultQuality, defaultSubtitle, function(xmlstring){
+				xml.generateTVPrePlayXML(query.imdb, query.season, query.episode, query.UDID, defaultQuality, defaultSubtitle, version, function(xmlstring){
 					logger.Debug('=== Ending TVPrePlay.xml Generation ===');
 					response.write(xmlstring);
 					response.end();
