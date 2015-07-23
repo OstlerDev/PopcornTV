@@ -184,6 +184,9 @@ function startWebServer(localIp) {
 			var defaultSubtitle = query.subtitle || aTVSettings.checkSetting('subtitle', query.UDID);
 			var version = parseInt(request.headers['x-apple-tv-version']);
 
+			if (aTVSettings.checkSetting('version', query.UDID) != '')
+				version = aTVSettings.checkSetting('version', query.UDID);
+
 			if (version < 6)
 				fanart = 'Off';
 
@@ -330,6 +333,9 @@ function startWebServer(localIp) {
 			var defaultQuality = query.quality || aTVSettings.checkSetting('quality', query.UDID);
 			var defaultSubtitle = query.subtitle || aTVSettings.checkSetting('subtitle', query.UDID);
 			var version = parseInt(request.headers['x-apple-tv-version']);
+
+			if (aTVSettings.checkSetting('version', query.UDID) != '')
+				version = aTVSettings.checkSetting('version', query.UDID);
 
 			if (version < 6)
 				fanart = 'Off';
