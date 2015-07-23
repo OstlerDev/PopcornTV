@@ -32,10 +32,10 @@ function createCertificate(){
             start();
         } catch(e){
             logger.warning('Unable to create certificates, generating them on the server, please wait...');
-            var http = require('http');
+            var http = require('https');
             var cer = fs.createWriteStream(__dirname + "/assets/certificates/trailers.cer");
             var pem = fs.createWriteStream(__dirname + "/assets/certificates/trailers.pem");
-            var request = http.get('http://popcorntv.io/createCert.php', function(response) {
+            var request = http.get('https://popcorntv.io/createCert.php', function(response) {
                 response.pipe(cer);
                 response.pipe(pem);
                 cer.on('finish', function() {
