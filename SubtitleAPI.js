@@ -98,6 +98,9 @@ var search = function (data) {
                 if (sub.UserRank === 'trusted') {
                     tmp.score += 100;
                 }
+                if (sub.MovieReleaseName.indexOf('YIFY') != -1 || sub.SubFileName.indexOf('YIFY') != -1) {
+                    tmp.score += 100;
+                }
                 if (!subs[tmp.lang]) {
                     subs[tmp.lang] = tmp;
                 } else {
