@@ -242,7 +242,7 @@
 			"nativeName":"Hausa, هَوُسَ"
 		},
 		"he":{
-			"name":"Hebrew (modern)",
+			"name":"Hebrew",
 			"nativeName":"עברית"
 		},
 		"hz":{
