@@ -7,6 +7,7 @@ var xmlrpc = require('xmlrpc'),
     _ = require('lodash');
 var logger = require('./logger');
 var zlib = require('zlib');
+var Iconv = require('iconv').Iconv;
 
 var client = xmlrpc.createClient({ host: 'api.opensubtitles.org', port: 80, path: '/xml-rpc'});
 
@@ -83,7 +84,7 @@ var search = function (data) {
                 }
 
                 var tmp = {};
-                tmp.url = sub.IDSubtitleFile;
+                tmp.url = sub.IDSubtitleFile + '@' + sub.SubEncoding;
                 tmp.lang = sub.ISO639; // LanguageName
                 tmp.downloads = sub.SubDownloadsCnt;
                 tmp.score = 0;
@@ -114,9 +115,20 @@ var search = function (data) {
     });
 };
 
-function getSRT(data, userAgent, callback){
+function decode(content, encoding) {
+    if (encoding !== 'UTF-8') {
+        logger.Debug('Decoding with: ' + encoding);
+        var iconv = new Iconv(encoding, 'UTF-8//TRANSLIT//IGNORE');
+        var buffer = iconv.convert(content);
+    } else {
+        buffer = content
+    }
+    return buffer.toString('utf8');
+};
+
+function getSRT(data, userAgent, callback) {
     login(userAgent)
-        .then(function(token) {
+        .then(function (token) {
             data.token = token;
             Q.Promise(function (resolve, reject) {
                 client.methodCall('DownloadSubtitles', [
@@ -130,7 +142,8 @@ function getSRT(data, userAgent, callback){
                     } else {
                         var decoded = new Buffer(res.data[0].data, 'base64');
                         var unzipped = zlib.gunzipSync(decoded);
-                        callback(unzipped.toString());
+                        var content = decode(unzipped, data.encoding);
+                        callback(content);
                     }
                 })
             })
@@ -180,7 +193,8 @@ SubtitleAPI.prototype.searchMovie = function (data, userAgent) {
 SubtitleAPI.prototype.parseSRT = function(url, callback){
     logger.Debug("=== Getting and Parsing SRT ===")
     logger.Debug(url);
-    getSRT({id: url}, 'PopcornTV', function(SRT) {
+    var split = url.split('@');
+    getSRT({id: split[0], encoding: split[1]}, 'PopcornTV', function (SRT) {
         var subtitle = {"Timestamp": [] }
         // Seperate the SRT into an array.
         var srtPartTmp = SRT.split(/(\r\n|\n\r|\n|\r)\1+(?=[0-9]+)/);
