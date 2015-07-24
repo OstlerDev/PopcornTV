@@ -11,3 +11,4 @@ ffmpeg
 *.crt
 *.mobileconfig
 test-*
+.idea
