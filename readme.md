@@ -42,15 +42,24 @@ Have a burning question that you need answered, or just want to chat with the de
 We do always reply, though sometimes it takes a little longer to respond if we are watching movies or coding.
 
 
-## Donations
+## Support/Donating
 
-![Donate Bitcoin](https://blockchain.info/Resources/buttons/donate_64.png)  
-Do to the request of a few users I have setup a Bitcoin wallet to accept donations, if you wish to donate, send Bitcoin to the address below. Any amount, large or small really does help :)  
-![](http://i.imgur.com/gX80gAQ.png)  
-Address: 1MyQuMeJuzrG2XZmot4vub6WKVHnan5N3v  
+![](https://d2bbtvgnhux6eq.cloudfront.net/assets/Bountysource-green-712770df4397a3bc6f5b56b90402763c.png)
 
-Don't know how to buy or send Bitcoin? Take a look [here (how to buy),](https://www.coinbase.com/buy-bitcoin) and [here (how to send).](https://support.coinbase.com/customer/portal/articles/971437-how-do-i-send-bitcoin-to-somebody-else-)  
-(p.s. I cannot accept Paypal donations because of legal reasons, sorry!)  
+Due to the continued request of a few users I have found a way to get Paypal, Credit Card, and Bitcoin donations implemented into our system. There are currently two ways to donate. The first way is to directly donate to the project as a whole, this will either go directly to the developers, or put back into the program as incentive for bugs and features to be fixed/added.
+
+You can directly donate to us using Paypal, Credit Cards, or Bitcoin [right here](https://www.bountysource.com/teams/popcorntv). Just visit that website then select "Support PopcornTV". You can donate any amount you want!
+
+The second method is to post a bounty on an issue, what posting a bounty does is create a further incentive for a developer to fix an issue. By posting a bounty a developer can submit a fix and then get paid that bounty once their fix is implemented. Keep in mind that the bounty may not go to the main developers of PopcornTV, but rather whoever fixes that bug.
+
+To post a bounty just select the issue you are interested in and go to the main post. At the bottom of the main post you should see something similar to this.
+![](http://i.imgur.com/0vsyFaB.png)
+
+It will take you a page to pay into the bounty, once your bounty is added you should get a notification, and the topic of the issue will be changed to include your amount posted as well as the footer.
+
+So for example if you were to post a bounty of $5 it would look something like this.
+![](http://i.imgur.com/sIfPOeY.png)
+![](http://i.imgur.com/hvbL4bz.png)
 
 ## Development
 
