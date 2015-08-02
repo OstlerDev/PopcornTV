@@ -40,6 +40,7 @@ function startWebServer(localIp) {
 	var xml = require('./XMLGenerator');
 	var querystring = require("querystring");
 	var torrent = require('./streamer');
+	var progress = {downloaded: 0, progress: 0, downloadSpeed: 0, eta: 0};
 	var port   = process.env.PORT != undefined ? process.env.PORT : 80;
 
 	var mime   = require("./mime").types;
@@ -62,12 +63,15 @@ function startWebServer(localIp) {
 			logger.Streamer('Streamer: Starting Stream... Please wait for stream to be ready.');
 			torrent.startStreamer(query.torrent, query.id, localIp);
 
-			var responded = false;
+			var responded = true;
+			response.write(xml.generateProgressXML(query.poster));
+			response.end();
 			torrent.getStreamer().on('ready', function (data) {
 				logger.Debug('=== Ending MoviePlay.xml Generation ===');
 				if (data.isMP4){
 					if (!responded){
-						response.write(xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize));
+						//response.write(xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize));
+						response.write(xml.generateProgressXML());
 						response.end();
 						responded = true;
 					}
@@ -82,6 +86,9 @@ function startWebServer(localIp) {
 						}
 					});
 				}
+			});
+			torrent.getStreamer().on('progress', function (torProgress) {
+				progress = torProgress;
 			});
 			setTimeout(function(){
 				if (!responded){
@@ -136,6 +143,11 @@ function startWebServer(localIp) {
 				})
 				staticFile = false;
 			}
+		} else if(pathname.indexOf("progress.json") >= 0){
+			response.writeHead(200, {'Content-Type': 'text/json'});
+			response.write(JSON.stringify(progress));
+			response.end();
+			staticFile = false;
 		} else if(pathname.indexOf("MoviesGrid.xml") >= 0){
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting MoviesGrid.xml Generation ===');
