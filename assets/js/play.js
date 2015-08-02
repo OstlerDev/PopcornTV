@@ -44,12 +44,12 @@ function progressRefresh(){
 
   var progress = JSON.parse(req.responseText);
 
-  log(progress.status);
-
   if (progress.status == "downloading")
     document.getElementById('menuToChange').getElementByTagName('label').textContent = '[' + progress.progress.toFixed(0) + '%] ' + (progress.downloaded / 1024 / 1024).toFixed(2) + 'MB - ' + (progress.downloadSpeed / 1024 / 1024).toFixed(2) + 'MB/s';
+  else if (progress.status == "converting")
+    document.getElementById('menuToChange').getElementByTagName('label').textContent = "Converting File..."
   else if (progress.status == "complete"){
-    log(progress.xml);
+    document.getElementById('menuToChange').getElementByTagName('label').textContent = "Complete, close page."
     xmlDoc = atv.parseXML(progress.xml);
     atv.loadXML(xmlDoc);
   }

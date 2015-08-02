@@ -33,8 +33,6 @@ function generatePlayXML(url, title, desc, image, subtitle, subtitleSize) {
     return xw.toString();
 }
 
-// <atv><body><optionList id="fakeUpdater" autoSelectSingleItem="true"><items><oneLineMenuItem id="0" onSelect="atv.unloadPage()"><label></label></oneLineMenuItem></items></optionList></body></atv>
-
 function generateProgressXML(moviePosterURL) {
     var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
@@ -67,7 +65,7 @@ function generateProgressXML(moviePosterURL) {
                             .startElement('items')
                                 .startElement('oneLineMenuItem')
                                     .writeAttribute('id', 'menuToChange')
-                                    .writeElement('label', '[0%] 0MB - 0MB/s')
+                                    .writeElement('label', '[0%] 0.00MB - 0.00MB/s')
                                 .endElement()
                             .endElement()
                         .endElement()
@@ -1110,7 +1108,7 @@ function generateMoviePrePlayXML(torrentID, quality, subtitle, aTVversion, callb
                                     .startElement('items')
                                         .startElement('actionButton')
                                             .writeAttribute('id', 'play')
-                                            .writeAttribute('onSelect', "addUDIDtoQuery('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=" + selectTorrent(movie.torrents, quality) + "&id=" + torrentID + "&title=" + movie.title.replace(/ /g,"%20").replace(/'/g, '') + "&desc=" + movie.description_full.replace(/ /g,"%20").replace(/['"]+/g, '').replace(/'/g, '') + "&poster=" + movie.images.medium_cover_image + '&subtitle=' + subtitle + "')")
+                                            .writeAttribute('onSelect', "addUDIDtoQuery('http://trailers.apple.com/Movies/MoviePlay.xml?torrent=" + selectTorrent(movie.torrents, quality) + "&id=" + torrentID + "&title=" + movie.title.replace(/ /g,"%20").replace(/'/g, '') + "&desc=" + movie.description_full.replace(/ /g,"%20").replace(/['"]+/g, '').replace(/'/g, '') + "&poster=" + movie.images.large_cover_image + '&subtitle=' + subtitle + "')")
                                             .writeElement('title', 'Play')
                                             .writeElement('image', 'resource://Play.png')
                                             .writeElement('focusedImage', 'resource://PlayFocused.png')
