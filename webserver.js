@@ -41,7 +41,7 @@ function startWebServer(localIp) {
 	var querystring = require("querystring");
 	var torrent = require('./streamer');
 	var ready;
-	var progress = {status: 'downloading', downloaded: 0, progress: 0, downloadSpeed: 0};
+	var progress;
 	var port   = process.env.PORT != undefined ? process.env.PORT : 80;
 
 	var mime   = require("./mime").types;
@@ -64,6 +64,7 @@ function startWebServer(localIp) {
 			logger.Streamer('Streamer: Starting Stream... Please wait for stream to be ready.');
 			torrent.startStreamer(query.torrent, query.id, localIp);
 			ready = false;
+			progress = {status: 'downloading', downloaded: 0, progress: 0, downloadSpeed: 0}
 
 			response.write(xml.generateProgressXML(query.poster));
 			response.end();
@@ -75,14 +76,14 @@ function startWebServer(localIp) {
 					progress = {status: 'complete', xml: playXML};
 					ready = true;
 				} else {
+					progress = {status: 'converting'};
+					ready = true;
 					// Start the conversion using FFMPEG
 					convertFile(query.hash, function(){
 						// As soon as the playlist file exists this will return so that we can start playing the episode.
-						if (!responded){
-							response.write(xml.generatePlayXML('http://trailers.apple.com/converted/' + query.hash + '.m3u8', decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize));
-							response.end();
-							responded = true;
-						}
+						var playXML =xml.generatePlayXML('http://trailers.apple.com/converted/' + query.hash + '.m3u8', decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize);
+						
+						progress = {status: 'complete', xml: playXML};
 					});
 				}
 			});

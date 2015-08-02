@@ -265,7 +265,6 @@ atv.player.willStartPlaying = function()
     if (req.readyState==4)  // 4: request is complete
     {
       subtitle = JSON.parse(req.responseText);
-      log(subtitle);
     }
   };
   req.open('GET', subtitleURL, true);  // true: asynchronous
