@@ -40,7 +40,8 @@ function startWebServer(localIp) {
 	var xml = require('./XMLGenerator');
 	var querystring = require("querystring");
 	var torrent = require('./streamer');
-	var progress = {downloaded: 0, progress: 0, downloadSpeed: 0, eta: 0};
+	var ready;
+	var progress = {status: 'downloading', downloaded: 0, progress: 0, downloadSpeed: 0};
 	var port   = process.env.PORT != undefined ? process.env.PORT : 80;
 
 	var mime   = require("./mime").types;
@@ -62,19 +63,17 @@ function startWebServer(localIp) {
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Streamer('Streamer: Starting Stream... Please wait for stream to be ready.');
 			torrent.startStreamer(query.torrent, query.id, localIp);
+			ready = false;
 
-			var responded = true;
 			response.write(xml.generateProgressXML(query.poster));
 			response.end();
 			torrent.getStreamer().on('ready', function (data) {
 				logger.Debug('=== Ending MoviePlay.xml Generation ===');
 				if (data.isMP4){
-					if (!responded){
-						//response.write(xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize));
-						response.write(xml.generateProgressXML());
-						response.end();
-						responded = true;
-					}
+					var playXML = xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize);
+
+					progress = {status: 'complete', xml: playXML};
+					ready = true;
 				} else {
 					// Start the conversion using FFMPEG
 					convertFile(query.hash, function(){
@@ -88,20 +87,10 @@ function startWebServer(localIp) {
 				}
 			});
 			torrent.getStreamer().on('progress', function (torProgress) {
-				progress = torProgress;
+				torProgress.status = "downloading";
+				if (ready == false)
+					progress = torProgress;
 			});
-			setTimeout(function(){
-				if (!responded){
-					xml.errorXML('Playback Error', 'Unable to download file fast enough, aborting stream attempt. Please try again with another quality/file.', function(errXML){
-						response.write(errXML);
-						response.end();
-						responded = true;
-						try{
-							torrent.getStreamer.close();
-						} catch(e) {}
-					})
-				}
-			}, 59000)
 			torrent.getStreamer().on('close', function(){
 				var aTVSettings = require('./settings.js');
 				var keepMovies = aTVSettings.checkSetting('keep', query.UDID);
