@@ -437,9 +437,10 @@ function generateMoviesXML(title, sort_by, callback){
                 .startElement('items')
                     .startElement('grid')
                         .writeAttribute('columnCount', '7').writeAttribute('id', 'grid_0')
-                            .startElement('items');
+                            .startElement('items')
+                            .writeAttribute('id', 'items');
     var API = require('./MoviesAPI');
-    var movies = API.getMovies(sort_by, "50", function(movies){
+    var movies = API.getMovies("1", sort_by, "50", function(movies){
         for(var i = 0; i <= movies.length-1; i++)
         {
             var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
@@ -456,10 +457,10 @@ function generateMoviesXML(title, sort_by, callback){
             .endElement();
         }
             xw.startElement('moviePoster')
-                .writeAttribute('id', movies[movies.length-1].id)
+                .writeAttribute('id', "loadMore")
                 .writeAttribute('alwaysShowTitles', 'true')
-                .writeAttribute('onPlay', 'loadMore("seeds", "2")')
-                .writeAttribute('onSelect', 'loadMore("seeds", "2")')
+                .writeAttribute('onPlay', 'loadMore("movie", "seeds", "2")')
+                .writeAttribute('onSelect', 'loadMore("movie", "seeds", "2")')
             .writeElement('title', 'View More')
             .writeElement('subtitle', '')
             .writeElement('image', 'http://trailers.apple.com/thumbnails/view-more.png')
@@ -508,7 +509,7 @@ function generateMovieParadeXML(sort_by, callback){
             .startElement('preview')
                 .startElement('paradePreview').writeAttribute('inOrder', 'true')
     var API = require('./MoviesAPI');
-    var movies = API.getMovies(sort_by, "15", function(movies){
+    var movies = API.getMovies("1", sort_by, "15", function(movies){
         for(var i = 0; i <= movies.length-1; i++)
         {
             xw.writeElement('image', movies[i].medium_cover_image)

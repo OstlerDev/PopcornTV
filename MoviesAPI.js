@@ -1,32 +1,10 @@
 var logger = require("./logger");
 
-function getMovies(sort_by, amount, callback) {
-	var page = 1;
+function getMovies(page, sort_by, amount, callback) {
 	var request = require("request")
 
-	var url = "https://yts.to/api/v2/list_movies.json?sort_by=" + sort_by + "&limit=" + amount;
+	var url = "https://yts.to/api/v2/list_movies.json?sort_by=" + sort_by + "&limit=" + amount + "&page=" + page;
 	logger.Debug("=== Getting Movies ===");
-	logger.Debug(url);
-	request({
-	    url: url,
-	    json: true
-	}, function (error, response, body) {
- 	   if (!error && response.statusCode === 200) {
-	        var movies = body.data.movies;
-	        logger.Debug(movies);
-	        callback(movies);
-	    } else {
-			logger.warning("Error connecting to yts.to and grabbing json: " + url);
-			return;
-	    }
-	})
-}
-function getMoviesGenre(genre, amount, callback) {
-	var page = 1;
-	var request = require("request")
-
-	var url = "https://yts.to/api/v2/list_movies.json?genre=" + genre + "&limit=" + amount + '&sort_by=seeds';
-	logger.Debug("=== Getting Movies via Genre ===");
 	logger.Debug(url);
 	request({
 	    url: url,
