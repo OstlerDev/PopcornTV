@@ -58,50 +58,38 @@ function log(msg, level)
 /*
  * Load More Results
  */
-function loadMore(type, page){
-    //var elem = atv.Document.prototype.getElementById('more');
-    var root = document.rootElement;
+function loadMore(type, sort_by, page){
 
-    var grid = document.getElementById('grid_0');
-    var items = grid.getElementsByTagName('moviePoster');
-
-    for (var i=0; i<items.length; i++)
-    {
-      if (items[i].getAttribute('onPlay') == 'loadMore("seeds", "2")') 
-      {
-        items[i].getElementByTagName('title').textContent = "Selected";
-        //items[i].removeFromParent();
-      }
-      else
-      { 
-        //items[i].getElementByTagName('title').textContent = "";
-      }
-    }
-
+  // load json for type
+  var json = {};
+  if (type == "movie"){
     
-    var newPoster = grid.createElement("moviePoster");
-    newPoster.setAttribute("id", "0");
+  }
+
+
+    var items = document.getElementById("items");
+    var newPoster = document.makeElementNamed("moviePoster");
+
+    newPoster.setAttribute("id", "50");
     newPoster.setAttribute('alwaysShowTitles', 'true');
     newPoster.setAttribute('onPlay', 'addUDIDtoQuery("http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=4212")');
     newPoster.setAttribute('onSelect', 'addUDIDtoQuery("http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=4212")');
     newPoster.setAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=4212")');
     
-    newPoster.createElement('title');
-    newPoster.getElementByTagName('title').textContent = "Test";
-    newPoster.createElement('subtitle');
-    newPoster.getElementByTagName('subtitle').textContent = "Test";
-    newPoster.createElement('image');
-    newPoster.getElementByTagName('image').textContent = "https://s.ynet.io/assets/images/movies/Edge_of_Tomorrow_2014/medium-cover.jpg";
-    newPoster.createElement('defaultImage');
-    newPoster.getElementByTagName('defaultImage').textContent = "resource://Poster.png";
+    var title = document.makeElementNamed('title');
+    title.textContent = "Test";
+    newPoster.appendChild(title);
+    var subtitle = document.makeElementNamed('subtitle');
+    subtitle.textContent = "Test";
+    newPoster.appendChild(subtitle);
+    var image = document.makeElementNamed('image');
+    image.textContent = "https://s.ynet.io/assets/images/movies/Edge_of_Tomorrow_2014/medium-cover.jpg";
+    newPoster.appendChild(image);
+    var defaultImage = document.makeElementNamed('defaultImage');
+    defaultImage.textContent = "resource://Poster.png";
+    newPoster.appendChild(defaultImage);
 
-    items[49].replaceChild(newPoster);
-    
-    //log('test', root);
-    var req = new XMLHttpRequest();
-    var url = "http://trailers.apple.com/more.xml";
-    req.open('GET', url, true);
-    req.send();
+    items.appendChild(newPoster);
 }
 
 /*
