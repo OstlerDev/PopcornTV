@@ -32,7 +32,7 @@ StreamerServer = function(url, args) {
         hostname: 'localhost',
         index: 'file.mp4',
         writeDir: '',
-        progressInterval: 200,
+        progressInterval: 10,
         buffer: 10*1024*1024,
         port: parseInt(Math.random() * (8000 - 6000) + 6000), // between 6000 & 8000
         torrent: {

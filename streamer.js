@@ -23,7 +23,7 @@ function startStreamer(url, torrentID, localIp) {
 			hd: true
 		},
 		hostname: ip,
-		progressInterval: 200,
+		progressInterval: 10,
 		buffer: streamBuffer,
 		port: port,
 		writeDir: '',
