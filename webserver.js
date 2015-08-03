@@ -138,6 +138,18 @@ function startWebServer(localIp) {
 			response.write(JSON.stringify(progress));
 			response.end();
 			staticFile = false;
+		} else if(pathname.indexOf("more.json") >= 0){
+			response.writeHead(200, {'Content-Type': 'text/json'});
+
+			if (query.type == "movie"){
+				var movies = require('./MoviesAPI');
+				movies.getMovies(query.page, query.sort_by, query.amount, function(movies){
+					response.write(JSON.stringify(movies));
+					response.end();
+				})
+			}
+
+			staticFile = false;
 		} else if(pathname.indexOf("MoviesGrid.xml") >= 0){
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting MoviesGrid.xml Generation ===');

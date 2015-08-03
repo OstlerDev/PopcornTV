@@ -59,37 +59,51 @@ function log(msg, level)
  * Load More Results
  */
 function loadMore(type, sort_by, page){
+  page = parseInt(page);
 
   // load json for type
-  var json = {};
-  if (type == "movie"){
-    
-  }
+  var url = "http://trailers.apple.com/more.json?UDID=" + atv.device.udid + "&type=" + type + "&sort_by=" + sort_by + "&amount=50" + "&page=" + page;
+  var req = new XMLHttpRequest();
+  req.open('GET',unescape(url), false);
+  req.send();
 
+  var response = JSON.parse(req.responseText);
 
-    var items = document.getElementById("items");
+  // select items
+  var items = document.getElementById("items");
+  var morePoster = document.getElementById((page-1)*50);
+
+  // add all items into the DOM
+  for (var i = 0; i < response.length; i++) {
     var newPoster = document.makeElementNamed("moviePoster");
 
-    newPoster.setAttribute("id", "50");
+    newPoster.setAttribute("id", i+(50*(page-1)));
     newPoster.setAttribute('alwaysShowTitles', 'true');
-    newPoster.setAttribute('onPlay', 'addUDIDtoQuery("http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=4212")');
-    newPoster.setAttribute('onSelect', 'addUDIDtoQuery("http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=4212")');
-    newPoster.setAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=movie&id=http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=4212")');
+    newPoster.setAttribute('onPlay', 'addUDIDtoQuery("http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=' + response[i].id + '")');
+    newPoster.setAttribute('onSelect', 'addUDIDtoQuery("http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=' + response[i].id + '")');
+    newPoster.setAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=' + type + '&id=' + response[i].id + '")');
     
     var title = document.makeElementNamed('title');
-    title.textContent = "Test";
+    title.textContent = response[i].title;
     newPoster.appendChild(title);
     var subtitle = document.makeElementNamed('subtitle');
-    subtitle.textContent = "Test";
+    subtitle.textContent = response[i].year;
     newPoster.appendChild(subtitle);
     var image = document.makeElementNamed('image');
-    image.textContent = "https://s.ynet.io/assets/images/movies/Edge_of_Tomorrow_2014/medium-cover.jpg";
+    image.textContent = response[i].medium_cover_image;
     newPoster.appendChild(image);
     var defaultImage = document.makeElementNamed('defaultImage');
     defaultImage.textContent = "resource://Poster.png";
     newPoster.appendChild(defaultImage);
 
     items.appendChild(newPoster);
+  };
+
+  morePoster.setAttribute('id', (page*50));
+  page += 1;
+  morePoster.setAttribute('onPlay', 'loadMore("' + type + '", "' + sort_by + '", "' + page + '")');
+  morePoster.setAttribute('onSelect', 'loadMore("' + type + '", "' + sort_by + '", "' + page + '")');
+  items.appendChild(morePoster);
 }
 
 /*
