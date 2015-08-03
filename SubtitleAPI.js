@@ -7,7 +7,6 @@ var xmlrpc = require('xmlrpc'),
     _ = require('lodash');
 var logger = require('./logger');
 var zlib = require('zlib');
-var Iconv = require('iconv').Iconv;
 
 var client = xmlrpc.createClient({ host: 'api.opensubtitles.org', port: 80, path: '/xml-rpc'});
 
@@ -121,12 +120,15 @@ var search = function (data) {
 function decode(content, encoding) {
     if (encoding !== 'UTF-8') {
         logger.Debug('Decoding with: ' + encoding);
-        var iconv = new Iconv(encoding, 'UTF-8//TRANSLIT//IGNORE');
-        var buffer = iconv.convert(content);
+        var iconv = require('iconv-lite');
+        if(iconv.encodingExists(encoding))
+            var buffer = iconv.decode(content, 'win1251');
+        else
+            buffer = content;
     } else {
         buffer = content
     }
-    return buffer.toString('utf8');
+    return buffer.toString('UTF-8');
 };
 
 function getSRT(data, userAgent, callback) {
