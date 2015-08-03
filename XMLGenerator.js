@@ -457,10 +457,10 @@ function generateMoviesXML(title, sort_by, callback){
             .endElement();
         }
             xw.startElement('moviePoster')
-                .writeAttribute('id', "loadMore")
+                .writeAttribute('id', "50")
                 .writeAttribute('alwaysShowTitles', 'true')
-                .writeAttribute('onPlay', 'loadMore("movie", "seeds", "2")')
-                .writeAttribute('onSelect', 'loadMore("movie", "seeds", "2")')
+                .writeAttribute('onPlay', 'loadMore("movie", "' + sort_by + '", "2")')
+                .writeAttribute('onSelect', 'loadMore("movie", "' + sort_by + '", "2")')
             .writeElement('title', 'View More')
             .writeElement('subtitle', '')
             .writeElement('image', 'http://trailers.apple.com/thumbnails/view-more.png')
