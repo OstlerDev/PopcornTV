@@ -51,7 +51,7 @@ function progressRefresh(){
   else if (progress.status == "complete"){
     document.getElementById('menuToChange').getElementByTagName('label').textContent = "Complete, close page."
     xmlDoc = atv.parseXML(progress.xml);
-    atv.loadXML(xmlDoc);
+    atv.loadAndSwapXML(xmlDoc);
   }
 }
 
