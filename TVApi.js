@@ -1,7 +1,6 @@
 var logger = require("./logger");
 
-function getTV(sort_by, amount, callback) {
-	var page = 1;
+function getTV(page, sort_by, amount, callback) {
 	var request = require("request")
 
 	if(sort_by == "seeds"){

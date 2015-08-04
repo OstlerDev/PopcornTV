@@ -149,6 +149,14 @@ function startWebServer(localIp) {
 				})
 			}
 
+			if (query.type == "tv"){
+				var tv = require('./TVApi');
+				tv.getTV(query.page, query.sort_by, query.amount, function(shows){
+					response.write(JSON.stringify(shows));
+					response.end();
+				})
+			}
+
 			staticFile = false;
 		} else if(pathname.indexOf("MoviesGrid.xml") >= 0){
 			response.writeHead(200, {'Content-Type': 'text/xml'});
