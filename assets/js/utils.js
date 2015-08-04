@@ -75,6 +75,11 @@ function loadMore(type, sort_by, page){
 
   // add all items into the DOM
   for (var i = 0; i < response.length; i++) {
+    if (type == "tv"){
+      response[i].id = response[i].imdb_id;
+      response[i].year = response[i].year + ' | ' + response[i].num_seasons + ' Seasons';
+      response[i].medium_cover_image = response[i].images.poster;
+    }
     var newPoster = document.makeElementNamed("moviePoster");
 
     newPoster.setAttribute("id", i+(50*(page-1)));

@@ -530,7 +530,7 @@ function generateTVParadeXML(sort_by, callback){
                 .startElement('paradePreview').writeAttribute('inOrder', 'true')
 
     var API = require('./TVApi');
-    var tv = API.getTV(sort_by, "15", function(shows){
+    var tv = API.getTV(1, sort_by, "15", function(shows){
         for(var i = 0; i <= shows.length-1; i++)
         {
             xw.writeElement('image', shows[i].images.poster)
@@ -1272,9 +1272,10 @@ function generateTVXML(title, sort_by, callback){
                 .startElement('items')
                     .startElement('grid')
                         .writeAttribute('columnCount', '7').writeAttribute('id', 'grid_0')
-                            .startElement('items');
+                            .startElement('items')
+                                .writeAttribute('id', 'items');
     var API = require('./TVApi');
-    var tv = API.getTV(sort_by, "50", function(shows){
+    var tv = API.getTV(1, sort_by, "50", function(shows){
         for(var i = 0; i <= shows.length-1; i++)
         {
             var url = 'http://trailers.apple.com/seasons.xml?imdb=' + shows[i].imdb_id + '&title=' + shows[i].title.replace(/ /g,"%20");
@@ -1290,6 +1291,17 @@ function generateTVXML(title, sort_by, callback){
             .writeElement('defaultImage', 'resource://Poster.png')
             .endElement();
         }
+
+            xw.startElement('moviePoster')
+                .writeAttribute('id', "50")
+                .writeAttribute('alwaysShowTitles', 'true')
+                .writeAttribute('onPlay', 'loadMore("tv", "' + sort_by + '", "2")')
+                .writeAttribute('onSelect', 'loadMore("tv", "' + sort_by + '", "2")')
+                .writeElement('title', 'View More')
+                .writeElement('subtitle', '')
+                .writeElement('image', 'http://trailers.apple.com/thumbnails/view-more.png')
+                .writeElement('defaultImage', 'resource://Poster.png')
+            .endElement();
         xw.endDocument();
 
         logger.Debug(xw.toString());
