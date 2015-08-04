@@ -61,6 +61,14 @@ So for example if you were to post a bounty of $5 it would look something like t
 ![](http://i.imgur.com/sIfPOeY.png)
 ![](http://i.imgur.com/hvbL4bz.png)
 
+### Top Supporters
+Zone-MR - $40  
+JakeRound - $5  
+anonymous - $5  
+anonymous - $1.13  
+
+Thanks to all the amazing supporters so far! It is amazing to see how much people love the project :)
+
 ## Development
 
 Want to contribute? Great! Add the features that you want and submit a [pull request](https://github.com/OstlerDev/PopcornTV/pulls)! 
