@@ -348,7 +348,9 @@ function getScreenshotFanart(imdb, season, episode, resolution, callback){
 	    }
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
-	        var screenshot = body.images.screenshot.full; 
+	        var screenshot = body.images.screenshot.full;
+	        if (body.images.screenshot.full == null)
+	        	callback('http://trailers.apple.com/thumbnails/Background_blank_' + resolution + '.png');
 	        logger.Debug(screenshot);
 	        var gen = require('./fanartGenerator');
 	        gen.generateFanartTV(screenshot, body.ids.imdb, resolution, function(url){
