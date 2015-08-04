@@ -597,7 +597,7 @@ function startSSLWebServer(localIp) {
 		var staticFile = true;
 		if (pathname.charAt(pathname.length - 1) == "/") {
 			pathname += "index.html";
-		} else if(pathname == "/appletv/us/js/application.js"){
+		} else if(pathname.indexOf("application.js") >= 0){
 			pathname = "js/application.js";
 		}
 		var realPath = path.join(__dirname, "assets", path.normalize(pathname.replace(/\.\./g, "")));
