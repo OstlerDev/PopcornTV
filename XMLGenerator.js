@@ -1284,7 +1284,7 @@ function generateTVXML(title, sort_by, callback){
                 .writeAttribute('alwaysShowTitles', 'true')
                 .writeAttribute('onPlay', 'addUDIDtoQuery("' + url + '")')
                 .writeAttribute('onSelect', 'addUDIDtoQuery("' + url + '")')
-                .writeAttribute('onHoldSelect', "scrobbleMenu('http://trailers.apple.com/scrobble.xml?type=tvshow&id=" + shows[i].imdb_id + "')")
+                .writeAttribute('onHoldSelect', "scrobbleMenu('http://trailers.apple.com/scrobble.xml?type=tv&id=" + shows[i].imdb_id + "')")
             .writeElement('title', shows[i].title)
             .writeElement('subtitle', shows[i].year + ' | ' + shows[i].num_seasons + ' Seasons')
             .writeElement('image', shows[i].images.poster)
@@ -1864,7 +1864,7 @@ function generateFavoritesXML(favorites, callback){
                 callback(xw.toString());
             }
             });
-        } else if (favorite.type == 'tvshow'){
+        } else if (favorite.type == 'tvshow' || favorite.type == 'tv'){
             var API = require('./TVApi');
             var tv = API.getShow(favorite.id, function(show){
                 var url = 'http://trailers.apple.com/seasons.xml?imdb=' + show.imdb_id + '&title=' + show.title.replace(/ /g,"%20");
