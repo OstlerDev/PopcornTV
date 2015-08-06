@@ -84,8 +84,14 @@ function loadMore(type, sort_by, page){
 
     newPoster.setAttribute("id", i+(50*(page-1)));
     newPoster.setAttribute('alwaysShowTitles', 'true');
-    newPoster.setAttribute('onPlay', 'addUDIDtoQuery("http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=' + response[i].id + '")');
-    newPoster.setAttribute('onSelect', 'addUDIDtoQuery("http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=' + response[i].id + '")');
+    if (type == "movie"){
+      newPoster.setAttribute('onPlay', 'addUDIDtoQuery("http://trailers.apple.com/MoviePrePlay.xml?torrentID=' + response[i].id + '")');
+      newPoster.setAttribute('onSelect', 'addUDIDtoQuery("http://trailers.apple.com/MoviePrePlay.xml?torrentID=' + response[i].id + '")');
+    } else if (type == "tv") {    
+      //var url = 'http://trailers.apple.com/seasons.xml?imdb=' + shows[i].imdb_id + '&title=' + shows[i].title.replace(/ /g,"%20");
+      newPoster.setAttribute('onPlay', 'addUDIDtoQuery("http://trailers.apple.com/seasons.xml?imdb=' + response[i].imdb_id  + '&title=' + response[i].title.replace(/ /g,"%20") + '")');
+      newPoster.setAttribute('onSelect', 'addUDIDtoQuery("http://trailers.apple.com/seasons.xml?imdb=' + response[i].imdb_id  + '&title=' + response[i].title.replace(/ /g,"%20") + '")');
+    }
     newPoster.setAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=' + type + '&id=' + response[i].id + '")');
     
     var title = document.makeElementNamed('title');
