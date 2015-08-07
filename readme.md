@@ -48,7 +48,7 @@ We do always reply, though sometimes it takes a little longer to respond if we a
 
 Due to the continued request of a few users I have found a way to get Paypal, Credit Card, and Bitcoin donations implemented into our system. There are currently two ways to donate. The first way is to directly donate to the project as a whole, this will either go directly to the developers, or put back into the program as incentive for bugs and features to be fixed/added.
 
-You can directly donate to us using Paypal, Credit Cards, or Bitcoin [right here](https://www.bountysource.com/teams/popcorntv). Just visit that website then select "Support PopcornTV". You can donate any amount you want!
+You can directly donate to us using Paypal, Credit Cards, or Bitcoin [right here](https://salt.bountysource.com/teams/popcorntv). Just visit that website then select "Support PopcornTV". You can donate any amount you want! You can either do a one time donation, or if you want you can do a monthly donation :) 
 
 The second method is to post a bounty on an issue, what posting a bounty does is create a further incentive for a developer to fix an issue. By posting a bounty a developer can submit a fix and then get paid that bounty once their fix is implemented. Keep in mind that the bounty may not go to the main developers of PopcornTV, but rather whoever fixes that bug.
 
