@@ -122,7 +122,7 @@ function decode(content, encoding) {
         logger.Debug('Decoding with: ' + encoding);
         var iconv = require('iconv-lite');
         if(iconv.encodingExists(encoding))
-            var buffer = iconv.decode(content, 'win1251');
+            var buffer = iconv.decode(content, encoding);
         else
             buffer = content;
     } else {
