@@ -460,6 +460,27 @@ function searchShows(query, callback) {
 	})
 }
 
+function getGenre(genre, callback){
+	var request = require("request")
+
+	var url = "http://" + api + "/shows/1?genre=" + genre;
+	logger.Debug("=== Getting TV Genre results ===")
+	logger.Debug(url);
+	request({
+	    url: url,
+	    json: true
+	}, function (error, response, body) {
+ 	   if (!error && response.statusCode === 200) {
+	        var show = body;
+	        logger.Debug(show);
+	        callback(show);
+	    } else {
+			logger.warning("Error connecting to " + api + " and grabbing json: " + url);
+			return;
+	    }
+	})
+}
+
 function isReady(response){
 	if (response.title != undefined && response.year != undefined && response.torrents != undefined && response.images.fanart != undefined && response.images.poster != undefined)
 		return true;
@@ -476,3 +497,4 @@ exports.getEpisodes = getEpisodes;
 exports.getEpisode = getEpisode;
 exports.getEpisodeFanart = getEpisodeFanart;
 exports.searchShows = searchShows;
+exports.getGenre = getGenre;

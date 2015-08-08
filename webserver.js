@@ -185,14 +185,14 @@ function startWebServer(localIp) {
 				})
 			}
 			staticFile = false;
-		} else if(pathname.indexOf("MoviesGenreGrid.xml") >= 0){			
+		} else if(pathname.indexOf("GenreGrid.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
-			logger.Debug('=== Starting MoviesGenreGrid.xml Generation ===');
-			xml.generateMovieGenre(query.genre, function(xmlstring){
-				logger.Debug('=== Ending MoviesGenreGrid.xml Generation ===');
+			logger.Debug('=== Starting GenreGrid.xml Generation ===');
+			xml.generateGenre(query.genre, query.type, function(xmlstring){
+				logger.Debug('=== Ending GenreGrid.xml Generation ===');
 				response.write(xmlstring);
 				response.end();
-			})
+			});
 			staticFile = false;
 		} else if(pathname.indexOf("MoviePrePlay.xml") >= 0){
 			try{
