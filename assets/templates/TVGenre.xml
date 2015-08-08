@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<atv>	  
+	<body>	    
+		<listScrollerSplit id="com.sample.list-scroller-split">	      
+			<header>	        
+				<simpleHeader>	          
+					<title>Shows by Genre</title>	        
+				</simpleHeader>	      
+			</header>
+			<menu>	        
+				<sections>	          
+					<menuSection>	            
+						<header>	              
+							<textDivider alignment="center"> 
+								<title>Genres</title>	              
+							</textDivider>	            
+						</header>	            
+						<items>	              
+							<oneLineMenuItem id="list_1"> 
+								<label>Action</label> 
+								<preview>
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Action&amp;type=tv</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_2"> 
+								<label>Adventure</label> 
+								<preview>
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Adventure&amp;type=tv</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_3"> 
+								<label>Animation</label> 
+								<preview>
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Animation&amp;type=tv</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_4"> 
+								<label>Children</label> 
+								<preview>
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Children&amp;type=tv</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_5"> 
+								<label>Comedy</label> 
+								<preview>
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Comedy&amp;type=tv</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_6"> 
+								<label>Crime</label> 
+								<preview>
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Crime&amp;type=tv</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_7"> 
+								<label>Documentary</label> 
+								<preview>
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Documentary&amp;type=tv</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_8"> 
+								<label>Family</label> 
+								<preview>
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Family&amp;type=tv</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_9"> 
+								<label>Fantasy</label> 
+								<preview>
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Fantasy&amp;type=tv</link>
+								</preview>
+							</oneLineMenuItem>
+							<!-- 
+								Currently Broken in Popcorn Time as well.
+							<oneLineMenuItem id="list_10"> 
+								<label>Game Show</label> 
+								<preview>
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Game%20Show&amp;type=tv</link>
+								</preview>
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_11"> 
+								<label>Home And Garden</label> 
+								<preview>
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Home%20And%20Garden&amp;type=tv</link>
+								</preview>
+							</oneLineMenuItem>
+							-->
+							<oneLineMenuItem id="list_12"> 
+								<label>History</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=History&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_13"> 
+								<label>Horror</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Horror&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<!-- 
+								Currently Broken in Popcorn Time as well.
+							<oneLineMenuItem id="list_14"> 
+								<label>Mini Series</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Mini%20Series&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							-->
+							<oneLineMenuItem id="list_15"> 
+								<label>Music</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Music&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_16"> 
+								<label>Musical</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Musical&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_17"> 
+								<label>Mystery</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Mystery&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_18"> 
+								<label>News</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=News&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_19">
+								<label>Reality</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Reality&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_20"> 
+								<label>Romance</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Romance&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<!-- 
+								Currently Broken in Popcorn Time as well.
+							<oneLineMenuItem id="list_21"> 
+								<label>Science Fiction</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Science%20Fiction&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							-->
+							<oneLineMenuItem id="list_22"> 
+								<label>Soap</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Soap&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<!-- 
+								Currently Broken in Popcorn Time as well.
+							<oneLineMenuItem id="list_23"> 
+								<label>Special Interest</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Special%20Interest&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							-->
+							<oneLineMenuItem id="list_24"> 
+								<label>Sport</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Sport&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_25"> 
+								<label>Suspense</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Suspense&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<oneLineMenuItem id="list_26"> 
+								<label>Thriller</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Thriller&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							<!-- 
+								Currently Broken in Popcorn Time as well.
+							<oneLineMenuItem id="list_27"> 
+								<label>Talk Show</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Talk%20Show&amp;type=tv</link>
+								</preview>	              
+							</oneLineMenuItem>
+							-->           
+							<oneLineMenuItem id="list_28"> 
+								<label>Western</label> 
+								<preview>   
+									<link>http://trailers.apple.com/GenreGrid.xml?genre=Western&amp;type=tv</link> 
+								</preview>	              
+							</oneLineMenuItem>	              
+						</items>	          
+					</menuSection>	        
+				</sections>	      
+			</menu>	    
+		</listScrollerSplit>	  
+	</body>	
+</atv>
