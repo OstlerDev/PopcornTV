@@ -26,6 +26,23 @@ function toggleSetting(setting, curSetting)
       default:
         var newSetting = '720p';
     }
+  } else if (setting == 'tvquality'){
+    switch(curSetting){
+      case '480p':
+        var newSetting = '720p';
+        break;
+      case '720p':
+        var newSetting = '1080p';
+        break;
+      case '1080p':
+        var newSetting = '3D';
+        break;
+      case '3D':
+        var newSetting = '480p';
+        break;
+      default:
+        var newSetting = '720p';
+    }
   } else if (setting == 'fanart'){
     if (curSetting == 'On'){
       var newSetting = 'Off';
