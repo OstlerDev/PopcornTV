@@ -5,6 +5,10 @@ var logger = require('./logger');
     Change setting for UDID in aTVSettings.json, this is called from the settings page.
 */
 function changeSetting(UDID, setting, newSetting){
+    if (setting == 'tvendpoint'){
+        setTVEndpoint(newSetting);
+        return;
+    }
     var data = fs.readFileSync('./aTVSettings.json'), settings;
     try {
         settings = JSON.parse(data);
@@ -32,6 +36,7 @@ function loadSettings(UDID){
                 logger.Debug("Adding TV " + UDID);
                 return addTV(UDID);
             } else {
+                settings[UDID].tvendpoint = getTVEndpoint();
                 return settings[UDID];
             }
         } catch (err) {
@@ -214,6 +219,39 @@ function getFavorites(UDID){
     }
 }
 
+function getTVEndpoint(){
+    try{
+        var data = fs.readFileSync('./config.json'), settings, endpoint;
+        try {
+            settings = JSON.parse(data);
+            endpoint = settings.tvendpoint || 'eztvapi.re';
+            return endpoint;
+        } catch (err) {
+            logger.error('There is an error checking the TV API Endpoint, please post this on the Github page')
+            logger.error(err);
+            process.exit();
+        }
+    } catch(e){
+        logger.warning('Config file does not exist, please report this error on the github page');
+        logger.error(e);
+    }
+}
+
+function setTVEndpoint(newEndpoint){
+    var data = fs.readFileSync('./config.json'), settings, endpoint;
+    try {
+        settings = JSON.parse(data);
+        endpoint = settings.tvendpoint || 'eztvapi.re';
+        logger.Debug('Changing TV API Endpoint to ' + newEndpoint + ' from ' + endpoint);
+        settings.tvendpoint = newEndpoint;
+        fs.writeFileSync('./config.json', JSON.stringify(settings, null, 4));
+    } catch (err) {
+        logger.error('There is an error changing the TV API Endpoint, please post this on the Github page')
+        logger.error(err);
+        process.exit();
+    }
+}
+
 exports.loadSettings = loadSettings;
 exports.checkSetting = checkSetting;
 exports.changeSetting = changeSetting;
@@ -221,3 +259,5 @@ exports.addFavorite = addFavorite;
 exports.removeFavorite = removeFavorite;
 exports.checkFavorite = checkFavorite;
 exports.getFavorites = getFavorites;
+exports.getTVEndpoint = getTVEndpoint;
+exports.setTVEndpoint = setTVEndpoint;

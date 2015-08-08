@@ -78,6 +78,18 @@ function toggleSetting(setting, curSetting)
     } else {
       var newSetting = 'Off';
     }
+  } else if (setting == 'subLang'){
+    if (curSetting == 'Off'){
+      var newSetting = 'Off';
+    } else {
+      var newSetting = 'Off';
+    }
+  } else if (setting == 'tvendpoint'){
+    if (curSetting == 'eztvapi.re'){
+      var newSetting = 'br.api.ptn.pm';
+    } else {
+      var newSetting = 'eztvapi.re';
+    }
   }
   // read new XML
   var url = "http://trailers.apple.com/altersetting.xml?setting="+ setting + '&newSetting=' + newSetting + "&UDID="+atv.device.udid
