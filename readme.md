@@ -63,6 +63,7 @@ So for example if you were to post a bounty of $5 it would look something like t
 
 ### Top Supporters
 Zone-MR - $40  
+Samb0 - $10  
 JakeRound - $5  
 anonymous - $5  
 anonymous - $1.13  
