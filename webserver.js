@@ -352,7 +352,7 @@ function startWebServer(localIp) {
 			}
 			var aTVSettings = require('./settings.js');
 			var fanart = aTVSettings.checkSetting('fanart', query.UDID);
-			var defaultQuality = query.quality || aTVSettings.checkSetting('quality', query.UDID);
+			var defaultQuality = query.tvquality || aTVSettings.checkSetting('tvquality', query.UDID) || "480p";
 			var defaultSubtitle = query.subtitle || aTVSettings.checkSetting('subtitle', query.UDID);
 			var version = parseInt(request.headers['x-apple-tv-version']);
 
