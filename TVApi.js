@@ -1,12 +1,13 @@
 var logger = require("./logger");
+var api = require('./settings.js').getTVEndpoint();
 
 function getTV(page, sort_by, amount, callback) {
 	var request = require("request")
 
 	if(sort_by == "seeds"){
-		var url = "http://eztvapi.re/shows/" + page.toString();
+		var url = "http://" + api + "/shows/" + page.toString();
 	} else {
-		var url = "http://eztvapi.re/shows/" + page.toString() + "?sort=" + sort_by;
+		var url = "http://" + api + "/shows/" + page.toString() + "?sort=" + sort_by;
 	}
 	logger.Debug("=== Getting TV results ===")
 	logger.Debug(url);
@@ -19,7 +20,7 @@ function getTV(page, sort_by, amount, callback) {
 	        logger.Debug(body);
 	        callback(shows);
 	    } else {
-			logger.warning("Error connecting to eztvapi.re and grabbing json: " + url);
+			logger.warning("Error connecting to " + api + " and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -27,7 +28,7 @@ function getTV(page, sort_by, amount, callback) {
 function getShow(imdb, callback){
 	var request = require("request")
 
-	var url = "http://eztvapi.re/show/" + imdb;
+	var url = "http://" + api + "/show/" + imdb;
 	logger.Debug("=== Getting TV results ===")
 	logger.Debug(url);
 	request({
@@ -39,7 +40,7 @@ function getShow(imdb, callback){
 	        logger.Debug(show);
 	        callback(show);
 	    } else {
-			logger.warning("Error connecting to eztvapi.re and grabbing json: " + url);
+			logger.warning("Error connecting to " + api + " and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -365,7 +366,7 @@ function getScreenshotFanart(imdb, season, episode, resolution, callback){
 function getSeasonNumbers(imdb, callback){
 	var request = require("request")
 
-	var url = "http://eztvapi.re/show/" + imdb;
+	var url = "http://" + api + "/show/" + imdb;
 	logger.Debug("=== Getting Season Numbers ===")
 	logger.Debug(url);
 	request({
@@ -382,7 +383,7 @@ function getSeasonNumbers(imdb, callback){
 	        logger.Debug(seasons.sort());
 	        callback(seasons.sort());
 	    } else {
-			logger.warning("Error connecting to eztvapi.re and grabbing json: " + url);
+			logger.warning("Error connecting to " + api + " and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -390,7 +391,7 @@ function getSeasonNumbers(imdb, callback){
 function getEpisodeNumbers(imdb, season, callback){
 	var request = require("request")
 
-	var url = "http://eztvapi.re/show/" + imdb;
+	var url = "http://" + api + "/show/" + imdb;
 	logger.Debug("=== Getting Episode Numbers ===")
 	logger.Debug(url);
 	request({
@@ -407,7 +408,7 @@ function getEpisodeNumbers(imdb, season, callback){
 	        });
 	        callback(episodes.sort(function(a, b){return a-b}));
 	    } else {
-			logger.warning("Error connecting to eztvapi.re and grabbing json: " + url);
+			logger.warning("Error connecting to " + api + " and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -416,7 +417,7 @@ function getTorrents(imdb, season, episode, callback) {
 	var page = 1;
 	var request = require("request")
 
-	var url = "http://eztvapi.re/show/" + imdb;
+	var url = "http://" + api + "/show/" + imdb;
 	logger.Debug("=== Getting Torrents ===")
 	logger.Debug(url);
 	request({
@@ -432,7 +433,7 @@ function getTorrents(imdb, season, episode, callback) {
 	        	}
 	        });
 	    } else {
-			logger.warning("Error connecting to eztvapi.re and grabbing json: " + url);
+			logger.warning("Error connecting to " + api + " and grabbing json: " + url);
 			return;
 	    }
 	})
@@ -441,7 +442,7 @@ function searchShows(query, callback) {
 	var page = 1;
 	var request = require("request")
 
-	var url = "http://eztvapi.re/shows/1?keywords=" + query;
+	var url = "http://" + api + "/shows/1?keywords=" + query;
 	logger.Debug("=== Getting Search Results ===")
 	logger.Debug(url);
 	request({
@@ -453,7 +454,7 @@ function searchShows(query, callback) {
 	        logger.Debug(shows);
 	        callback(shows);
 	    } else {
-			logger.warning("Error connecting to eztvapi.re and grabbing json: " + url);
+			logger.warning("Error connecting to " + api + " and grabbing json: " + url);
 			return;
 	    }
 	})
