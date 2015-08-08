@@ -123,6 +123,8 @@ function decode(content, encoding) {
         var iconv = require('iconv-lite');
         if(iconv.encodingExists(encoding))
             var buffer = iconv.decode(content, encoding);
+        else if (iconv.encodingExists(encoding.replace('CP', 'win')))
+            var buffer = iconv.decode(content, encoding.replace('CP', 'win'));
         else
             buffer = content;
     } else {
