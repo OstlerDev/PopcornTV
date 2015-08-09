@@ -9,12 +9,12 @@ function changeSetting(UDID, setting, newSetting){
         setTVEndpoint(newSetting);
         return;
     }
-    var data = fs.readFileSync('./aTVSettings.json'), settings;
+    var data = fs.readFileSync(__dirname + '/aTVSettings.json'), settings;
     try {
         settings = JSON.parse(data);
         logger.Debug('Changing setting ' + setting + ' from ' + settings[UDID][setting] + ' to ' + newSetting + ' - UDID: ' + UDID);
         settings[UDID][setting] = newSetting;
-        fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
+        fs.writeFileSync(__dirname + '/aTVSettings.json', JSON.stringify(settings, null, 4));
     } catch (err) {
         logger.error('There is an error changing a setting, please post this on the Github page')
         logger.error(err);
@@ -28,7 +28,7 @@ function changeSetting(UDID, setting, newSetting){
 function loadSettings(UDID){
     if (fs.existsSync('aTVSettings.json')) {
         logger.Debug('Loading Settings');
-        var data = fs.readFileSync('./aTVSettings.json'), config;
+        var data = fs.readFileSync(__dirname + '/aTVSettings.json'), config;
         try {
             settings = JSON.parse(data);
 
@@ -63,7 +63,7 @@ function createFile(UDID){
 
     var data = JSON.stringify(settings, null, 4);
 
-    fs.writeFileSync('aTVSettings.json', data);
+    fs.writeFileSync(__dirname + '/aTVSettings.json', data);
 
     return settings;
 }
@@ -74,7 +74,7 @@ function createFile(UDID){
 function addTV(UDID){
     logger.Debug('=== Settings ===');
     logger.Debug('TV not in settings file, adding it. UDID: ' + UDID);
-    var data = fs.readFileSync('./aTVSettings.json'), settings;
+    var data = fs.readFileSync(__dirname + '/aTVSettings.json'), settings;
     try {
         settings = JSON.parse(data);
         settings[UDID] = {
@@ -84,7 +84,7 @@ function addTV(UDID){
             keep: 'Off',
             subSize: '100'
         };
-        fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
+        fs.writeFileSync(__dirname + '/aTVSettings.json', JSON.stringify(settings, null, 4));
         return settings[UDID];
     } catch (err) {
         logger.error('There is an error adding a TV, please post this on the Github page')
@@ -97,13 +97,13 @@ function addTV(UDID){
 */
 function addFavorite(type, id, UDID){
     try {
-        var data = fs.readFileSync('./aTVSettings.json'), settings;
+        var data = fs.readFileSync(__dirname + '/aTVSettings.json'), settings;
         try {
             settings = JSON.parse(data);
             favorites = settings[UDID].favorites || [];
             favorites.push({type: type, id: id});
             settings[UDID].favorites = favorites;
-            fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
+            fs.writeFileSync(__dirname + '/aTVSettings.json', JSON.stringify(settings, null, 4));
         } catch (err) {
             logger.error('There is an error adding to favorite, please post this on the Github page')
             logger.error(err);
@@ -120,7 +120,7 @@ function addFavorite(type, id, UDID){
 */
 function removeFavorite(type, id, UDID){
     try {
-        var data = fs.readFileSync('./aTVSettings.json'), settings;
+        var data = fs.readFileSync(__dirname + '/aTVSettings.json'), settings;
         try {
             settings = JSON.parse(data);
             favorites = settings[UDID].favorites || [];
@@ -131,7 +131,7 @@ function removeFavorite(type, id, UDID){
             };
 
             settings[UDID].favorites = favorites;
-            fs.writeFileSync('./aTVSettings.json', JSON.stringify(settings, null, 4));
+            fs.writeFileSync(__dirname + '/aTVSettings.json', JSON.stringify(settings, null, 4));
         } catch (err) {
             logger.error('There is an error removing from favorites, please post this on the Github page')
             logger.error(err);
@@ -148,7 +148,7 @@ function removeFavorite(type, id, UDID){
 */
 function checkFavorite(type, id, UDID){
     try{
-        var data = fs.readFileSync('./aTVSettings.json'), settings;
+        var data = fs.readFileSync(__dirname + '/aTVSettings.json'), settings;
         try {
             settings = JSON.parse(data);
             favorites = settings[UDID].favorites || [];
@@ -175,7 +175,7 @@ function checkFavorite(type, id, UDID){
 */
 function checkSetting(setting, UDID){
     try{
-        var data = fs.readFileSync('./aTVSettings.json'), settings;
+        var data = fs.readFileSync(__dirname + '/aTVSettings.json'), settings;
         try {
             settings = JSON.parse(data);
             setting = settings[UDID][setting] || [];
@@ -197,7 +197,7 @@ function checkSetting(setting, UDID){
 */
 function getFavorites(UDID){
     try{
-        var data = fs.readFileSync('./aTVSettings.json'), settings;
+        var data = fs.readFileSync(__dirname + '/aTVSettings.json'), settings;
         try {
             settings = JSON.parse(data);
             if (settings[UDID] == undefined){
@@ -221,7 +221,7 @@ function getFavorites(UDID){
 
 function getTVEndpoint(){
     try{
-        var data = fs.readFileSync('./config.json'), settings, endpoint;
+        var data = fs.readFileSync(__dirname + '/config.json'), settings, endpoint;
         try {
             settings = JSON.parse(data);
             endpoint = settings.tvendpoint || 'eztvapi.re';
@@ -238,13 +238,13 @@ function getTVEndpoint(){
 }
 
 function setTVEndpoint(newEndpoint){
-    var data = fs.readFileSync('./config.json'), settings, endpoint;
+    var data = fs.readFileSync(__dirname + '/config.json'), settings, endpoint;
     try {
         settings = JSON.parse(data);
         endpoint = settings.tvendpoint || 'eztvapi.re';
         logger.Debug('Changing TV API Endpoint to ' + newEndpoint + ' from ' + endpoint);
         settings.tvendpoint = newEndpoint;
-        fs.writeFileSync('./config.json', JSON.stringify(settings, null, 4));
+        fs.writeFileSync(__dirname + '/config.json', JSON.stringify(settings, null, 4));
     } catch (err) {
         logger.error('There is an error changing the TV API Endpoint, please post this on the Github page')
         logger.error(err);
