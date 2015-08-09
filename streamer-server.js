@@ -30,13 +30,13 @@ StreamerServer = function(url, args) {
     // populate with default args
     args = _.defaults(args, {
         hostname: 'localhost',
-        index: 'file.mp4',
+        index: __dirname + '/file.mp4',
         writeDir: '',
         progressInterval: 10,
         buffer: 10*1024*1024,
         port: parseInt(Math.random() * (8000 - 6000) + 6000), // between 6000 & 8000
         torrent: {
-            tmp: 'assets' // Set "torrent-stream" folder to be created in the assets folder instead if in /tmp
+            tmp: __dirname + '/assets' // Set "torrent-stream" folder to be created in the assets folder instead if in /tmp
         }
     });
 
