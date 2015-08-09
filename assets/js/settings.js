@@ -78,7 +78,7 @@ function toggleSetting(setting, curSetting)
     } else {
       var newSetting = 'Off';
     }
-  } else if (setting == 'subLang'){
+  } else if (setting == 'subtitle'){
     if (curSetting == 'Off'){
       var newSetting = 'Off';
     } else {
