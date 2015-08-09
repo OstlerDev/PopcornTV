@@ -10,7 +10,7 @@ function generateFanart(imdb, resolution, callback) {
         height = 720;
     }
     var fs = require('fs');
-    if (fs.existsSync('assets/cache/' + imdb + '-' + resolution + '.jpg')) {
+    if (fs.existsSync(__dirname + '/assets/cache/' + imdb + '-' + resolution + '.jpg')) {
         logger.Debug('Fanart already downloaded, serving.');
         callback('cache/' + imdb + '-' + resolution + '.jpg');
     } else {
@@ -20,13 +20,13 @@ function generateFanart(imdb, resolution, callback) {
                 callback('thumbnails/Background_blank_' + resolution + '.jpg');
             } else {
                 var http = require('https');
-                var file = fs.createWriteStream("tmp.jpg");
+                var file = fs.createWriteStream(__dirname + "/tmp.jpg");
                 var request = http.get(url, function(response) {
                     response.pipe(file);
                     file.on('finish', function() {
-                        images('tmp.jpg').resize(width, height).draw(images('assets/thumbnails/gradient_' + resolution + '.png'), 0, 0).save('assets/cache/' + imdb + '-' + resolution + '.jpg');
+                        images(__dirname + '/tmp.jpg').resize(width, height).draw(images(__dirname + '/assets/thumbnails/gradient_' + resolution + '.png'), 0, 0).save(__dirname + '/assets/cache/' + imdb + '-' + resolution + '.jpg');
                         callback('cache/' + imdb + '-' + resolution + '.jpg');
-                        fs.unlink('tmp.jpg');
+                        fs.unlink(__dirname + '/tmp.jpg');
                     });
                 }).on('error', function(e){
                   logger.error(e);
@@ -45,7 +45,7 @@ function generateFanartTV(url, imdb, resolution, callback) {
         height = 720;
     }
     var fs = require('fs');
-    if (fs.existsSync('assets/cache/' + imdb + '-' + resolution + '.jpg')) {
+    if (fs.existsSync(__dirname + '/assets/cache/' + imdb + '-' + resolution + '.jpg')) {
         logger.Debug('Fanart already downloaded, serving.');
         callback('cache/' + imdb + '-' + resolution + '.jpg');
     } else {
@@ -53,13 +53,13 @@ function generateFanartTV(url, imdb, resolution, callback) {
         if (url == null) {
             callback('thumbnails/Background_blank_' + resolution + '.jpg');
         } else {
-            var file = fs.createWriteStream("tmp.jpg");
+            var file = fs.createWriteStream(__dirname + "/tmp.jpg");
             var request = http.get(url, function(response) {
                 response.pipe(file);
                 file.on('finish', function() {
-                    images('tmp.jpg').resize(width, height).draw(images('assets/thumbnails/gradient_' + resolution + '.png'), 0, 0).save('assets/cache/' + imdb + '-' + resolution + '.jpg');
+                    images(__dirname + '/tmp.jpg').resize(width, height).draw(images(__dirname + '/assets/thumbnails/gradient_' + resolution + '.png'), 0, 0).save(__dirname + '/assets/cache/' + imdb + '-' + resolution + '.jpg');
                     callback('cache/' + imdb + '-' + resolution + '.jpg');
-                    fs.unlink('tmp.jpg');
+                    fs.unlink(__dirname + '/tmp.jpg');
                 });
             });
         }
