@@ -27,7 +27,7 @@ function startStreamer(url, torrentID, localIp) {
 		buffer: streamBuffer,
 		port: port,
 		writeDir: '',
-		index: torrentID + '.mp4'
+		index: __dirname + "/" + torrentID + '.mp4'
 	});
 	torrent.on('ready', function (data) {
 		logger.Streamer('Ready to Stream, binding to ' + data.streamUrl);
