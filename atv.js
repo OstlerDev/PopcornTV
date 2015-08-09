@@ -52,8 +52,8 @@ function createCertificate(){
 function start(){
     if (!fs.existsSync(__dirname + '/assets/certificates/trailers.cer')){
         createCertificate();
-    } else if (fs.existsSync('config.json')) {
-        var data = fs.readFileSync('./config.json'), config;
+    } else if (fs.existsSync(__dirname + '/config.json')) {
+        var data = fs.readFileSync(__dirname + '/config.json'), config;
         startServers(data);
     } else {
         var myOptions = {
@@ -63,13 +63,13 @@ function start(){
 
         var data = JSON.stringify(myOptions, null, 4);
 
-        fs.writeFile('./config.json', data, function(err) {
+        fs.writeFile(__dirname + '/config.json', data, function(err) {
             if (err) {
                 logger.error('There has been an error generating the Config, please report this error on the github page!');
                 logger.error(err.message);
                 return;
             }
-            var data = fs.readFileSync('./config.json'), config;
+            var data = fs.readFileSync(__dirname + '/config.json'), config;
             startServers(data);
         });
     }

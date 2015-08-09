@@ -25,7 +25,7 @@ function startLogger(LoggingLevel){
                 handleExceptions: true
         	}),
         	new (Winston.transports.File)({ 
-        		filename: './PopcornTV.log', 
+        		filename: __dirname + '/PopcornTV.log', 
         		level: LoggingLevel, 
         		prettyPrint: true, 
         		json: false,
