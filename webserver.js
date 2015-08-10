@@ -209,25 +209,60 @@ function startWebServer(localIp) {
 			if (aTVSettings.checkSetting('version', query.UDID) != '')
 				version = aTVSettings.checkSetting('version', query.UDID);
 
-			if (version < 6)
-				fanart = 'Off';
+			if (defaultSubtitle.match(/\d+/g) == null && defaultSubtitle != 'Off') {
+				var subs = require('./SubtitleAPI.js');
+				logger.Debug('======== Getting Subtitle ========');
+				logger.Debug('Default Subtitle Language Defined as: ' + defaultSubtitle);
+			    subs.searchMovie({ imdbid: query.imdb, lang: defaultSubtitle}, 'PopcornTV').then(function(subtitle){
+			    	logger.Debug(subtitle);
+			    	if (subtitle == 'noResult'){
+			    		defaultSubtitle = 'Off';
+			    	}
+			    	if (subtitle != '' && subtitle != '{}' && subtitle != null && subtitle != 'noResult')
+			    		defaultSubtitle = subtitle[Object.keys(subtitle)[0]].url;
+			    	logger.Debug(defaultSubtitle);
+			    	if (version < 6)
+						fanart = 'Off';
 
-			if (fanart == 'On'){				
-				response.writeHead(200, {'Content-Type': 'text/xml'});
-				logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
-				xml.generateMoviePrePlayFanartXML(query.torrentID, query.UDID, request.headers['x-apple-tv-resolution'], defaultQuality, defaultSubtitle, function(xmlstring){
+					if (fanart == 'On'){				
+						response.writeHead(200, {'Content-Type': 'text/xml'});
+						logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
+						xml.generateMoviePrePlayFanartXML(query.torrentID, query.UDID, request.headers['x-apple-tv-resolution'], defaultQuality, defaultSubtitle, function(xmlstring){
+							logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
+							response.write(xmlstring);
+							response.end();
+						})
+					} else {				
+						response.writeHead(200, {'Content-Type': 'text/xml'});
+						logger.Debug('=== Starting MoviePrePlay.xml No Fanart Generation ===');
+						xml.generateMoviePrePlayXML(query.torrentID, defaultQuality, defaultSubtitle, version, function(xmlstring){
+							logger.Debug('=== Ending MoviePrePlay.xml No Fanart Generation ===');
+							response.write(xmlstring);
+							response.end();
+						})
+					}
+			    });
+			} else {
+				if (version < 6)
+					fanart = 'Off';
+
+				if (fanart == 'On'){				
+					response.writeHead(200, {'Content-Type': 'text/xml'});
 					logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
-					response.write(xmlstring);
-					response.end();
-				})
-			} else {				
-				response.writeHead(200, {'Content-Type': 'text/xml'});
-				logger.Debug('=== Starting MoviePrePlay.xml No Fanart Generation ===');
-				xml.generateMoviePrePlayXML(query.torrentID, defaultQuality, defaultSubtitle, version, function(xmlstring){
-					logger.Debug('=== Ending MoviePrePlay.xml No Fanart Generation ===');
-					response.write(xmlstring);
-					response.end();
-				})
+					xml.generateMoviePrePlayFanartXML(query.torrentID, query.UDID, request.headers['x-apple-tv-resolution'], defaultQuality, defaultSubtitle, function(xmlstring){
+						logger.Debug('=== Ending MoviePrePlay.xml Generation ===');
+						response.write(xmlstring);
+						response.end();
+					})
+				} else {				
+					response.writeHead(200, {'Content-Type': 'text/xml'});
+					logger.Debug('=== Starting MoviePrePlay.xml No Fanart Generation ===');
+					xml.generateMoviePrePlayXML(query.torrentID, defaultQuality, defaultSubtitle, version, function(xmlstring){
+						logger.Debug('=== Ending MoviePrePlay.xml No Fanart Generation ===');
+						response.write(xmlstring);
+						response.end();
+					})
+				}
 			}
 			staticFile = false;
 		} else if(pathname.indexOf("quality.xml") >= 0){			
