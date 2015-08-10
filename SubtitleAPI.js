@@ -29,7 +29,7 @@ var login = function (userAgent) {
 
 var search = function (data) {
     var opts = {};
-    opts.sublanguageid = 'all';
+    opts.sublanguageid = data.lang || 'all';
 
     // Do a hash or imdb check first (either), then fallback to filename
 	// Without imdbid, only check filename
@@ -178,7 +178,7 @@ SubtitleAPI.prototype.searchEpisode = function (data, userAgent) {
         });
 };
 
-SubtitleAPI.prototype.searchMovie = function (data, userAgent) {
+SubtitleAPI.prototype.searchMovie = function(data, userAgent) {
 	return login(userAgent)
         .then(function(token) {
             data.token = token;
@@ -186,16 +186,47 @@ SubtitleAPI.prototype.searchMovie = function (data, userAgent) {
         }).fail(function (error) {
             if (error === 'noResult') {
                 // try another search method
-                return search({
-                    filename: data.filename,
-                    recheck: true,
-                    token: data.token
-                });
+                return error;
             } else {
                 return error;
             }
         });
 };
+
+SubtitleAPI.prototype.searchYSubs = function(imdb, callback){
+    var request = require("request")
+
+    var url = "http://api.yifysubtitles.com/subs/" + imdb;
+    logger.Debug("=== Getting YSubs results ===")
+    logger.Debug(url);
+    request({
+        url: url,
+        json: true
+    }, function (error, response, body) {
+       if (!error && response.statusCode === 200) {
+            var subs = body;
+            callback(subs);
+        } else {
+            logger.warning("Error connecting to api.yifysubtitles.com and grabbing json: " + url);
+            return;
+        }
+    })
+}
+
+SubtitleAPI.prototype.getSubtitle = function(userAgent, data, langCode){
+    return login(userAgent)
+        .then(function(token) {
+            data.token = token;
+            return search(data);
+        }).fail(function (error) {
+            if (error === 'noResult') {
+                // try another search method
+                return error;
+            } else {
+                return error;
+            }
+        });
+}
 
 SubtitleAPI.prototype.parseSRT = function(url, callback){
     logger.Debug("=== Getting and Parsing SRT ===")

@@ -157,6 +157,7 @@ function generateSubtitles(imdb, torrentID, UDID, quality, callback){
     var subs = require('./SubtitleAPI');
     var langConverter = require('./lang');
     subs.searchMovie({imdbid: imdb}, 'PopcornTV').then(function(subtitles){
+        logger.Debug(subtitles);
         var subtitles2 = Object.keys(subtitles).sort();
         var XMLWriter = require('xml-writer');
         xw = new XMLWriter;
@@ -471,7 +472,7 @@ function generateMoviesXML(title, sort_by, callback){
     var movies = API.getMovies("1", sort_by, "50", function(movies){
         for(var i = 0; i <= movies.length-1; i++)
         {
-            var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id;
+            var url = "http://trailers.apple.com/Movies/MoviePrePlay.xml?torrentID=" + movies[i].id + '&imdb=' + movies[i].imdb_code;
             xw.startElement('moviePoster')
                 .writeAttribute('id', movies[i].title.replace(/\s/g, ''))
                 .writeAttribute('alwaysShowTitles', 'true')
