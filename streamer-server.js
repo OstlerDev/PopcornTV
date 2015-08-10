@@ -1,7 +1,6 @@
 var http = require('http');
 var util = require('util');
 var mime = require('mime');
-var Streamer = require('popcorn-streamer');
 var StreamerServer = {};
 var rangeParser = require('range-parser');
 var mime = require('mime');
@@ -32,7 +31,7 @@ StreamerServer = function(url, args) {
         hostname: 'localhost',
         index: __dirname + '/file.mp4',
         writeDir: '',
-        progressInterval: 10,
+        progressInterval: 100,
         buffer: 10*1024*1024,
         port: parseInt(Math.random() * (8000 - 6000) + 6000), // between 6000 & 8000
         torrent: {
@@ -181,6 +180,42 @@ createWebServer = function(file, hostname, port) {
     });
 
     return server;
+}
+
+var URI = require('URIjs');
+
+var HTTPStreamer = require(__dirname + '/lib/streamers/http')
+var YouTubeStreamer = require(__dirname + '/lib/streamers/youtube')
+var TorrentStreamer = require(__dirname + '/lib/streamers/torrent')
+var FileStreamer = require(__dirname + '/lib/streamers/file')
+
+var Streamer = function(source, options) {
+    var uri = URI(source);
+    options = options || {};
+    if((uri.protocol() === 'file' || uri.is('relative') && uri.suffix() !== 'torrent') || options.type === 'file') {
+        return new FileStreamer(source, options);
+    } else if(uri.domain() === 'youtu.be' || uri.domain() === 'youtube.com' || options.type === 'youtube') {
+        return new YouTubeStreamer(source, options);
+    } else if(uri.protocol() === 'magnet' || uri.suffix() === 'torrent' || options.type === 'torrent') {
+        return new TorrentStreamer(source, options);
+    } else if(uri.protocol() === 'http' || uri.protocol() === 'https' || options.type === 'http') {
+        return new HTTPStreamer(source, options);
+    }
+    throw new Error('Unsupported Source Type'); 
+}
+
+Streamer.getStreamer = function(source, type) {
+    var uri = URI(source);
+    if((uri.protocol() === 'file' || uri.is('relative') && uri.suffix() !== 'torrent') || options.type === 'file') {
+        return FileStreamer;
+    } else if(uri.domain() === 'youtu.be' || uri.domain() === 'youtube.com' || type === 'youtube') {
+        return YouTubeStreamer;
+    } else if(uri.protocol() === 'magnet' || uri.suffix() === 'torrent' || type === 'torrent') {
+        return TorrentStreamer;
+    } else if(uri.protocol() === 'http' || uri.protocol() === 'https' || type === 'http') {
+        return HTTPStreamer;
+    }
+    throw new Error('Unsupported Source Type');
 }
 
 util.inherits(StreamerServer, EventEmitter);
