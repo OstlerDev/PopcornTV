@@ -102,7 +102,7 @@ function startWebServer(localIp) {
 
 				if (keepMovies == 'Off'){
 					logger.Debug('====== Keep Movies is Off, Deleting Files ======')
-					fs.readdirSync("./").forEach(function(fileName) {
+					fs.readdirSync(__dirname + "/").forEach(function(fileName) {
         				if (path.extname(fileName) === ".mp4") {
         					logger.Debug('Deleting ' + fileName);
             				try{
@@ -112,8 +112,8 @@ function startWebServer(localIp) {
             				}
         				}
     				});
-    				deleteFolderRecursive(path.join('assets', 'torrent-stream'));
-    				deleteFolderRecursive(path.join('assets', 'converted'));
+    				deleteFolderRecursive(path.join(__dirname, 'assets', 'torrent-stream'));
+    				deleteFolderRecursive(path.join(__dirname, 'assets', 'converted'));
 				}
 			})
 			staticFile = false;
