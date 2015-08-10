@@ -1565,9 +1565,6 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, aT
         if (show.overview == null){
             show.overview = 'No Overview could be Found.';
         }
-        if (fullShow.certification == null){
-            fullShow.certification = 'Unknown';
-        }
         var XMLWriter = require('xml-writer');
         var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + imdb + '&season=' + season + '&episode=' + tmpEp + '&UDID=' + UDID;
         var torrentURL = encodeURIComponent(selectTorrentTV(torrentLink, quality).replace(/%5B/g, '').replace(/%5D/g, ''));
@@ -1583,9 +1580,10 @@ function generateTVPrePlayXML(imdb, season, episode, UDID, quality, subtitle, aT
                 .startElement('itemDetail')
                     .writeAttribute('id', 'com.apple.trailer')
                     .writeElement('title', show.title)
-                    .writeElement('subtitle', fullShow.network)
-                    .writeElement('rating', fullShow.certification)
-                    .writeElement('summary', show.overview)
+                    .writeElement('subtitle', fullShow.network);
+                    if (fullShow.certification != null)
+                        xw.writeElement('rating', fullShow.certification);
+                    xw.writeElement('summary', show.overview)
                     .startElement('image')
                         .writeAttribute('style', 'sixteenByNinePoster')
                         .text(show.images.screenshot.full)
@@ -1712,9 +1710,6 @@ function generatePrePlayFanartXML(show, options, quality, subtitle, callback){
         if (show.description == null){
             show.description = 'No Overview could be Found.';
         }
-        if (show.rating == null){
-            show.rating = 'Unknown';
-        }
         var XMLWriter = require('xml-writer');
         var url = "http://trailers.apple.com/Movies/TVPrePlay.xml?imdb=" + options.imdb + '&season=' + options.season + '&episode=' + options.episode + '&UDID=' + options.UDID;
         var parseTorrent = require('parse-torrent');
@@ -1753,9 +1748,10 @@ function generatePrePlayFanartXML(show, options, quality, subtitle, callback){
                         .endElement()
                     .endElement()
                     .writeElement('title', show.title)
-                    .writeElement('footnote', show.year)
-                    .writeElement('rating', show.rating)
-                    .writeElement('summary', show.description)
+                    .writeElement('footnote', show.year);
+                    if (show.rating != null)
+                        xw.writeElement('rating', show.rating);
+                    xw.writeElement('summary', show.description)
                     .startElement('userRatings')
                         .startElement('starRating')
                         .writeElement('percentage', show.rt_rating)
