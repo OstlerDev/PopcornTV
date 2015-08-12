@@ -11,6 +11,7 @@
   "dependencies": {
     "URIjs": "^1.16.0",
     "file-type": "^2.7.0",
+    "git-rev": "^0.2.1",
     "iconv-lite": "^0.4.11",
     "images": "2.1.6",
     "ip": "^0.3.3",
