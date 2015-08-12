@@ -322,7 +322,7 @@ function generateSubtitlesTV(imdb, UDID, quality, episode, season, callback){
     });
 }
 
-function generateSettingsXML(UDID, callback){
+function generateSettingsXML(UDID, commit, callback){
     var settings = atvSettings.loadSettings(UDID);
     logger.Debug(settings);
 
@@ -352,14 +352,14 @@ function generateSettingsXML(UDID, callback){
                             .writeElement('summary', '')
                             .startElement('metadataKeys')
                                 .writeElement('label', 'About')
-                                .writeElement('label', 'Version')
+                                .writeElement('label', 'Commit')
                                 .writeElement('label', 'Authors')
                                 .writeElement('label', 'Homepage')
                                 .writeElement('label', 'Forum')
                             .endElement()
                             .startElement('metadataValues')
                                 .writeElement('label', 'PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents.')
-                                .writeElement('label', '0.1.6 dev')
+                                .writeElement('label', commit)
                                 .writeElement('label', 'OstlerDev')
                                 .writeElement('label', 'https://popcorntv.io')
                                 .writeElement('label', 'https://discuss.popcorntime.io/t/popcorntv-bringing-popcorn-time-to-your-apple-tv/')

@@ -426,11 +426,23 @@ function startWebServer(localIp) {
 		} else if(pathname.indexOf("settings.xml") >= 0){			
 			response.writeHead(200, {'Content-Type': 'text/xml'});
 			logger.Debug('=== Starting settings.xml Generation ===');
-			xml.generateSettingsXML(query.UDID, function(xmlstring){
-				logger.Debug('=== Ending settings.xml Generation ===');
-				response.write(xmlstring);
-				response.end();
-			})
+			var git = require('git-rev');
+
+			try {
+				git.short(function (commit) {
+					xml.generateSettingsXML(query.UDID, commit, function(xmlstring){
+						logger.Debug('=== Ending settings.xml Generation ===');
+						response.write(xmlstring);
+						response.end();
+					})
+				});
+			} catch(e){
+				xml.generateSettingsXML(query.UDID, 'unknown', function(xmlstring){
+					logger.Debug('=== Ending settings.xml Generation ===');
+					response.write(xmlstring);
+					response.end();
+				})
+			}
 			staticFile = false;
 		} else if(pathname.indexOf("scrobble.xml") >= 0){
 			var aTVSettings = require('./settings.js');

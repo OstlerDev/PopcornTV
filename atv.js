@@ -3,11 +3,17 @@ var dns = require('./dns');
 var ip = require("ip");
 var logger = require('./logger');
 var fs = require('fs');
+var git = require('git-rev');
 
 if(require.main === module)
     start();
 
 function startServers(data) {
+    try {
+        git.short(function (str) {
+          logger.notice('Starting Commit', str)
+        })
+    } catch(e){}
     try {
         config = JSON.parse(data);
         const LOCAL_IP = config.ip;
