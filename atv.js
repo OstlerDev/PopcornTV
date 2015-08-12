@@ -81,5 +81,5 @@ function stop(){
     logger.notice('PopcornTV Stopped.');
 }
 
-exports.start = start;
-exports.stop = stop;
+module.exports.start = start;
+module.exports.stop = stop;
