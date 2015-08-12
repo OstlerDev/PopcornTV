@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/OstlerDev/PopcornTV.svg?branch=master)](https://travis-ci.org/OstlerDev/PopcornTV)
 
+Note: You may notice that versioning is messed up right now, this is being worked on to bring the common [Semver](http://semver.org/) versioning schema.
+
 # What is PopcornTV?
 
 PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from [yts.to](https://yts.to/) as well as the [Popcorn Time TV API](https://git.popcorntime.io/popcorntime/eztv-api/tree/master) to allow users to watch most Movies and TV Shows Instantly.
