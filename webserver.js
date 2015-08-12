@@ -215,11 +215,10 @@ function startWebServer(localIp) {
 				logger.Debug('Default Subtitle Language Defined as: ' + defaultSubtitle);
 			    subs.searchMovie({ imdbid: query.imdb, lang: defaultSubtitle}, 'PopcornTV').then(function(subtitle){
 			    	logger.Debug(subtitle);
-			    	if (subtitle == 'noResult'){
-			    		defaultSubtitle = 'Off';
-			    	}
-			    	if (subtitle != '' && subtitle != '{}' && subtitle != null && subtitle != 'noResult')
+			    	if (subtitle != '' && subtitle != '{}' && subtitle != null && subtitle != 'noResult' && subtitle != undefined)
 			    		defaultSubtitle = subtitle[Object.keys(subtitle)[0]].url;
+			    	else 
+			    		defaultSubtitle = 'Off';
 			    	logger.Debug(defaultSubtitle);
 			    	if (version < 6)
 						fanart = 'Off';
