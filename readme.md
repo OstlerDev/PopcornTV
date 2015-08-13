@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/OstlerDev/PopcornTV.svg?branch=master)](https://travis-ci.org/OstlerDev/PopcornTV)
 
-Note: You may notice that versioning is messed up right now, this is being worked on to bring the common [Semver](http://semver.org/) versioning schema.
+# Blog
+Want to stay up to date with what is happening with PopcornTV? Try taking a look at our [blog](http://blog.popcorntv.io) to stay updated! We try to post big things that we are working on over there :)
 
 # What is PopcornTV?
 
