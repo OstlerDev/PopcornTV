@@ -30,17 +30,24 @@ function startServers(data) {
 
 function createCertificate(){
     var pem = require('pem');
+    var path = require('path')
     logger.notice('Creating SSL Certificates...');
+    var dir = path.join(__dirname, 'assets', 'certificates');
+
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
+
     pem.createCertificate({days:7200, selfSigned:true, country: 'US', commonName: 'trailers.apple.com'}, function(err, keys){
         try{
-            fs.writeFileSync(__dirname + '/assets/certificates/trailers.cer', keys.certificate + '\n' + keys.serviceKey);
-            fs.writeFileSync(__dirname + '/assets/certificates/trailers.pem', keys.certificate + '\n' + keys.serviceKey);
+            fs.writeFileSync(path.join(__dirname, 'assets', 'certificates', 'trailers.cer'), keys.certificate + '\n' + keys.serviceKey);
+            fs.writeFileSync(path.join(__dirname, 'assets', 'certificates', 'trailers.pem'), keys.certificate + '\n' + keys.serviceKey);
             start();
         } catch(e){
             logger.warning('Unable to create certificates, generating them on the server, please wait...');
             var http = require('https');
-            var cer = fs.createWriteStream(__dirname + "/assets/certificates/trailers.cer");
-            var pem = fs.createWriteStream(__dirname + "/assets/certificates/trailers.pem");
+            var cer = fs.createWriteStream(path.join(__dirname, 'assets', 'certificates', 'trailers.cer'));
+            var pem = fs.createWriteStream(path.join(__dirname, 'assets', 'certificates', 'trailers.pem'));
             var request = http.get('https://popcorntv.io/createCert.php', function(response) {
                 response.pipe(cer);
                 response.pipe(pem);
