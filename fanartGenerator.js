@@ -1,4 +1,4 @@
-var images = require("images");
+var images = require("ptv-images");
 var logger = require("./logger");
 
 function generateFanart(imdb, resolution, callback) {
