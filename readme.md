@@ -67,11 +67,12 @@ So for example if you were to post a bounty of $5 it would look something like t
 ![](http://i.imgur.com/hvbL4bz.png)
 
 ### Top Supporters
-Zone-MR - $40  
-Samb0 - $10  
-JakeRound - $5  
-anonymous - $5  
-anonymous - $1.13  
+masonjames - $75   
+Zone-MR - $40   
+Krugster - $25   
+Samb0 - $10   
+JakeRound - $5   
+craiem - $5   
 
 Thanks to all the amazing supporters so far! It is amazing to see how much people love the project :)
 
