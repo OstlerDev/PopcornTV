@@ -13,7 +13,10 @@ function startServers(data) {
         git.short(function (str) {
           logger.notice('Starting Commit', str)
         })
-    } catch(e){}
+    } catch(e) {
+        logger.error(e.stack || e);
+    }
+
     try {
         config = JSON.parse(data);
         const LOCAL_IP = config.ip;
@@ -23,7 +26,7 @@ function startServers(data) {
         webservers.startSSLWebServer(LOCAL_IP);
     } catch (err) {
         logger.error('There is an error starting Popcorn TV, please post this on the Github page')
-        console.error(err);
+        logger.error(err.stack || err);
         process.exit();
     }
 }
@@ -56,13 +59,13 @@ function createCertificate(){
                 });
             }).on('error', function(e){
                 logger.warning('Unable to create or download certificates, please report this bug on Github.')
-              logger.error(e);
+              logger.error(e.stack || e);
             });
         }
     });
 }
 
-function start(){
+function start (){
     if (!fs.existsSync(__dirname + '/assets/certificates/trailers.cer')){
         createCertificate();
     } else if (fs.existsSync(__dirname + '/config.json')) {
@@ -79,7 +82,7 @@ function start(){
         fs.writeFile(__dirname + '/config.json', data, function(err) {
             if (err) {
                 logger.error('There has been an error generating the Config, please report this error on the github page!');
-                logger.error(err.message);
+                logger.error(err.stack || err);
                 return;
             }
             var data = fs.readFileSync(__dirname + '/config.json'), config;
@@ -93,6 +96,11 @@ function stop(){
     webservers.stop();
     logger.notice('PopcornTV Stopped.');
 }
+
+// Proper uncaughException listener
+process.addListener('uncaughtException', function (err) {
+  logger.error(err.stack || err);
+});
 
 module.exports.start = start;
 module.exports.stop = stop;
