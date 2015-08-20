@@ -441,8 +441,6 @@ function generateSettingsXML(UDID, commit, callback){
                                     .endElement();
 
                                     xw.endDocument();
-
-                                    logger.Debug(xw.toString());
                                     callback(xw.toString());
 }
 

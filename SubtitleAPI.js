@@ -32,7 +32,7 @@ var search = function (data) {
     opts.sublanguageid = data.lang || 'all';
 
     // Do a hash or imdb check first (either), then fallback to filename
-	// Without imdbid, only check filename
+    // Without imdbid, only check filename
     if (data.hash) {
         opts.moviehash = data.hash;
     } else if (data.imdbid) {
@@ -148,9 +148,13 @@ function getSRT(data, userAgent, callback) {
 
                     } else {
                         var decoded = new Buffer(res.data[0].data, 'base64');
-                        var unzipped = zlib.gunzipSync(decoded);
-                        var content = decode(unzipped, data.encoding);
-                        callback(content);
+                        zlib.gunzip(decoded, function (err, unzipped) {
+                            if (err) {
+                                return logger.error(err.stack || err);
+                            }
+                            var content = decode(unzipped, data.encoding);
+                            callback(content);
+                        });
                     }
                 })
             })
@@ -179,7 +183,7 @@ SubtitleAPI.prototype.searchEpisode = function (data, userAgent) {
 };
 
 SubtitleAPI.prototype.searchMovie = function(data, userAgent) {
-	return login(userAgent)
+    return login(userAgent)
         .then(function(token) {
             data.token = token;
             return search(data);
