@@ -31,7 +31,6 @@ function parseRange(str, size) {
 };
 
 function startWebServer(localIp) {
-
   var url    = require("url");
   var http   = require("http");
   var path   = require("path");
@@ -472,12 +471,9 @@ function startWebServer(localIp) {
 
       response.writeHead(200, {'Content-Type': 'text/xml'});
       logger.Debug('=== Starting settings.xml Generation ===');
-      xml.generateSettingsXML(query.UDID, null, function(xmlstring){
+      xml.generateSettingsXML(query.UDID, 'null', function(xmlstring){
         logger.Debug('=== Ending settings.xml Generation ===');
-        // if (!xmlstring) {
-        //  xmlstring = '';
-        // }
-        response.write(null);
+        response.write(xmlstring);
         response.end();
       })
       staticFile = false;
