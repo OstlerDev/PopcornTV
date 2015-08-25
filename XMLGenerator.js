@@ -2,7 +2,7 @@ var xml = require('xml');
 var logger = require('./logger');
 var atvSettings = require('./settings.js');
 
-function generatePlayXML(url, title, desc, image, subtitle, subtitleSize) {
+function generatePlayXML(options) {
     var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
     xw.startDocument(version='1.0', encoding='UTF-8');
@@ -11,18 +11,19 @@ function generatePlayXML(url, title, desc, image, subtitle, subtitleSize) {
             .startElement('videoPlayer')
                 .writeAttribute('id', 'com.sample.video-player')
                 .startElement('httpFileVideoAsset')
-                    .writeAttribute('id', title)
-                    .writeElement('mediaURL', url)
-                    .writeElement('title', title)
-                    .writeElement('description', desc)
-                    .writeElement('image', image)
+                    .writeAttribute('id', options.title)
+                    .writeElement('mediaURL', options.url)
+                    .writeElement('title', options.title)
+                    .writeElement('description', options.desc)
+                    .writeElement('image', options.image)
                     .writeElement('upNextPresentationTime', '5')
                     .writeElement('upNextPresentationDuration', '20')
                     .startElement('videoPlayerSettings')
-                        .writeElement('subtitleSize', (subtitleSize || '100'))
+                        .writeElement('subtitleSize', (options.subtitleSize || '100'))
                     .endElement()
                     .startElement('myMetadata')
-                        .writeElement('subtitleURL', 'http://trailers.apple.com/subtitle.json?url=' + subtitle)
+                        .writeElement('subtitleURL', 'http://trailers.apple.com/subtitle.json?url=' + options.subtitle)
+                        .writeElement('traktToken', options.traktToken)
                     .endElement()
                 .endElement()
             .endElement()

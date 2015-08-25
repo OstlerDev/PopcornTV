@@ -54,6 +54,7 @@ function startWebServer(localIp) {
     } else if(pathname.indexOf("MoviePlay.xml") >= 0){
       var aTVSettings = require('./settings.js');
       var subtitleSize = aTVSettings.checkSetting('subSize', query.UDID) || '100';
+      var token = 'null';
 
       if (subtitleSize == '')
         subtitleSize = '100';
@@ -70,7 +71,15 @@ function startWebServer(localIp) {
       torrent.getStreamer().on('ready', function (data) {
         logger.Debug('=== Ending MoviePlay.xml Generation ===');
         if (data.isMP4){
-          var playXML = xml.generatePlayXML(torrent.getURL(), decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize);
+          var playXML = xml.generatePlayXML({
+          		url: torrent.getURL(), 
+          		title: decodeURIComponent(query.title), 
+          		desc: decodeURIComponent(query.desc), 
+          		image: query.poster, 
+          		subtitle: (query.subtitle || 'Off'), 
+          		subtitleSize: subtitleSize, 
+          		traktToken: token
+          	});
 
           progress = {status: 'complete', xml: playXML};
           ready = true;
@@ -80,7 +89,15 @@ function startWebServer(localIp) {
           // Start the conversion using FFMPEG
           convertFile(query.hash, function(){
             // As soon as the playlist file exists this will return so that we can start playing the episode.
-            var playXML =xml.generatePlayXML('http://trailers.apple.com/converted/' + query.hash + '.m3u8', decodeURIComponent(query.title), decodeURIComponent(query.desc), query.poster, (query.subtitle || 'Off'), subtitleSize);
+            var playXML =xml.generatePlayXML({
+            	url: 'http://trailers.apple.com/converted/' + query.hash + '.m3u8', 
+            	title: decodeURIComponent(query.title), 
+            	desc: decodeURIComponent(query.desc), 
+            	image: query.poster, 
+            	subtitle: (query.subtitle || 'Off'), 
+            	subtitleSize: subtitleSize,
+            	traktToken: token
+            });
 
             progress = {status: 'complete', xml: playXML};
           });
