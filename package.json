@@ -9,37 +9,37 @@
     "url": "https://github.com/OstlerDev/PopcornTV.git"
   },
   "dependencies": {
-    "file-type"       : "^2.7.0",
-    "git-rev"         : "^0.2.1",
-    "iconv-lite"      : "^0.4.11",
-    "ip"              : "^0.3.3",
-    "lodash"          : "^3.9.3",
-    "mime"            : "^1.2.11",
-    "parse-torrent"   : "^5.2.1",
-    "pem"             : "^1.7.2",
-    "progress-stream" : "^1.1.1",
-    "ptv-images"      : "^2.1.10",
-    "pump"            : "^1.0.0",
-    "q"               : "^1.4.1",
-    "range-parser"    : "^1.0.2",
-    "read-chunk"      : "^1.0.1",
-    "read-torrent"    : "^1.3.0",
-    "request"         : "2.55.0",
-    "streamify"       : "^0.2.4",
-    "torrent-stream"  : "^0.21.3",
-    "underscore"      : "^1.7.0",
-    "URIjs"           : "^1.16.0",
-    "winston"         : "^1.0.0",
-    "winston-loggly"  : "^1.1.0",
-    "xml"             : "^1.0.0",
-    "xml-writer"      : "^1.6.0",
-    "xmlrpc"          : "^1.3.1",
-    "ytdl-core"       : "^0.5.1"
+    "file-type": "^2.7.0",
+    "git-rev": "^0.2.1",
+    "iconv-lite": "^0.4.11",
+    "ip": "^0.3.3",
+    "lodash": "^3.9.3",
+    "mime": "^1.2.11",
+    "parse-torrent": "^5.2.1",
+    "pem": "^1.7.2",
+    "progress-stream": "^1.1.1",
+    "ptv-images": "^2.1.10",
+    "pump": "^1.0.0",
+    "q": "^1.4.1",
+    "range-parser": "^1.0.2",
+    "read-chunk": "^1.0.1",
+    "read-torrent": "^1.3.0",
+    "request": "2.55.0",
+    "streamify": "^0.2.4",
+    "torrent-stream": "^0.21.3",
+    "underscore": "^1.7.0",
+    "URIjs": "^1.16.0",
+    "winston": "^1.0.0",
+    "winston-loggly": "^1.1.0",
+    "xml": "^1.0.0",
+    "xml-writer": "^1.6.0",
+    "xmlrpc": "^1.3.1",
+    "ytdl-core": "^0.5.1"
   },
   "scripts": {
-    "semantic-release": "semantic-release pre && npm publish && semantisub-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
-    "semantic-release": "^3.3.2"
+    "semantic-release": "^6.0.1"
   }
 }
