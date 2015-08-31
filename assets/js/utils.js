@@ -11,7 +11,7 @@ if( atv.Document ) {
             return elements[0];
         }
         return undefined;
-    }   
+    }
 }
 
 
@@ -36,7 +36,7 @@ if( atv.Element ) {
 if (!String.prototype.format) {
   String.prototype.format = function() {
     var args = arguments;
-    return this.replace(/{(\d+)}/g, function(match, number) { 
+    return this.replace(/{(\d+)}/g, function(match, number) {
       return typeof args[number] != 'undefined' ? args[number] : match;
     });
   };
@@ -87,13 +87,13 @@ function loadMore(type, sort_by, page){
     if (type == "movie"){
       newPoster.setAttribute('onPlay', 'addUDIDtoQuery("http://trailers.apple.com/MoviePrePlay.xml?torrentID=' + response[i].id + '&imdb=' + response[i].imdb_code + '")');
       newPoster.setAttribute('onSelect', 'addUDIDtoQuery("http://trailers.apple.com/MoviePrePlay.xml?torrentID=' + response[i].id + '&imdb=' + response[i].imdb_code + '")');
-    } else if (type == "tv") {    
+    } else if (type == "tv") {
       //var url = 'http://trailers.apple.com/seasons.xml?imdb=' + shows[i].imdb_id + '&title=' + shows[i].title.replace(/ /g,"%20");
       newPoster.setAttribute('onPlay', 'addUDIDtoQuery("http://trailers.apple.com/seasons.xml?imdb=' + response[i].imdb_id  + '&title=' + response[i].title.replace(/ /g,"%20") + '")');
       newPoster.setAttribute('onSelect', 'addUDIDtoQuery("http://trailers.apple.com/seasons.xml?imdb=' + response[i].imdb_id  + '&title=' + response[i].title.replace(/ /g,"%20") + '")');
     }
     newPoster.setAttribute('onHoldSelect', 'scrobbleMenu("http://trailers.apple.com/scrobble.xml?type=' + type + '&id=' + response[i].id + '")');
-    
+
     var title = document.makeElementNamed('title');
     title.textContent = response[i].title;
     newPoster.appendChild(title);
@@ -124,18 +124,18 @@ function loadMore(type, sort_by, page){
 {
   fv = atv.device.softwareVersion.split(".");
   firmVer = fv[0] + "." + fv[1];
+  var url = url + "&UDID="+atv.device.udid
   if (parseFloat(firmVer) < 6.0)
   {
     // firmware <6.0
     // load standard scrobble menu
-    atv.loadURL(url);
+    atv.loadURL(url + "&version=old");
   }
   else
   {
     // firmware >=6.0
     // load scrobble menu xml
-    // parse the xml and build a popup context menu 
-    var url = url + "&UDID="+atv.device.udid
+    // parse the xml and build a popup context menu
     var req = new XMLHttpRequest();
     req.onreadystatechange = function()
     {
@@ -156,17 +156,28 @@ function loadMore(type, sort_by, page){
           }
           xmlDoc = atv.parseXML(xml);
           atv.contextMenu.load(xmlDoc);
-        } 
+        }
       }
       catch(e)
       {
         req.abort();
       }
     }
-    
+
     req.open('GET',unescape(url), false);
     req.send();
   }
+}
+
+/*
+ * Force the generation of the old Scrobble Menu. This is useful when a context menu is not allowed (ie. from a search window)
+ */
+ function oldScrobbleMenu(url)
+{
+  fv = atv.device.softwareVersion.split(".");
+  firmVer = fv[0] + "." + fv[1];
+  var url = url + "&UDID="+atv.device.udid;
+  atv.loadURL(url + "&version=old");
 }
 
 /*

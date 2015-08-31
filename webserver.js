@@ -72,12 +72,12 @@ function startWebServer(localIp) {
         logger.Debug('=== Ending MoviePlay.xml Generation ===');
         if (data.isMP4){
           var playXML = xml.generatePlayXML({
-          		url: torrent.getURL(), 
-          		title: decodeURIComponent(query.title), 
-          		desc: decodeURIComponent(query.desc), 
-          		image: query.poster, 
-          		subtitle: (query.subtitle || 'Off'), 
-          		subtitleSize: subtitleSize, 
+          		url: torrent.getURL(),
+          		title: decodeURIComponent(query.title),
+          		desc: decodeURIComponent(query.desc),
+          		image: query.poster,
+          		subtitle: (query.subtitle || 'Off'),
+          		subtitleSize: subtitleSize,
           		traktToken: token
           	});
 
@@ -90,11 +90,11 @@ function startWebServer(localIp) {
           convertFile(query.hash, function(){
             // As soon as the playlist file exists this will return so that we can start playing the episode.
             var playXML =xml.generatePlayXML({
-            	url: 'http://trailers.apple.com/converted/' + query.hash + '.m3u8', 
-            	title: decodeURIComponent(query.title), 
-            	desc: decodeURIComponent(query.desc), 
-            	image: query.poster, 
-            	subtitle: (query.subtitle || 'Off'), 
+            	url: 'http://trailers.apple.com/converted/' + query.hash + '.m3u8',
+            	title: decodeURIComponent(query.title),
+            	desc: decodeURIComponent(query.desc),
+            	image: query.poster,
+            	subtitle: (query.subtitle || 'Off'),
             	subtitleSize: subtitleSize,
             	traktToken: token
             });
@@ -464,22 +464,42 @@ function startWebServer(localIp) {
       var aTVSettings = require('./settings.js');
       var checkFavorite = aTVSettings.checkFavorite(query.type, query.id, query.UDID);
 
-      if (checkFavorite){
-        response.writeHead(200, {'Content-Type': 'text/xml'});
-        logger.Debug('=== Starting scrobble.xml Generation ===');
-        xml.generateScrobbleXML(query.type, query.id, query.UDID, 'removeFavorite.xml', 'Remove from Favorites', function(xmlstring){
-          logger.Debug('=== Ending scrobble.xml Generation ===');
-          response.write(xmlstring);
-          response.end();
-        })
+      if (query.version == 'old'){
+        if (checkFavorite){
+          response.writeHead(200, {'Content-Type': 'text/xml'});
+          logger.Debug('=== Starting scrobble.xml Generation ===');
+          xml.generateScrobbleXMLOLD(query.type, query.id, query.UDID, 'removeFavorite.xml', 'Remove from Favorites', function(xmlstring){
+            logger.Debug('=== Ending scrobble.xml Generation ===');
+            response.write(xmlstring);
+            response.end();
+          })
+        } else {
+          response.writeHead(200, {'Content-Type': 'text/xml'});
+          logger.Debug('=== Starting scrobble.xml Generation ===');
+          xml.generateScrobbleXMLOLD(query.type, query.id, query.UDID, 'addFavorite.xml', 'Add to Favorites', function(xmlstring){
+            logger.Debug('=== Ending scrobble.xml Generation ===');
+            response.write(xmlstring);
+            response.end();
+          })
+        }
       } else {
-        response.writeHead(200, {'Content-Type': 'text/xml'});
-        logger.Debug('=== Starting scrobble.xml Generation ===');
-        xml.generateScrobbleXML(query.type, query.id, query.UDID, 'addFavorite.xml', 'Add to Favorites', function(xmlstring){
-          logger.Debug('=== Ending scrobble.xml Generation ===');
-          response.write(xmlstring);
-          response.end();
-        })
+        if (checkFavorite){
+          response.writeHead(200, {'Content-Type': 'text/xml'});
+          logger.Debug('=== Starting scrobble.xml Generation ===');
+          xml.generateScrobbleXML(query.type, query.id, query.UDID, 'removeFavorite.xml', 'Remove from Favorites', function(xmlstring){
+            logger.Debug('=== Ending scrobble.xml Generation ===');
+            response.write(xmlstring);
+            response.end();
+          })
+        } else {
+          response.writeHead(200, {'Content-Type': 'text/xml'});
+          logger.Debug('=== Starting scrobble.xml Generation ===');
+          xml.generateScrobbleXML(query.type, query.id, query.UDID, 'addFavorite.xml', 'Add to Favorites', function(xmlstring){
+            logger.Debug('=== Ending scrobble.xml Generation ===');
+            response.write(xmlstring);
+            response.end();
+          })
+        }
       }
       staticFile = false;
     } else if(pathname.indexOf("altersetting.xml") >= 0){

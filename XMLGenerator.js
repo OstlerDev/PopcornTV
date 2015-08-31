@@ -528,6 +528,52 @@ function generateScrobbleXML(type, id, UDID, url, label, callback){
     callback(xw.toString());
 }
 
+function generateScrobbleXMLOLD(type, id, UDID, url, label, callback){
+  var XMLWriter = require('xml-writer');
+  xw = new XMLWriter;
+  xw.startDocument(version='1.0', encoding='UTF-8');
+  xw.startElement('atv')
+      .startElement('head')
+          .startElement('script')
+              .writeAttribute('src', 'http://trailers.apple.com/js/utils.js')
+            .endElement()
+      .endElement()
+      .startElement('body')
+          .startElement('optionDialog')
+              .writeAttribute('id', 'scrobble.optionDialog')
+              .startElement('header')
+                  .startElement('simpleHeader')
+                      .writeElement('title', 'Favorites')
+                      .writeElement('subtitle', 'Add or remove movie from your Favorites.')
+                  .endElement()
+              .endElement()
+              .startElement('menu')
+                  .startElement('sections')
+                      .startElement('menuSection')
+                          .startElement('header')
+                              .startElement('horizontalDivider')
+                                  .writeAttribute('alignment', 'left')
+                                  .writeElement('title', '')
+                              .endElement()
+                          .endElement()
+                          .startElement('items')
+                              .startElement('oneLineMenuItem')
+                                  .writeAttribute('id', 'item')
+                                  .writeAttribute('onSelect', "atv.unloadPage();atv.loadURL('http://trailers.apple.com/" + url + "?type=" + type + '&id=' + id + '&UDID=' + UDID + "');")
+                                  .writeElement('label', label)
+                              .endElement()
+                          xw.endElement()
+                      .endElement()
+                  .endElement()
+              .endElement()
+          .endElement()
+      .endElement()
+  .endElement();
+  xw.endDocument();
+  logger.Debug(xw.toString());
+  callback(xw.toString());
+}
+
 function generateMovieParadeXML(sort_by, callback){
     var XMLWriter = require('xml-writer');
     xw = new XMLWriter;
@@ -2051,6 +2097,7 @@ exports.generateSettingsXML = generateSettingsXML;
 exports.generateGenre = generateGenre;
 exports.generateMoviesXML = generateMoviesXML;
 exports.generateScrobbleXML = generateScrobbleXML;
+exports.generateScrobbleXMLOLD = generateScrobbleXMLOLD;
 exports.generateMoviePrePlayXML = generateMoviePrePlayXML;
 exports.generateMoviePrePlayFanartXML = generateMoviePrePlayFanartXML;
 exports.generateMovieParadeXML = generateMovieParadeXML;
