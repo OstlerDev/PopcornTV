@@ -9,6 +9,7 @@
     "url": "https://github.com/OstlerDev/PopcornTV.git"
   },
   "dependencies": {
+    "URIjs": "^1.16.0",
     "file-type": "^2.7.0",
     "git-rev": "^0.2.1",
     "iconv-lite": "^0.4.11",
@@ -25,10 +26,10 @@
     "read-chunk": "^1.0.1",
     "read-torrent": "^1.3.0",
     "request": "2.55.0",
+    "rimraf": "^2.4.3",
     "streamify": "^0.2.4",
     "torrent-stream": "^0.21.3",
     "underscore": "^1.7.0",
-    "URIjs": "^1.16.0",
     "winston": "^1.0.0",
     "winston-loggly": "^1.1.0",
     "xml": "^1.0.0",
