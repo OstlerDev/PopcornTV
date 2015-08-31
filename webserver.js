@@ -122,7 +122,7 @@ function startWebServer(localIp) {
                 if (path.extname(fileName) === ".mp4") {
                   logger.Debug('Deleting ' + fileName);
                     try{
-                      fs.unlinkSync(fileName);
+                      fs.unlinkSync(__dirname + '/' + fileName);
                     }catch(e){
                       logger.warning('Unable to delete file.');
                     }
@@ -727,27 +727,11 @@ function startSSLWebServer(localIp) {
   logger.Web("SSL Web: listening on " + localIp + ":" + port);
 }
 var deleteFolderRecursive = function(locpath) {
-  if( fs.existsSync(locpath) ) {
-    fs.readdirSync(locpath).forEach(function(file,index){
-      var curPath = path.join(locpath, file);
-      if(fs.lstatSync(curPath).isDirectory()) { // recurse
-        deleteFolderRecursive(curPath);
-      } else { // delete file
-        logger.Debug('Deleting ' + curPath);
-        try {
-          fs.unlinkSync(curPath);
-        } catch(e){
-          logger.warning('Cannot delete file.'); // Omit sending the file as then it is proof that the user downloaded the file.
-        }
-
-       }
-    });
-    try{
-      fs.rmdirSync(locpath);
-    } catch (e) {
-      logger.warning('Unable to delete path.'); // Omit sending path so that it is not logged to server.
-    }
-  }
+  var rimraf = require('rimraf');
+  rimraf(locpath, function(error){
+    if (error) logger.error(error);
+    else logger.notice('Path ' + locpath + ' Removed!');
+  })
 };
 
 var spawn = require('child_process').spawn;
