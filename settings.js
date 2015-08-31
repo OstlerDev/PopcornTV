@@ -26,7 +26,7 @@ function changeSetting(UDID, setting, newSetting){
     Load and return settings for UDID
 */
 function loadSettings(UDID){
-    if (fs.existsSync('aTVSettings.json')) {
+    if (fs.existsSync(__dirname + '/aTVSettings.json')) {
         logger.Debug('Loading Settings');
         var data = fs.readFileSync(__dirname + '/aTVSettings.json'), config;
         try {
@@ -44,6 +44,7 @@ function loadSettings(UDID){
             logger.error(err);
         }
     } else {
+        logger.notice('No Settings file... Creating one now...');
         return createFile(UDID);
     }
 }
