@@ -170,9 +170,18 @@ function loadMore(type, sort_by, page){
 }
 
 /*
+ * Load the URL and expect no response. Useful when you just want to load a URL and not preform any Apple TV stuff.
+ */
+function loadURL(url){
+  var req = new XMLHttpRequest();
+  req.open('GET',unescape(url), false);
+  req.send();
+}
+
+/*
  * Force the generation of the old Scrobble Menu. This is useful when a context menu is not allowed (ie. from a search window)
  */
- function oldScrobbleMenu(url)
+function oldScrobbleMenu(url)
 {
   fv = atv.device.softwareVersion.split(".");
   firmVer = fv[0] + "." + fv[1];
