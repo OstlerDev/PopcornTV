@@ -31,7 +31,6 @@
     "torrent-stream": "^0.21.3",
     "underscore": "^1.7.0",
     "winston": "^1.0.0",
-    "winston-loggly": "^1.1.0",
     "xml": "^1.0.0",
     "xml-writer": "^1.6.0",
     "xmlrpc": "^1.3.1",
