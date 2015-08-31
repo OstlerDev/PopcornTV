@@ -33,14 +33,7 @@ function startLogger(LoggingLevel){
         		maxFiles: 3,
         		tailable: true,
                 handleExceptions: true
-        	}),
-            new Winston.transports.Loggly({
-                level: logglyLevel,
-                subdomain: 'popcorntv',
-                inputToken: '82e99d85-2ef6-4c3b-9978-5853cf8fe869',
-                json: true,
-                handleExceptions: true
-            })
+        	})
     	],
     	colors: {Debug: "red", Web: "cyan", DNS: "cyan", Streamer: "cyan", notice: "white", warning: "yellow", error: "red"}
 	});
