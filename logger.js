@@ -1,5 +1,4 @@
 var Winston = require('winston');
-require('winston-loggly');
 
 if (process.argv[2] != undefined){
 	var level = process.argv[2];
@@ -24,10 +23,10 @@ function startLogger(LoggingLevel){
         	    json: false,
                 handleExceptions: true
         	}),
-        	new (Winston.transports.File)({ 
-        		filename: __dirname + '/PopcornTV.log', 
-        		level: LoggingLevel, 
-        		prettyPrint: true, 
+        	new (Winston.transports.File)({
+        		filename: __dirname + '/PopcornTV.log',
+        		level: LoggingLevel,
+        		prettyPrint: true,
         		json: false,
         		maxsize: 10 * 1024 * 1024,
         		maxFiles: 3,
