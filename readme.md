@@ -12,6 +12,11 @@ PopcornTV is a simple application that allows an Apple TV to play stream Movies 
 PopcornTV works by hijacking the Trailers application on the Apple TV. In order to do this effectively we change the DNS server on the Apple TV to point to your own computer/server. This application was initially created in 24 hours as a proof of concept that you are able to stream torrents directly to an Apple TV by generating valid XML for it to read from. It has since grown into a much more full fledged application.
 
 We pull all of our Movies from [YTS](https://yts.to/) by using the API that they provide. All TV shows use the [Popcorn Time TV API](https://git.popcorntime.io/popcorntime/eztv-api/tree/master)
+ 
+## Warning
+PopcornTV streams movies and TV shows from torrents
+ 
+Downloading copyrighted material may be illegal in your country. Use at your own risk.
 
 ## Preview
 ### Preview Video
