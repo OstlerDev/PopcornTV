@@ -1,3 +1,6 @@
+# Currently Not Working
+## With eztv and yts going so suddenly offline all Movies and TV shows will stop displaying in PopcornTV. This is not something that I can quickly fix, but please follow the blog for future updates: http://blog.popcorntv.io
+
 [![Build Status](https://travis-ci.org/OstlerDev/PopcornTV.svg?branch=master)](https://travis-ci.org/OstlerDev/PopcornTV)
 
 # Blog
