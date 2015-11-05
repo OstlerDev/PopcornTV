@@ -85,10 +85,10 @@ function toggleSetting(setting, curSetting)
       var newSetting = 'Off';
     }
   } else if (setting == 'tvendpoint'){
-    if (curSetting == 'eztvapi.re'){
+    if (curSetting == 'eztvapi.co.za'){
       var newSetting = 'br.api.ptn.pm';
     } else {
-      var newSetting = 'eztvapi.re';
+      var newSetting = 'eztvapi.co.za';
     }
   }
   // read new XML
