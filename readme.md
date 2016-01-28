@@ -1,44 +1,28 @@
-# Currently Not Working
-## With eztv and yts going so suddenly offline all Movies and TV shows will stop displaying in PopcornTV. This is not something that I can quickly fix, but please follow the blog for future updates: http://blog.popcorntv.io
+# Project Discontinued
+After the legal action taken against certain members of the PopcornTime.io team I decided that it was best and safest to discontinue working on the project and move onto greener pastures. Thank you all for your continued support.
 
-[![Build Status](https://travis-ci.org/OstlerDev/PopcornTV.svg?branch=master)](https://travis-ci.org/OstlerDev/PopcornTV)
+# What was PopcornTV?
 
-# Blog
-Want to stay up to date with what is happening with PopcornTV? Try taking a look at our [blog](http://blog.popcorntv.io) to stay updated! We try to post big things that we are working on over there :)
+PopcornTV was a simple application that allowed an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from [yts.to]() as well as the [Popcorn Time TV API]() to allow users to watch most Movies and TV Shows Instantly.
 
-# What is PopcornTV?
+## How it worked
 
-PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from [yts.to](https://yts.to/) as well as the [Popcorn Time TV API](https://git.popcorntime.io/popcorntime/eztv-api/tree/master) to allow users to watch most Movies and TV Shows Instantly.
+PopcornTV worked by hijacking the Trailers application on the Apple TV. In order to do this effectively we changed the DNS server on the Apple TV to point to your own computer/server. This application was initially created in 24 hours as a proof of concept that you are able to stream torrents directly to an Apple TV by generating valid XML for it to read from. It has since grown into a much more full fledged application.
 
-## How it works
-
-PopcornTV works by hijacking the Trailers application on the Apple TV. In order to do this effectively we change the DNS server on the Apple TV to point to your own computer/server. This application was initially created in 24 hours as a proof of concept that you are able to stream torrents directly to an Apple TV by generating valid XML for it to read from. It has since grown into a much more full fledged application.
-
-We pull all of our Movies from [YTS](https://yts.to/) by using the API that they provide. All TV shows use the [Popcorn Time TV API](https://git.popcorntime.io/popcorntime/eztv-api/tree/master)
+We pulled all of our Movies from [YTS]() by using the API that they provide. All TV shows used the [Popcorn Time TV API]()
  
 ## Warning
 PopcornTV streams movies and TV shows from torrents
  
 Downloading copyrighted material may be illegal in your country. Use at your own risk.
 
-## Preview
-### Preview Video
-[Watch a video preview here (v0.1.6)](https://www.youtube.com/watch?v=yPEuLzNiCEo)
-
-### Preview Images
+## Demo
+### Demo Images
 ![](http://i.imgur.com/7dB9zGp.jpg)
 ![](http://i.imgur.com/vigyOsZ.jpg)
 ![](http://i.imgur.com/296kywf.jpg)
 ![](http://i.imgur.com/S0yrFHo.jpg)
 [More Screenshots](http://imgur.com/a/bKobV)
-
-## Installation
-
-Please take a look at the Wiki for installation details [here!](https://github.com/OstlerDev/PopcornTV/wiki/How-to-Install)
-
-## Bugs & Bug Reporting
-Before reporting a bug, please take a look at our [Bug Tracker](https://github.com/OstlerDev/PopcornTV/issues) for current known issues, if you cannot find your bug on there, please open up a new bug report by following [these steps.](https://github.com/OstlerDev/PopcornTV/wiki/How-to-report-an-issue)
-
 
 ## Version History
 - [0.1.5 - Quality Selection, Subtitles, Favorites](https://github.com/OstlerDev/PopcornTV/releases/tag/v0.1.5)
@@ -53,42 +37,6 @@ Before reporting a bug, please take a look at our [Bug Tracker](https://github.c
 Have a burning question that you need answered, or just want to chat with the developers? The developers and some bug testers are hanging on IRC at #PopcornTV on Freenode ([Click here if you do not have an IRC Client](http://webchat.freenode.net/?channels=PopcornTV)).
 
 We do always reply, though sometimes it takes a little longer to respond if we are watching movies or coding.
-
-
-## Support/Donating
-
-![](https://d2bbtvgnhux6eq.cloudfront.net/assets/Bountysource-green-712770df4397a3bc6f5b56b90402763c.png)
-
-Due to the continued request of a few users I have found a way to get Paypal, Credit Card, and Bitcoin donations implemented into our system. There are currently two ways to donate. The first way is to directly donate to the project as a whole, this will either go directly to the developers, or put back into the program as incentive for bugs and features to be fixed/added.
-
-You can directly donate to us using Paypal, Credit Cards, or Bitcoin [right here](https://salt.bountysource.com/teams/popcorntv). Just visit that website then select "Support PopcornTV". You can donate any amount you want! You can either do a one time donation, or if you want you can do a monthly donation :) 
-
-The second method is to post a bounty on an issue, what posting a bounty does is create a further incentive for a developer to fix an issue. By posting a bounty a developer can submit a fix and then get paid that bounty once their fix is implemented. Keep in mind that the bounty may not go to the main developers of PopcornTV, but rather whoever fixes that bug.
-
-To post a bounty just select the issue you are interested in and go to the main post. At the bottom of the main post you should see something similar to this.
-![](http://i.imgur.com/0vsyFaB.png)
-
-It will take you a page to pay into the bounty, once your bounty is added you should get a notification, and the topic of the issue will be changed to include your amount posted as well as the footer.
-
-So for example if you were to post a bounty of $5 it would look something like this.
-![](http://i.imgur.com/sIfPOeY.png)
-![](http://i.imgur.com/hvbL4bz.png)
-
-### Top Supporters
-masonjames - $75   
-Zone-MR - $40   
-Krugster - $25   
-Samb0 - $10   
-JakeRound - $5   
-craiem - $5   
-
-Thanks to all the amazing supporters so far! It is amazing to see how much people love the project :)
-
-## Development
-
-Want to contribute? Great! Add the features that you want and submit a [pull request](https://github.com/OstlerDev/PopcornTV/pulls)! 
-
-Don't know how to code but still want to help? We need help with our Wiki, as well as help Bug Testing. If you still do not know exactly what to help with, join us on the IRC and we will give you a few ideas!
 
 License
 ----
