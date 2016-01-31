@@ -225,7 +225,7 @@ function getTVEndpoint(){
         var data = fs.readFileSync(__dirname + '/config.json'), settings, endpoint;
         try {
             settings = JSON.parse(data);
-            endpoint = settings.tvendpoint || 'eztvapi.co.za';
+            endpoint = settings.tvendpoint || 'popcornwvnbg7jev.onion.to';
             return endpoint;
         } catch (err) {
             logger.error('There is an error checking the TV API Endpoint, please post this on the Github page')
@@ -242,7 +242,7 @@ function setTVEndpoint(newEndpoint){
     var data = fs.readFileSync(__dirname + '/config.json'), settings, endpoint;
     try {
         settings = JSON.parse(data);
-        endpoint = settings.tvendpoint || 'eztvapi.co.za';
+        endpoint = settings.tvendpoint || 'popcornwvnbg7jev.onion.to';
         logger.Debug('Changing TV API Endpoint to ' + newEndpoint + ' from ' + endpoint);
         settings.tvendpoint = newEndpoint;
         fs.writeFileSync(__dirname + '/config.json', JSON.stringify(settings, null, 4));
