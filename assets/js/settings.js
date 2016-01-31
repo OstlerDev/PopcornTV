@@ -85,10 +85,10 @@ function toggleSetting(setting, curSetting)
       var newSetting = 'Off';
     }
   } else if (setting == 'tvendpoint'){
-    if (curSetting == 'eztvapi.co.za'){
-      var newSetting = 'br.api.ptn.pm';
+    if (curSetting == 'popcornwvnbg7jev.onion.to'){
+      var newSetting = 'popcorntime.ws/api/eztv/';
     } else {
-      var newSetting = 'eztvapi.co.za';
+      var newSetting = 'popcornwvnbg7jev.onion.to';
     }
   }
   // read new XML

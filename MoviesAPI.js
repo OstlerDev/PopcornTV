@@ -3,7 +3,7 @@ var logger = require("./logger");
 function getMovies(page, sort_by, amount, callback) {
 	var request = require("request")
 
-	var url = "https://yts.to/api/v2/list_movies.json?sort_by=" + sort_by + "&limit=" + amount + "&page=" + page;
+	var url = "http://62.210.81.37/api/v2/list_movies.json?sort_by=" + sort_by + "&limit=" + amount + "&page=" + page;
 	logger.Debug("=== Getting Movies ===");
 	logger.Debug(url);
 	request({
@@ -24,7 +24,7 @@ function getMoviesGenre(genre, amount, callback) {
 	var page = 1;
 	var request = require("request")
 
-	var url = "https://yts.to/api/v2/list_movies.json?genre=" + genre + "&limit=" + amount + '&sort_by=seeds';
+	var url = "http://62.210.81.37/api/v2/list_movies.json?genre=" + genre + "&limit=" + amount + '&sort_by=seeds';
 	logger.Debug("=== Getting Movies via Genre ===");
 	logger.Debug(url);
 	request({
@@ -45,7 +45,7 @@ function getMovieWithFanart(torrentID, resolution, callback) {
 	var page = 1;
 	var request = require("request")
 
-	var url = "https://yts.to/api/v2/movie_details.json?with_images=true&with_cast=true&movie_id=" + torrentID;
+	var url = "http://62.210.81.37/api/v2/movie_details.json?with_images=true&with_cast=true&movie_id=" + torrentID;
 	logger.Debug("=== Getting Movie ===");
 	logger.Debug(url);
 	request({
@@ -74,7 +74,7 @@ function getMovie(torrentID, callback) {
 	var page = 1;
 	var request = require("request")
 
-	var url = "https://yts.to/api/v2/movie_details.json?with_images=true&with_cast=true&movie_id=" + torrentID;
+	var url = "http://62.210.81.37/api/v2/movie_details.json?with_images=true&with_cast=true&movie_id=" + torrentID;
 	logger.Debug("=== Getting Movie ===");
 	logger.Debug(url);
 	request({
@@ -95,7 +95,7 @@ function searchMovies(query, callback) {
 	var page = 1;
 	var request = require("request")
 
-	var url = "https://yts.to/api/v2/list_movies.json?sort_by=seeds&query_term=" + query;
+	var url = "http://62.210.81.37/api/v2/list_movies.json?sort_by=seeds&query_term=" + query;
 	logger.Debug("=== Searching Movies ===");
 	logger.Debug(url);
 	request({
@@ -141,7 +141,7 @@ function getRelatedMovies(movie_id, callback) {
 	var page = 1;
 	var request = require("request")
 
-	var url = "https://yts.to/api/v2/movie_suggestions.json?movie_id=" + movie_id;
+	var url = "http://62.210.81.37/api/v2/movie_suggestions.json?movie_id=" + movie_id;
 	logger.Debug("=== Getting Related Movies ===");
 	logger.Debug(url);
 	request({
@@ -160,7 +160,7 @@ function getRelatedMovies(movie_id, callback) {
 }
 function generateScreenSaverJSON(callback){
 	var request = require("request")
-	var url = "https://yts.to/api/v2/list_movies.json?sort_by=seeds&limit=50";
+	var url = "http://62.210.81.37/api/v2/list_movies.json?sort_by=seeds&limit=50";
 	logger.Debug("=== Getting Movies ===");
 	logger.Debug(url);
 
