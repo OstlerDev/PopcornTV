@@ -1,3 +1,5 @@
+FIX with current working APIs.
+
 # Project Discontinued
 After the legal action taken against certain members of the PopcornTime.io team I decided that it was best and safest to discontinue working on the project and move onto greener pastures. Thank you all for your continued support.
 
