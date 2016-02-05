@@ -1,8 +1,8 @@
 {
   "name": "popcorntv",
   "main": "atv.js",
-  "description": "Streaming movies and TV shows directly to an Apple TV from Torrents",
-  "homepage": "http://popcorntv.io",
+  "description": "Project Discontinued",
+  "homepage": "",
   "author": "OstlerDev",
   "repository": {
     "type": "git",

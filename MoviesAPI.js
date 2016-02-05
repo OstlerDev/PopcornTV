@@ -1,51 +1,16 @@
 var logger = require("./logger");
 
 function getMovies(page, sort_by, amount, callback) {
-	var request = require("request")
-
-	var url = "https://yts.to/api/v2/list_movies.json?sort_by=" + sort_by + "&limit=" + amount + "&page=" + page;
-	logger.Debug("=== Getting Movies ===");
-	logger.Debug(url);
-	request({
-	    url: url,
-	    json: true
-	}, function (error, response, body) {
- 	   if (!error && response.statusCode === 200) {
-	        var movies = body.data.movies;
-	        logger.Debug(movies);
-	        callback(movies);
-	    } else {
-			logger.warning("Error connecting to yts.to and grabbing json: " + url);
-			return;
-	    }
-	})
+	return;
 }
 function getMoviesGenre(genre, amount, callback) {
-	var page = 1;
-	var request = require("request")
-
-	var url = "https://yts.to/api/v2/list_movies.json?genre=" + genre + "&limit=" + amount + '&sort_by=seeds';
-	logger.Debug("=== Getting Movies via Genre ===");
-	logger.Debug(url);
-	request({
-	    url: url,
-	    json: true
-	}, function (error, response, body) {
- 	   if (!error && response.statusCode === 200) {
-	        var movies = body.data.movies;
-	        logger.Debug(movies);
-	        callback(movies);
-	    } else {
-			logger.warning("Error connecting to yts.to and grabbing json: " + url);
-			return;
-	    }
-	})
+	return;
 }
-function getMovieWithFanart(torrentID, resolution, callback) {
+function getMovieWithFanart(ID, resolution, callback) {
 	var page = 1;
 	var request = require("request")
 
-	var url = "https://yts.to/api/v2/movie_details.json?with_images=true&with_cast=true&movie_id=" + torrentID;
+	var url = "";
 	logger.Debug("=== Getting Movie ===");
 	logger.Debug(url);
 	request({
@@ -65,52 +30,16 @@ function getMovieWithFanart(torrentID, resolution, callback) {
 	        	callback(movie, 'thumbnails/Background_blank_1080.jpg');
 	        }
 	    } else {
-			logger.warning("Error connecting to yts.to and grabbing json: " + url);
+			logger.warning("Error connecting to website and grabbing json: " + url);
 			return;
 	    }
 	})
 }
-function getMovie(torrentID, callback) {
-	var page = 1;
-	var request = require("request")
-
-	var url = "https://yts.to/api/v2/movie_details.json?with_images=true&with_cast=true&movie_id=" + torrentID;
-	logger.Debug("=== Getting Movie ===");
-	logger.Debug(url);
-	request({
-	    url: url,
-	    json: true
-	}, function (error, response, body) {
- 	   if (!error && response.statusCode === 200) {
-	        var movie = body.data;
-	        logger.Debug(movie);
-			callback(movie);
-	    } else {
-			logger.warning("Error connecting to yts.to and grabbing json: " + url);
-			return;
-	    }
-	})
+function getMovie(ID, callback) {
+	return;
 }
 function searchMovies(query, callback) {
-	var page = 1;
-	var request = require("request")
-
-	var url = "https://yts.to/api/v2/list_movies.json?sort_by=seeds&query_term=" + query;
-	logger.Debug("=== Searching Movies ===");
-	logger.Debug(url);
-	request({
-	    url: url,
-	    json: true
-	}, function (error, response, body) {
- 	   if (!error && response.statusCode === 200) {
-	        var movies = body.data.movies;
-	        logger.Debug(movies);
-	        callback(movies);
-	    } else {
-			logger.warning("Error connecting to yts.to and grabbing json: " + url);
-			return;
-	    }
-	})
+	return;
 }
 function getFanart(imdb, callback){
 	var request = require('request');
@@ -124,7 +53,7 @@ function getFanart(imdb, callback){
 	    headers: {
 	    	'Content-Type': 'application/json',
 	    	'trakt-api-version': '2',
-	    	'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
+	    	'trakt-api-key': '' // Removed Trakt.tv Key
 	    }
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
@@ -138,29 +67,11 @@ function getFanart(imdb, callback){
 	})
 }
 function getRelatedMovies(movie_id, callback) {
-	var page = 1;
-	var request = require("request")
-
-	var url = "https://yts.to/api/v2/movie_suggestions.json?movie_id=" + movie_id;
-	logger.Debug("=== Getting Related Movies ===");
-	logger.Debug(url);
-	request({
-	    url: url,
-	    json: true
-	}, function (error, response, body) {
- 	   if (!error && response.statusCode === 200) {
-	        var movies = body.data.movie_suggestions;
-	        logger.Debug(movies);
-	        callback(movies);
-	    } else {
-			logger.warning("Error connecting to yts.to and grabbing json: " + url);
-			return;
-	    }
-	})
+	return;
 }
 function generateScreenSaverJSON(callback){
 	var request = require("request")
-	var url = "https://yts.to/api/v2/list_movies.json?sort_by=seeds&limit=50";
+	var url = "";
 	logger.Debug("=== Getting Movies ===");
 	logger.Debug(url);
 
@@ -186,7 +97,7 @@ function generateScreenSaverJSON(callback){
 	        logger.Debug(json);
 	        callback(JSON.stringify(json));
 	    } else {
-			logger.warning("Error connecting to yts.to and grabbing json: " + url);
+			logger.warning("Error connecting to website and grabbing json: " + url);
 			return;
 	    }
 	})

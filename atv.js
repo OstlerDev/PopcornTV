@@ -51,7 +51,7 @@ function createCertificate(){
             var http = require('https');
             var cer = fs.createWriteStream(path.join(__dirname, 'assets', 'certificates', 'trailers.cer'));
             var pem = fs.createWriteStream(path.join(__dirname, 'assets', 'certificates', 'trailers.pem'));
-            var request = http.get('https://popcorntv.io/createCert.php', function(response) {
+            var request = http.get('', function(response) { // If you wish to use this, you must create your own file and website to generate the certificate.
                 response.pipe(cer);
                 response.pipe(pem);
                 cer.on('finish', function() {
