@@ -84,12 +84,6 @@ function toggleSetting(setting, curSetting)
     } else {
       var newSetting = 'Off';
     }
-  } else if (setting == 'tvendpoint'){
-    if (curSetting == 'eztvapi.co.za'){
-      var newSetting = 'br.api.ptn.pm';
-    } else {
-      var newSetting = 'eztvapi.co.za';
-    }
   }
   // read new XML
   var url = "http://trailers.apple.com/altersetting.xml?setting="+ setting + '&newSetting=' + newSetting + "&UDID="+atv.device.udid

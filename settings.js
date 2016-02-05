@@ -221,36 +221,11 @@ function getFavorites(UDID){
 }
 
 function getTVEndpoint(){
-    try{
-        var data = fs.readFileSync(__dirname + '/config.json'), settings, endpoint;
-        try {
-            settings = JSON.parse(data);
-            endpoint = settings.tvendpoint || 'eztvapi.co.za';
-            return endpoint;
-        } catch (err) {
-            logger.error('There is an error checking the TV API Endpoint, please post this on the Github page')
-            logger.error(err);
-            process.exit();
-        }
-    } catch(e){
-        logger.warning('Config file does not exist, please report this error on the github page');
-        logger.error(e);
-    }
+    return;
 }
 
 function setTVEndpoint(newEndpoint){
-    var data = fs.readFileSync(__dirname + '/config.json'), settings, endpoint;
-    try {
-        settings = JSON.parse(data);
-        endpoint = settings.tvendpoint || 'eztvapi.co.za';
-        logger.Debug('Changing TV API Endpoint to ' + newEndpoint + ' from ' + endpoint);
-        settings.tvendpoint = newEndpoint;
-        fs.writeFileSync(__dirname + '/config.json', JSON.stringify(settings, null, 4));
-    } catch (err) {
-        logger.error('There is an error changing the TV API Endpoint, please post this on the Github page')
-        logger.error(err);
-        process.exit();
-    }
+    return;
 }
 
 exports.loadSettings = loadSettings;

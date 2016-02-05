@@ -359,11 +359,11 @@ function generateSettingsXML(UDID, commit, callback){
                                 .writeElement('label', 'Forum')
                             .endElement()
                             .startElement('metadataValues')
-                                .writeElement('label', 'PopcornTV is a simple application that allows an Apple TV to play stream Movies and TV shows directly from torrents.')
+                                .writeElement('label', 'Description')
                                 .writeElement('label', commit)
-                                .writeElement('label', 'OstlerDev')
-                                .writeElement('label', 'https://popcorntv.io')
-                                .writeElement('label', 'https://discuss.popcorntime.io/t/popcorntv-bringing-popcorn-time-to-your-apple-tv/')
+                                .writeElement('label', 'Developer Name')
+                                .writeElement('label', 'Website')
+                                .writeElement('label', 'Forum Thread')
                             .endElement()
                             .writeElement('image', 'http://trailers.apple.com/thumbnails/Logo.png')
                         .endElement()
@@ -425,21 +425,7 @@ function generateSettingsXML(UDID, commit, callback){
                                         .writeElement('rightLabel', settings.subtitle || 'Off')
                                     .endElement()
                                 .endElement()
-                            .endElement()
-                            .startElement('menuSection')
-                                .startElement('header')
-                                    .startElement('horizontalDivider')
-                                        .writeAttribute('alignment', 'left')
-                                        .writeElement('title', 'Advanced')
-                                    .endElement()
-                                .endElement()
-                                .startElement('items')
-                                    .startElement('oneLineMenuItem')
-                                        .writeAttribute('id', 'tvendpoint')
-                                        .writeAttribute('onSelect', "toggleSetting('tvendpoint', '" + (settings.tvendpoint || 'eztvapi.co.za') + "')")
-                                        .writeElement('label', 'TV API Endpoint')
-                                        .writeElement('rightLabel', settings.tvendpoint || 'eztvapi.co.za')
-                                    .endElement();
+                            .endElement();
 
                                     xw.endDocument();
                                     callback(xw.toString());

@@ -1,20 +1,18 @@
 # Project Discontinued
-After the legal action taken against certain members of the PopcornTime.io team I decided that it was best and safest to discontinue working on the project and move onto greener pastures. Thank you all for your continued support.
+After the legal action taken against certain members of the PopcornTime.io team I decided that it was best and safest to discontinue working on the project and move onto greener pastures. Thank you all for your continued support. There will be no pull requests or code updates accepted to this repository. It was a fun proof of concept, and challenging to develop, but will no longer be supported.
+
+I have left most of the source intact (less the API) for other programs to use as a reference point. Feel free to use the code to create a port, I can suggest Plex, Vodo, Archive.org etc. Please do not use this project or code for illicit purposes, it is intended for educational use and legal purposes only. The XML generation and schema are still hard to find and finicky as there is no real reference point, feel free to look thru [XMLGenerator.js](https://github.com/OstlerDev/PopcornTV/blob/master/XMLGenerator.js) to see how I generated valid XML to send to the Apple TV.
+
+Thank you for your understanding and support
+- OstlerDev
 
 # What was PopcornTV?
 
-PopcornTV was a simple application that allowed an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from [yts.to]() as well as the [Popcorn Time TV API]() to allow users to watch most Movies and TV Shows Instantly.
+PopcornTV was a simple application that allowed an Apple TV to play stream Movies and TV shows directly from torrents. It pulls from various databases and showed users movies and TV shows in a nice format. One of the main points of PopcornTV was to prove that such a thing was possible, albeit difficult.
 
 ## How it worked
 
-PopcornTV worked by hijacking the Trailers application on the Apple TV. In order to do this effectively we changed the DNS server on the Apple TV to point to your own computer/server. This application was initially created in 24 hours as a proof of concept that you are able to stream torrents directly to an Apple TV by generating valid XML for it to read from. It has since grown into a much more full fledged application.
-
-We pulled all of our Movies from [YTS]() by using the API that they provide. All TV shows used the [Popcorn Time TV API]()
- 
-## Warning
-PopcornTV streams movies and TV shows from torrents
- 
-Downloading copyrighted material may be illegal in your country. Use at your own risk.
+PopcornTV worked by hijacking the Trailers application on the Apple TV. In order to do this effectively we changed the DNS server on the Apple TV to point to your own computer/server. This application was initially created in 24 hours as a proof of concept that you are able to stream torrents directly to an Apple TV by generating valid XML for it to read from. It since grew into a much more full fledged application before being discontinued.
 
 ## Demo
 ### Demo Images
@@ -25,18 +23,12 @@ Downloading copyrighted material may be illegal in your country. Use at your own
 [More Screenshots](http://imgur.com/a/bKobV)
 
 ## Version History
-- [0.1.5 - Quality Selection, Subtitles, Favorites](https://github.com/OstlerDev/PopcornTV/releases/tag/v0.1.5)
-- [0.1.4 - Clean up Code, Implement Certificate Generation. Initial Release](https://github.com/OstlerDev/PopcornTV/releases/tag/v0.1.4)
+- 0.1.5 - Quality Selection, Subtitles, Favorites
+- 0.1.4 - Clean up Code, Implement Certificate Generation. Initial Release
 - 0.1.3 - Add TV Show Support (broken)
 - 0.1.2 - Redesign UI
 - 0.1.1 - Implement VideoAPI
 - 0.1.0 - Initial Testing
-
-## IRC
-
-Have a burning question that you need answered, or just want to chat with the developers? The developers and some bug testers are hanging on IRC at #PopcornTV on Freenode ([Click here if you do not have an IRC Client](http://webchat.freenode.net/?channels=PopcornTV)).
-
-We do always reply, though sometimes it takes a little longer to respond if we are watching movies or coding.
 
 License
 ----
