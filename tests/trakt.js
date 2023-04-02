@@ -23,12 +23,7 @@ function makePostRequest(url, body, callback){
     request.post({
         url: url,
         json: true,
-        headers: {
-            'Content-Type': 'application/json',
-            'authorization': 'Bearer 07e5793def102a012f19af929360d75dd4af5a14b97ce8e61698adbbd14ef2c6',
-            'trakt-api-version': '2',
-            'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
-        },
+        headers: headers,
         body: body
     }, function (error, response, body) {
        if (!error && response.statusCode === 201) {
@@ -47,12 +42,7 @@ function makeRequest(url, callback){
     request({
         url: url,
         json: true,
-        headers: {
-            'Content-Type': 'application/json',
-            'authorization': 'Bearer 07e5793def102a012f19af929360d75dd4af5a14b97ce8e61698adbbd14ef2c6',
-            'trakt-api-version': '2',
-            'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
-        }
+        headers: headers
     }, function (error, response, body) {
        if (!error && response.statusCode === 200) {
            callback(body);
