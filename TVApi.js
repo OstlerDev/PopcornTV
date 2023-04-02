@@ -1,6 +1,12 @@
 var logger = require("./logger");
 var api = require('./settings.js').getTVEndpoint();
 
+const trakt_headers = {
+	'Content-Type': 'application/json',
+	'trakt-api-version': '2',
+	'trakt-api-key': '' // Removed Trakt Key.
+}
+
 function getTV(page, sort_by, amount, callback) {
 	return;
 }
@@ -16,11 +22,7 @@ function getShowInfo(imdb, callback) {
 	request({
 	    url: url,
 	    json: true,
-	    headers: {
-	    	'Content-Type': 'application/json',
-	    	'trakt-api-version': '2',
-	    	'trakt-api-key': '' // Removed Trakt Key.
-	    }
+	    headers: trakt_headers
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        var show = body;
@@ -41,11 +43,7 @@ function getSeasons(imdb, callback) {
 	request({
 	    url: url,
 	    json: true,
-	    headers: {
-	    	'Content-Type': 'application/json',
-	    	'trakt-api-version': '2',
-	    	'trakt-api-key': '' // Removed Trakt Key.
-	    }
+	    headers: trakt_headers
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        logger.Debug(body);
@@ -68,11 +66,7 @@ function getSeasonsFanart(imdb, resolution, callback) {
 	request({
 	    url: url,
 	    json: true,
-	    headers: {
-	    	'Content-Type': 'application/json',
-	    	'trakt-api-version': '2',
-	    	'trakt-api-key': '' // Removed Trakt Key.
-	    }
+	    headers: trakt_headers
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        logger.Debug(body);
@@ -97,11 +91,7 @@ function getEpisodes(imdb, season, callback) {
 	request({
 	    url: url,
 	    json: true,
-	    headers: {
-	    	'Content-Type': 'application/json',
-	    	'trakt-api-version': '2',
-	    	'trakt-api-key': '' // Removed Trakt Key.
-	    }
+	    headers: trakt_headers
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        logger.Debug(body);
@@ -124,11 +114,7 @@ function getEpisode(imdb, season, episodeNum, callback) {
 	request({
 	    url: url,
 	    json: true,
-	    headers: {
-	    	'Content-Type': 'application/json',
-	    	'trakt-api-version': '2',
-	    	'trakt-api-key': '' // Removed Trakt Key
-	    }
+	    headers: trakt_headers
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        logger.Debug(body);
@@ -174,11 +160,7 @@ function getEpisodeFanart(imdb, season, episodeNum, resolution, callback) {
 	request({
 	    url: url,
 	    json: true,
-	    headers: {
-	    	'Content-Type': 'application/json',
-	    	'trakt-api-version': '2',
-	    	'trakt-api-key': '' // Removed Trakt Key
-	    }
+	    headers: trakt_headers
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        logger.Debug(body);
@@ -251,11 +233,7 @@ function getFanart(imdb, resolution, callback){
 	request({
 	    url: url,
 	    json: true,
-	    headers: {
-	    	'Content-Type': 'application/json',
-	    	'trakt-api-version': '2',
-	    	'trakt-api-key': '' // Removed Trakt Key
-	    }
+	    headers: trakt_headers
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        var fanart = body.images.fanart.full;
@@ -279,11 +257,7 @@ function getScreenshot(imdb, season, episode, callback){
 	request({
 	    url: url,
 	    json: true,
-	    headers: {
-	    	'Content-Type': 'application/json',
-	    	'trakt-api-version': '2',
-	    	'trakt-api-key': '' // Removed Trakt Key
-	    }
+	    headers: trakt_headers
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        logger.Debug(body);
@@ -304,11 +278,7 @@ function getScreenshotFanart(imdb, season, episode, resolution, callback){
 	request({
 	    url: url,
 	    json: true,
-	    headers: {
-	    	'Content-Type': 'application/json',
-	    	'trakt-api-version': '2',
-	    	'trakt-api-key': '' // Removed Trakt Key
-	    }
+	    headers: trakt_headers
 	}, function (error, response, body) {
  	   if (!error && response.statusCode === 200) {
 	        var screenshot = body.images.screenshot.full;
