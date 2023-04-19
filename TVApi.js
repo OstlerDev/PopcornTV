@@ -1,10 +1,12 @@
 var logger = require("./logger");
 var api = require('./settings.js').getTVEndpoint();
-var trakt_headers = {
+
+const trakt_headers = {
 	'Content-Type': 'application/json',
 	'trakt-api-version': '2',
 	'trakt-api-key': '' // Removed Trakt Key.
 }
+
 function getTV(page, sort_by, amount, callback) {
 	return;
 }
