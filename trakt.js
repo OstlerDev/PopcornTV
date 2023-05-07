@@ -14,9 +14,9 @@ function makeRequest(url, callback){
         json: true,
         headers: {
             'Content-Type': 'application/json',
-            'authorization': 'Bearer 07e5793def102a012f19af929360d75dd4af5a14b97ce8e61698adbbd14ef2c6',
+            'authorization': '', //auth Bearer code
             'trakt-api-version': '2',
-            'trakt-api-key': '8e798f3c3ed286081991f459f3d8fcb4e40969a31ce29f1f08e0ac4dbaf49258'
+            'trakt-api-key': '' //trakt api key
         },
         body: {"movie": {"ids": {"imdb": 'tt0468569'}}}
     }, function (error, response, body) {
@@ -29,4 +29,4 @@ function makeRequest(url, callback){
     })
 }
 
-scrobbleStart('tt0468569', 'movie');
+scrobbleStart('tt11358390', 'movie');

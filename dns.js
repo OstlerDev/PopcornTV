@@ -1,7 +1,7 @@
 var logger = require('./logger');
 
 const DOMAIN_ATV = "trailers.apple.com";
-const IP_DNS     = "8.8.8.8"; // *********** Googles Default DNS ***********
+const IP_DNS     = "8.8.4.4"; // *********** Googles Default DNS ***********
 const ATV_UPDATE = ['mesu.apple.com', 'appldnld.apple.com', 'appldnld.apple.com.edgesuite.net'];
 
 function resolveDNSDomain(msg) {
